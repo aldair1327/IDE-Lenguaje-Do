@@ -482,7 +482,7 @@ public class Inicio extends javax.swing.JFrame {
             this.cons.setText(errores);
             return;
         }
-        generarCup();
+        //generarCup();
         try {
             Reader file = new BufferedReader(new FileReader(archivo_seleccionado.ruta));
             this.cons.setText("");

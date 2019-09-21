@@ -7,7 +7,7 @@ entero n;
 nota[] acordeRe  = [RE' , FA',LA ] ; 
 n = i;
 n++;
-mientras(n<10){
+mientras(n<10)
   	reproduce(DO);
 	si(n==2){
 		silencio(1); //detiene por un segundo
