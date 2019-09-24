@@ -12,6 +12,7 @@ import Analisis_Lexico.AnalizadorLexico;
 import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
 import Analisis_Lexico.InterfazTablaSimbolos;
+import Analisis_Lexico.Nodo;
 import Archivos.Archivos;
 import Manejador_errores.Manejador_Errores;
 import Miscelaneos.Miscelaneo;
@@ -19,7 +20,9 @@ import Tabla_Simbolos.Tabla_Simbolos;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Path;
@@ -482,7 +485,7 @@ public class Inicio extends javax.swing.JFrame {
             this.cons.setText(errores);
             return;
         }
-        //generarCup();
+        generarCup();
         try {
             Reader file = new BufferedReader(new FileReader(archivo_seleccionado.ruta));
             this.cons.setText("");
@@ -497,6 +500,8 @@ public class Inicio extends javax.swing.JFrame {
             
             if("".equals(as.errores)){
                 this.cons.setText("----------------------------**Analisis exitoso**----------------------------");
+                //Nodo raiz = as.padre;
+                //Graficar(recorrido(raiz), "AST_PROYECTO");
             }
             
         } catch (IOException ex) {
@@ -523,7 +528,7 @@ public class Inicio extends javax.swing.JFrame {
         in.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
     public void generarCup(){
-       String[] asintactico = {"-parser", "ASintactico", "C:\\Users\\Eric\\Desktop\\IDE\\IDE\\src\\Analisis_Lexico\\sintactico.cup"};                   
+       String[] asintactico = {"-parser", "ASintactico", "C:\\Users\\EricPc\\Documents\\Automatas 2\\IDE-Lenguaje-Do\\src\\Analisis_Lexico\\sintactico.cup"};                   
                     try {
                         java_cup.Main.main(asintactico);
                     } catch (Exception ex) {
@@ -532,30 +537,78 @@ public class Inicio extends javax.swing.JFrame {
         if(moverArch("ASintactico.java"))
             return;
     }
-     public static boolean moverArch(String archNombre) {
-        boolean efectuado = false;
-        File arch = new File(archNombre);
-        if (arch.exists()) {
-            System.out.println("\n*** Moviendo " + arch + " \n***");
-            Path currentRelativePath = Paths.get("");
-            System.out.println(currentRelativePath.toString());
-            String nuevoDir = currentRelativePath.toAbsolutePath().toString()
-                    + File.separator + "src" + File.separator
-                    + "Analisis_Lexico" + File.separator + arch.getName();
-            File archViejo = new File(nuevoDir);
-            archViejo.delete();
-            if (arch.renameTo(new File(nuevoDir))) {
-                System.out.println("\n*** Generado " + archNombre + "***\n");
-                efectuado = true;
-            } else {
-                System.out.println("\n*** No movido " + archNombre + " ***\n");
-            }
+    public static boolean moverArch(String archNombre) {
+       boolean efectuado = false;
+       File arch = new File(archNombre);
+       if (arch.exists()) {
+           System.out.println("\n*** Moviendo " + arch + " \n***");
+           Path currentRelativePath = Paths.get("");
+           System.out.println(currentRelativePath.toString());
+           String nuevoDir = currentRelativePath.toAbsolutePath().toString()
+                   + File.separator + "src" + File.separator
+                   + "Analisis_Lexico" + File.separator + arch.getName();
+           File archViejo = new File(nuevoDir);
+           archViejo.delete();
+           if (arch.renameTo(new File(nuevoDir))) {
+               System.out.println("\n*** Generado " + archNombre + "***\n");
+               efectuado = true;
+           } else {
+               System.out.println("\n*** No movido " + archNombre + " ***\n");
+           }
 
-        } else {
-            System.out.println("\nGenerando analisis sintatico \n");
-        }
-        return true;
+       } else {
+           System.out.println("\nGenerando analisis sintatico \n");
+       }
+       return true;
     }
+    private String recorrido(Nodo raiz) {
+      String cuerpo = "";
+        for (Nodo hijos : raiz.hijos) {
+     
+        
+            
+            if(raiz.valor==null){
+                cuerpo += "\"" + raiz.idNod + "_" + raiz.Etiqueta ;
+            }else {
+                cuerpo += "\"" + raiz.idNod + "_(" + raiz.Etiqueta+")" + raiz.valor ; }
+            
+        if(!("VACIO".equals(hijos.Etiqueta))){   
+            if (hijos.valor==null){
+                cuerpo +=  "\"->\"" + hijos.idNod + "_" + hijos.Etiqueta + "\"";
+            }else{
+                cuerpo +=  "\"->\"" + hijos.idNod + "_(" + hijos.Etiqueta+")" + hijos.valor +"\"" ;
+            }
+          }else {cuerpo += "\"";}
+        cuerpo += recorrido(hijos);
+        }
+        return cuerpo;
+    }
+
+    private void Graficar(String cadena, String cad) {
+   
+            FileWriter fichero = null;
+        PrintWriter pw = null;
+        String nombre = cad;
+        String archivo = nombre + ".dot";
+        try {
+            fichero = new FileWriter(archivo);
+            pw = new PrintWriter(fichero);
+            pw.println("digraph G {node[shape=box, style=filled, color=Gray95]; edge[color=blue];rankdir=UD \n");
+            pw.println(cadena);
+            pw.println("\n}");
+            fichero.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
+            String cmd = "dot.exe -Tpng " + nombre + ".dot -o " + cad + ".png"; //Comando de apagado en linux
+            Runtime.getRuntime().exec(cmd);
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+    } 
+     
+     
     private final String ruta_default="./src/Archivos_creados/"; 
     public Tabla_Simbolos tabla_simbolos=new Tabla_Simbolos();
     public ArrayList<Archivos> archivos_abiertos=new ArrayList<Archivos>();

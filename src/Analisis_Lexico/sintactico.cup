@@ -11,6 +11,7 @@ import java.io.FileReader;
 parser code 
 {:
     public AnalizadorLexico  les;
+    public static Nodo padre;
     public void setLex(AnalizadorLexico le){
         les =le;
     }
@@ -77,7 +78,8 @@ FALSO,NULO,IMPRIMIR,NOTA,VACIO,CADENA,INICIO,idNoVal,ENTERO,ID,ERROR,numEntero, 
 non terminal inicio, cuerpo, inicializarVariable,
  dato, sentencia_si, condicion, cond, log, ope_relacional, op_rel, sig_rel, acciones, asignar, llamarFuncion, valoresCamion, cuerpoFuncion, cuerpo_sentencia_si1, sentencia_mientras,
 incrementar_var,  funcionesDo,declaraReproduce , declaraImprimir , declaraImportar , declaraContinuar , declaraSilencio ,
-declaraVolumen , declaraFrecuencia ,opasig , datoasig, tipo, ciclos, operacion, ari, rel, opers, sentencia_por, ope_logico, arreglo, asig_arreglo, datos, log2,errores,errores1,ciclos_errores, notas,notapuras, decvariableBOOLEANO, decvariableCadena, decvariableEntero, decvariableNota, asignarBooleano, asignarCadena, asignarEntero, asignarNota;
+declaraVolumen , declaraFrecuencia ,opasig , datoasig, tipo, ciclos, operacion, ari, rel, opers, sentencia_por, ope_logico, arreglo, asig_arreglo, datos, log2,errores,errores1,ciclos_errores, notas,notapuras, decvariableBOOLEANO, decvariableCadena,
+ decvariableEntero, decvariableNota, asignarBooleano, asignarCadena, asignarEntero, asignarNota, datosNota, notaspuras;
    
 start with inicio;
 
