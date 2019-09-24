@@ -116,6 +116,8 @@ Pintar_Palabras pintar = new Pintar_Palabras();
 "entero" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext();comp="PALABRA_RESERVADA";return new Symbol(sym.ENTERO, yychar,yyline,"entero");}
 "por" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.POR, yychar,yyline,"por");}
 
+"booleano" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.BOOLEANO, yychar,yyline,"booleano");}
+
 "DO" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.DO, yychar,yyline,"DO");}
 "RE" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.RE, yychar,yyline,"RE");}
 "MI" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.MI, yychar,yyline,"MI");}
@@ -124,6 +126,8 @@ Pintar_Palabras pintar = new Pintar_Palabras();
 "LA" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.LA, yychar,yyline,"LA");}
 "SI" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.SII, yychar,yyline,"SII");}
 
+
+/*
 "DO'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.DOS, yychar,yyline,"DO'");}
 "RE'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.RES, yychar,yyline,"RE'");}
 "MI'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.MIS, yychar,yyline,"MI'");}
@@ -131,6 +135,7 @@ Pintar_Palabras pintar = new Pintar_Palabras();
 "SOL'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.SOLS, yychar,yyline,"SOL'");}
 "LA'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.LAS, yychar,yyline,"LA'");}
 "SI'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.SIS, yychar,yyline,"SI'");}
+*/
 
 
 \"{CommentContents}\" {pintar.pintaNara(yychar,yylength());lexeme=yytext(); return new Symbol(sym.CADENA, yychar,yyline,yytext());}
