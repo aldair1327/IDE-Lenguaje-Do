@@ -127,7 +127,7 @@ Pintar_Palabras pintar = new Pintar_Palabras();
 "SI" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.SII, yychar,yyline,"SII");}
 
 
-/*
+
 "DO'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.DOS, yychar,yyline,"DO'");}
 "RE'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.RES, yychar,yyline,"RE'");}
 "MI'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.MIS, yychar,yyline,"MI'");}
@@ -135,7 +135,7 @@ Pintar_Palabras pintar = new Pintar_Palabras();
 "SOL'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.SOLS, yychar,yyline,"SOL'");}
 "LA'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.LAS, yychar,yyline,"LA'");}
 "SI'" {pintar.pintaAzul(yychar,yylength()); lexeme=yytext(); comp="PALABRA_RESERVADA";return new Symbol(sym.SIS, yychar,yyline,"SI'");}
-*/
+
 
 
 \"{CommentContents}\" {pintar.pintaNara(yychar,yylength());lexeme=yytext(); return new Symbol(sym.CADENA, yychar,yyline,yytext());}

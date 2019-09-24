@@ -1,5 +1,3 @@
- 
-   
 /* ---------------Seccion de declaraciones preliminares--------------------*/
 package Analisis_Lexico;
 /* Import the class java_cup.runtime.*  */
@@ -11,7 +9,6 @@ import java.io.FileReader;
 parser code 
 {:
     public AnalizadorLexico  les;
-    public static Nodo padre;
     public void setLex(AnalizadorLexico le){
         les =le;
     }
@@ -73,13 +70,12 @@ try{
 /* ------------Declaracion de simbolos terminales y no terminales---------- */
 terminal AND, OR , NOT, ADD, MUL, MIN, DIV,PLUSPLUS,MINMIN, ASIG,ADDASIG,MINASIG,DIVASIG,MULASIG,MAYTHAN,MINTHAN,MAYEQUAL,MINEQUAL,EQUAL,NOTEQUAL,COMILLA,
 COMA,PAROPEN,PARCLOSE,COROPEN,CORCLOSE,KEYOPEN,KEYCLOSE,PUNTO_Y_COMA,MIENTRAS,REPRODUCE,SI,SINO,IMPORTAR,ROMPER,CONTINUAR,VOLUMEN,FRECUENCIA,SILENCIO,VERDADERO,
-FALSO,NULO,IMPRIMIR,NOTA,VACIO,CADENA,INICIO,idNoVal,ENTERO,ID,ERROR,numEntero, POR , VV,DO,RE,MI,FA,SOL,LA,SII, DOS,RES,MIS,FAS,SOLS,LAS,SIS, BOOLEANO  ;
+FALSO,NULO,IMPRIMIR,NOTA,VACIO,CADENA,INICIO,idNoVal,ENTERO,ID,ERROR,numEntero, POR , VV,DO,RE,MI,FA,SOL,LA,SII, DOS,RES,MIS,FAS,SOLS,LAS,SIS  ;
 
 non terminal inicio, cuerpo, inicializarVariable,
- dato, sentencia_si, condicion, cond, log, ope_relacional, op_rel, sig_rel, acciones, asignar, llamarFuncion, valoresCamion, cuerpoFuncion, cuerpo_sentencia_si1, sentencia_mientras,
+decvariables, dato, sentencia_si, condicion, cond, log, ope_relacional, op_rel, sig_rel, acciones, asignar, llamarFuncion, valoresCamion, cuerpoFuncion, cuerpo_sentencia_si1, sentencia_mientras,
 incrementar_var,  funcionesDo,declaraReproduce , declaraImprimir , declaraImportar , declaraContinuar , declaraSilencio ,
-declaraVolumen , declaraFrecuencia ,opasig , datoasig, tipo, ciclos, operacion, ari, rel, opers, sentencia_por, ope_logico, arreglo, asig_arreglo, datos, log2,errores,errores1,ciclos_errores, notas,notapuras, decvariableBOOLEANO, decvariableCadena,
- decvariableEntero, decvariableNota, asignarBooleano, asignarCadena, asignarEntero, asignarNota, datosNota, notaspuras;
+declaraVolumen , declaraFrecuencia ,opasig , datoasig, tipo, ciclos, operacion, ari, rel, opers, sentencia_por, ope_logico, arreglo, asig_arreglo, datos, log2,errores,errores1,ciclos_errores, notas,notapuras;
    
 start with inicio;
 
@@ -116,7 +112,7 @@ errores1 ::= NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;
 ciclos_errores ::= MIENTRAS | SI;
 
     
-cuerpo ::= asignarNota | asignarBooleano | asignarCadena | asignarEntero | decvariableNota | decvariableBOOLEANO | decvariableCadena | decvariableEntero  | funcionesDo | ciclos | incrementar_var | arreglo  ;
+cuerpo ::= asignar | decvariables  | funcionesDo | ciclos | incrementar_var | arreglo  ;
 
 arreglo::= tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo |
             tipo COROPEN CORCLOSE ID PUNTO_Y_COMA cuerpo |
@@ -132,96 +128,32 @@ arreglo::= tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cue
 
 
 
-datosNota ::= ID | numEntero | NOTA | notaspuras |
-ID COMA datosNota |  numEntero COMA datosNota |  NOTA COMA datos | notapuras COMA datos | 
+datos::= ID  |  numEntero  |  VERDADERO  |  FALSO  |  CADENA  |  NOTA  | notapuras | 
+ID COMA datos|  numEntero COMA datos |  VERDADERO COMA datos |  FALSO COMA datos |  CADENA COMA datos |  NOTA COMA datos | notapuras COMA datos |
 notapuras :e datos {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";:} ;
 
-asignarNota ::= ID ASIG datosNota PUNTO_Y_COMA | 
+asignar ::= ID ASIG dato PUNTO_Y_COMA | 
             ID opasig datoasig PUNTO_Y_COMA |
-            ID ASIG datosNota PUNTO_Y_COMA cuerpo | 
+            ID ASIG dato PUNTO_Y_COMA cuerpo | 
             ID opasig datoasig PUNTO_Y_COMA cuerpo |
             ID ASIG ari PUNTO_Y_COMA | 
 
             ID ASIG :e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
             ID ASIG :e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
 
-            errores1 ASIG datosNota PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 ASIG datosNota PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
+            errores1 ASIG dato PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
+            errores1 ASIG dato PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
 
-            errores1 opasig datosNota PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 opasig datosNota PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
+            errores1 opasig dato PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
+            errores1 opasig dato PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
 
-            ID datosNota:e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
-            ID datosNota:e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
+            ID dato:e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
+            ID dato:e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
 
-            ID ASIG datosNota:e cuerpo{:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-            ID ASIG datosNota:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
+            ID ASIG dato:e cuerpo{:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
+            ID ASIG dato:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
 
-            ID opasig datosNota:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-            error:e cuerpo ;
-
-datosBooleano ::= ENTERO | FALSO ;
-
-asignarBooleano ::= ID ASIG datosBooleano PUNTO_Y_COMA | 
-            ID ASIG datosBooleano PUNTO_Y_COMA cuerpo | 
-
-            ID ASIG :e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
-            ID ASIG :e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
-
-            errores1 ASIG datosBooleano PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 ASIG datosBooleano PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
-
-            ID datosBooleano:e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
-            ID datosBooleano:e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
-
-            ID ASIG datosBooleano:e cuerpo{:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-            ID ASIG datosBooleano:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-
-            error:e cuerpo ;
-
-datosEntero ::= ID | numEntero ;
-
-asignarEntero ::= ID ASIG datosEntero PUNTO_Y_COMA | 
-            ID opasig datosEntero PUNTO_Y_COMA |
-            ID ASIG datosEntero PUNTO_Y_COMA cuerpo | 
-            ID opasig datosEntero PUNTO_Y_COMA cuerpo |
-            ID ASIG ari PUNTO_Y_COMA | 
-
-            ID ASIG :e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
-            ID ASIG :e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
-
-            errores1 ASIG datosEntero PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 ASIG datosEntero PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
-
-            errores1 opasig datosEntero PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 opasig datosEntero PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
-
-            ID datosEntero:e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
-            ID datosEntero:e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
-
-            ID ASIG datosEntero:e cuerpo{:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-            ID ASIG datosEntero:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-
-            ID opasig datosEntero:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-            error:e cuerpo ;
-
-datosCadena ::= ID | CADENA ;
-
-asignarCadena ::= ID ASIG datosCadena PUNTO_Y_COMA | 
-            ID ASIG datosCadena PUNTO_Y_COMA cuerpo | 
-
-            ID ASIG :e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
-            ID ASIG :e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
-
-            errores1 ASIG datosCadena PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 ASIG datosCadena PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
-
-            ID datosCadena:e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
-            ID datosCadena:e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
-
-            ID ASIG datosCadena:e cuerpo{:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-            ID ASIG datosCadena:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-
+            ID opasig dato:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
             error:e cuerpo ;
 
 opasig::= ADDASIG  |  MINASIG  |  DIVASIG  |  MULASIG ;
@@ -229,47 +161,23 @@ opasig::= ADDASIG  |  MINASIG  |  DIVASIG  |  MULASIG ;
 datoasig::= ID  |  numEntero  |  NOTA ;
 
 
-tipo ::= ENTERO | NOTA | CADENA | BOOLEANO;
+tipo ::= ENTERO | NOTA | CADENA ;
 
 dato::= ID  |  numEntero  |  VERDADERO  |  FALSO  |  CADENA  |  NOTA  |  VACIO  |  NULO | DO | RE | MI | FA | SOL | LA | SII ;
 notas ::= RE | MI | FA | SOL | LA | SII | DO | NOTA | ID | DOS | RES | MIS | FAS | SOLS | LAS | SIS ;
 notapuras ::= RE | MI | FA | SOL | LA | SII | DO | DOS | RES | MIS | FAS | SOLS | LAS | SIS ;
 
+decvariables ::= tipo ID PUNTO_Y_COMA | tipo ID PUNTO_Y_COMA cuerpo 
+                | tipo asignar 
+                | tipo ID:e {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:}  
+                | tipo ID:e cuerpo {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
+
+                | numEntero ID PUNTO_Y_COMA:e {:this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";:}  
+                | numEntero ID PUNTO_Y_COMA:e cuerpo {:this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";:} 
 
 
-decvariableNota ::= NOTA ID PUNTO_Y_COMA | NOTA ID PUNTO_Y_COMA cuerpo 
-                | NOTA asignarNota 
-                | NOTA ID:e {:this.parser.errores+="Error: en la linea: "+(eright+1)+" -  falta el ';' \n";:}  
-                | NOTA ID:e cuerpo {:this.parser.errores+="Error: en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
-
-                | numEntero ID PUNTO_Y_COMA:e {:this.parser.errores+="Error:  en la linea: "+(eright+1)+" -  Error Sintactico se requiere un tipo 'NOTA' antes del identificador \n";:}  
-                | numEntero ID PUNTO_Y_COMA:e cuerpo {:this.parser.errores+="Error:  en la linea: "+(eright+1)+" -  Error Sintactico se requiere un tipo 'NOTA' antes del identificador \n";:}  
 
                 | ID:e {:this.parser.errores+="Error: 19 en la linea: "+(eright+1)+" - Se esperaba una tipo de dato \n";:} ;
-
-decvariableCadena ::= CADENA ID PUNTO_Y_COMA | CADENA ID PUNTO_Y_COMA cuerpo 
-                | CADENA asignarCadena 
-                | CADENA ID:e {:this.parser.errores+="Error: en la linea: "+(eright+1)+" -  falta el ';' \n";:}
-                | CADENA ID:e cuerpo {:this.parser.errores+="Error: en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
-
-                | CADENA ID PUNTO_Y_COMA:e {:this.parser.errores+="Error:  en la linea: "+(eright+1)+" -  Error Semantico se requiere un tipo 'CADENA' antes del identificador \n";:}
-                |  CADENA ID PUNTO_Y_COMA:e cuerpo {:this.parser.errores+="Error:  en la linea: "+(eright+1)+" -  Error Semantico se requiere un tipo 'CADENA' antes del identificador \n";:}
-
-decvariableBOOLEANO ::= BOOLEANO ID PUNTO_Y_COMA | BOOLEANO ID PUNTO_Y_COMA cuerpo 
-                | BOOLEANO asignarBooleano
-                | BOOLEANO ID:e {:this.parser.errores+="Error: en la linea: "+(eright+1)+" -  falta el ';' \n";:}
-                | BOOLEANO ID:e cuerpo {:this.parser.errores+="Error: en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
-
-                | BOOLEANO ID PUNTO_Y_COMA:e {:this.parser.errores+="Error:  en la linea: "+(eright+1)+" -  Error Semantico se requiere un tipo 'BOOLEANO' antes del identificador \n";:}
-                |  BOOLEANO ID PUNTO_Y_COMA:e cuerpo {:this.parser.errores+="Error:  en la linea: "+(eright+1)+" -  Error Semantico se requiere un tipo 'BOOLEANO' antes del identificador \n";:}
-
-decvariableEntero ::= ENTERO ID PUNTO_Y_COMA | ENTERO ID PUNTO_Y_COMA cuerpo 
-                | ENTERO asignarEntero 
-                | ENTERO ID:e {:this.parser.errores+="Error: en la linea: "+(eright+1)+" -  falta el ';' \n";:}
-                | ENTERO ID:e cuerpo {:this.parser.errores+="Error: en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
-
-                | ENTERO ID PUNTO_Y_COMA:e {:this.parser.errores+="Error:  en la linea: "+(eright+1)+" -  Error Semantico se requiere un tipo 'ENTERO' antes del identificador \n";:}
-                |  ENTERO ID PUNTO_Y_COMA:e cuerpo {:this.parser.errores+="Error:  en la linea: "+(eright+1)+" -  Error Semantico se requiere un tipo 'ENTERO' antes del identificador \n";:}
 
 funcionesDo ::= declaraReproduce  |  declaraImprimir  |  declaraImportar  |  declaraContinuar  |  declaraSilencio  | 
                declaraVolumen  |  declaraFrecuencia ;
@@ -475,4 +383,3 @@ sig_rel::=      MAYTHAN  |
                 EQUAL  | 
                 NOTEQUAL  | 
                 ASIG:e {:this.parser.errores+="Error: 54 en la linea: "+(eright+1)+" - No se puede hacer una asignación en una condición";:}; 
-
