@@ -21,8 +21,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Leonardo
  */
 public class InterfazTablaSimbolos extends javax.swing.JFrame {
-    ArrayList<String> listaLex = new ArrayList<String>();
-    ArrayList<Analisis_Lexico.Token_> listaToken = new ArrayList<Analisis_Lexico.Token_>();
+    public ArrayList<String> listaLex = new ArrayList<String>();
+    public ArrayList<Analisis_Lexico.Token_> listaToken = new ArrayList<Analisis_Lexico.Token_>();
+    public DefaultTableModel tm;
     public InterfazTablaSimbolos(ArrayList<Analisis_Lexico.Token_> ls,Inicio inicio) {
         initComponents();
         this.inicio=inicio;
@@ -35,13 +36,14 @@ public class InterfazTablaSimbolos extends javax.swing.JFrame {
         }
         
         
-        DefaultTableModel tm=(DefaultTableModel)Table.getModel();
+        tm =(DefaultTableModel)Table.getModel();
         tm.setRowCount(0);
         for (Analisis_Lexico.Token_ l : listaToken) {
             if(l.componente_lexico.equals("PALABRA_RESERVADA") || l.componente_lexico.equals("ID")){
                 String D[]=new String[6];
                 D[0]=l.lexema+"";
-                D[1]=l.componente_lexico;        
+                D[1]=l.componente_lexico;
+                D[2]=l.tipoDato;
                 tm.addRow(D); 
             }
         }
@@ -72,7 +74,7 @@ public class InterfazTablaSimbolos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Componente_Lexico", "LEX"
+                "Componente_Lexico", "LEX", "Tipo", "Valor"
             }
         ));
         jScrollPane3.setViewportView(Table);

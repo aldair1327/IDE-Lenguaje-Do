@@ -4,7 +4,7 @@ nota segunda = DO;
 nota tercera = DO;
 entero i = 0;
 entero n;
-nota[] acordeRe  = [RE' , FA',LA ] ; 
+nota[] acordeRe  = [RE , FA,LA ] ; 
 n = i;
 n++;
 mientras(n<10){

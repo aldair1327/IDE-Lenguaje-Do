@@ -26,7 +26,7 @@ import javax.swing.JTextPane;
 public class Analisis_Lexico {
     public AnalizadorLexico lexer;
     public class Token_{
-        public String lexema,componente_lexico; 
+        public String lexema,componente_lexico,tipoDato,valor; 
         public int numero_linea;
         public String contenido_linea;
     }

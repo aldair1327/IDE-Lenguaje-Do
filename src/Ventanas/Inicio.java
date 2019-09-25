@@ -493,9 +493,10 @@ public class Inicio extends javax.swing.JFrame {
             AnalizadorLexico lexera = new AnalizadorLexico(asa);
             ASintactico as = new ASintactico(lexera);
             ASintactico.errores = "";
+            as.setList(ls);
             as.setLex(lexera);
             as.parse();
-            
+            ls = as.ls;
             this.cons.setText(as.errores);
             
             if("".equals(as.errores)){
@@ -528,7 +529,7 @@ public class Inicio extends javax.swing.JFrame {
         in.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
     public void generarCup(){
-       String[] asintactico = {"-parser", "ASintactico", "C:\\Users\\EricPc\\Documents\\Automatas 2\\IDE-Lenguaje-Do\\src\\Analisis_Lexico\\sintactico.cup"};                   
+       String[] asintactico = {"-parser", "ASintactico", "./src/Analisis_Lexico/sintactico.cup"};                   
                     try {
                         java_cup.Main.main(asintactico);
                     } catch (Exception ex) {

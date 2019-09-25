@@ -1,17 +1,46 @@
+ 
+   
 /* ---------------Seccion de declaraciones preliminares--------------------*/
 package Analisis_Lexico;
 /* Import the class java_cup.runtime.*  */
 import java_cup.runtime.*;
 import java.io.FileReader;
+
+//asddasd
+
+import Analisis_Lexico.Analisis_Lexico.Token_;
+import Analisis_Lexico.AnalizadorLexico;
+import Analisis_Lexico.EstiloDocumento;
+import Analisis_Lexico.Interfaz;
+import Analisis_Lexico.InterfazTablaSimbolos;
+import Analisis_Lexico.OpeTabla;
+import Archivos.Archivos;
+import Manejador_errores.Manejador_Errores;
+import Miscelaneos.Miscelaneo;
+import Tabla_Simbolos.Tabla_Simbolos;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import Analisis_Lexico.OpeTabla;
+import Analisis_Lexico.InterfazTablaSimbolos;
+import Ventanas.Inicio;
    
 /* Codigo del parser, se copia integramente a la clase final.
     Agregamos el manejo de errores. */
 parser code 
 {:
     public AnalizadorLexico  les;
+    public ArrayList<Token_> ls;
+    public OpeTabla optab = new OpeTabla();
+
+    public void setList( ArrayList<Token_> ls){
+        this.ls = ls;
+    }
+    
     public void setLex(AnalizadorLexico le){
         les =le;
     }
+
 public static String errores = "";
 StringBuilder m = new StringBuilder("");
 /* Reporte de error encontrado. */
@@ -81,7 +110,7 @@ start with inicio;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////------INICIO---------///////////////////////////////////////////////////////////////////
-////////////////////////////////////{:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ( después de inicio";:}////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////{:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ( despu�s de inicio";:}////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo KEYCLOSE  | 
           INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE  | 
@@ -99,13 +128,13 @@ inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo KEYCLOSE  |
           KEYOPEN :e cuerpo {:this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";:}  |
           KEYCLOSE :e {:this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";:}   |
           PAROPEN:e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 2 en la linea: "+(eright+1)+" - se esperaba la palabra inicio \n";:}  | 
-          PAROPEN:e PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( después de inicio \n";:}| 
-          INICIO:e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( después de inicio \n";:} | 
-          INICIO:e PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( después de inicio \n";:} | 
-          INICIO PAROPEN:e KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) después de ( \n";:}  | 
-          INICIO PAROPEN:e KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) después de ( \n";:}  | 
-          INICIO PAROPEN PARCLOSE:e cuerpo KEYCLOSE {:this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - se esperaba un { después de ) \n";:}  |
-          INICIO PAROPEN PARCLOSE:e KEYCLOSE {:this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - Se esperaba un { después de ) \n";:} ;
+          PAROPEN:e PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";:}| 
+          INICIO:e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";:} | 
+          INICIO:e PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";:} | 
+          INICIO PAROPEN:e KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";:}  | 
+          INICIO PAROPEN:e KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";:}  | 
+          INICIO PAROPEN PARCLOSE:e cuerpo KEYCLOSE {:this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n";:}  |
+          INICIO PAROPEN PARCLOSE:e KEYCLOSE {:this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n";:} ;
   
 errores ::= ID | NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;
 errores1 ::= NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;
@@ -132,11 +161,11 @@ datos::= ID  |  numEntero  |  VERDADERO  |  FALSO  |  CADENA  |  NOTA  | notapur
 ID COMA datos|  numEntero COMA datos |  VERDADERO COMA datos |  FALSO COMA datos |  CADENA COMA datos |  NOTA COMA datos | notapuras COMA datos |
 notapuras :e datos {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";:} ;
 
-asignar ::= ID ASIG dato PUNTO_Y_COMA | 
-            ID opasig datoasig PUNTO_Y_COMA |
-            ID ASIG dato PUNTO_Y_COMA cuerpo | 
-            ID opasig datoasig PUNTO_Y_COMA cuerpo |
-            ID ASIG ari PUNTO_Y_COMA | 
+asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :} | 
+            ID:id opasig datoasig:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}|
+            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {:RESULT= dato+"."+id; :}| 
+            ID:id opasig datoasig:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; :}|
+            ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
 
             ID ASIG :e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
             ID ASIG :e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
@@ -150,25 +179,35 @@ asignar ::= ID ASIG dato PUNTO_Y_COMA |
             ID dato:e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
             ID dato:e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
 
-            ID ASIG dato:e cuerpo{:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
-            ID ASIG dato:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
+            ID ASIG dato:e cuerpo{:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+            ID ASIG dato:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
 
-            ID opasig dato:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");:} |
+            ID opasig dato:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
             error:e cuerpo ;
 
 opasig::= ADDASIG  |  MINASIG  |  DIVASIG  |  MULASIG ;
 
-datoasig::= ID  |  numEntero  |  NOTA ;
+datoasig::= ID:id {: RESULT=id; :}  |  numEntero:id {: RESULT=id; :}  |  NOTA:id {: RESULT=id; :} ;
 
 
-tipo ::= ENTERO | NOTA | CADENA ;
+tipo ::= ENTERO:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); :} 
+    | NOTA:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); :}
+    | CADENA:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); :} ;
 
-dato::= ID  |  numEntero  |  VERDADERO  |  FALSO  |  CADENA  |  NOTA  |  VACIO  |  NULO | DO | RE | MI | FA | SOL | LA | SII ;
+dato::= ID:id {: RESULT=id; :} |  numEntero:id {: RESULT=id; :} |  VERDADERO:id {: RESULT=id; :} |  FALSO:id {: RESULT=id; :}  
+            |  CADENA:id {: RESULT=id; :}  |  NOTA:id {: RESULT=id; :}  |  VACIO:id {: RESULT=id; :}  |  NULO:id {: RESULT=id; :} 
+            | DO:id {: RESULT=id; :} | RE:id {: RESULT=id; :} | MI:id {: RESULT=id; :} | FA:id {: RESULT=id; :} 
+            | SOL:id {: RESULT=id; :} | LA:id {: RESULT=id; :} | SII:id {: RESULT=id; :} ;
 notas ::= RE | MI | FA | SOL | LA | SII | DO | NOTA | ID | DOS | RES | MIS | FAS | SOLS | LAS | SIS ;
 notapuras ::= RE | MI | FA | SOL | LA | SII | DO | DOS | RES | MIS | FAS | SOLS | LAS | SIS ;
 
-decvariables ::= tipo ID PUNTO_Y_COMA | tipo ID PUNTO_Y_COMA cuerpo 
-                | tipo asignar 
+decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toString()+ " TIPO: " + tipo.toString()  + "\n"; 
+                    
+                 :} 
+                | tipo:tipo ID:id PUNTO_Y_COMA cuerpo {: //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
+                        ls = optab.buscarID(id.toString(),tipo.toString(),ls);
+                :} 
+                | tipo:tipo asignar:asignacion {: this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; :}
                 | tipo ID:e {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:}  
                 | tipo ID:e cuerpo {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
 
@@ -297,7 +336,7 @@ sentencia_mientras::= MIENTRAS PAROPEN condicion PARCLOSE KEYOPEN KEYCLOSE  |
                       MIENTRAS PAROPEN condicion PARCLOSE KEYOPEN cuerpo KEYCLOSE  |  
                       MIENTRAS PAROPEN condicion PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo | 
 
-                      MIENTRAS PAROPEN :e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condición \n";:} |
+                      MIENTRAS PAROPEN :e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";:} |
                       MIENTRAS condicion PARCLOSE:e KEYOPEN KEYCLOSE  {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";:} |
                       MIENTRAS PAROPEN condicion :e KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";:} |
                       MIENTRAS PAROPEN condicion PARCLOSE:e KEYCLOSE {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";:} |
@@ -307,7 +346,7 @@ sentencia_mientras::= MIENTRAS PAROPEN condicion PARCLOSE KEYOPEN KEYCLOSE  |
 
                      
 
-                      MIENTRAS PAROPEN :e PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condición \n";:} |
+                      MIENTRAS PAROPEN :e PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";:} |
                       MIENTRAS condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";:} |
                       MIENTRAS PAROPEN condicion :e KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";:} |
                       MIENTRAS PAROPEN condicion PARCLOSE:e cuerpo  KEYCLOSE cuerpo {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";:};
@@ -382,4 +421,5 @@ sig_rel::=      MAYTHAN  |
 		MAYEQUAL  | 
                 EQUAL  | 
                 NOTEQUAL  | 
-                ASIG:e {:this.parser.errores+="Error: 54 en la linea: "+(eright+1)+" - No se puede hacer una asignación en una condición";:}; 
+                ASIG:e {:this.parser.errores+="Error: 54 en la linea: "+(eright+1)+" - No se puede hacer una asignaci�n en una condici�n";:}; 
+
