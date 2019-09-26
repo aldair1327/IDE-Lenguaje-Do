@@ -92,6 +92,13 @@ public class Inicio extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -230,7 +237,7 @@ public class Inicio extends javax.swing.JFrame {
         btn_nuevo.add(jSeparator1);
 
         cerrar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        cerrar.setText("Cerrar");
+        cerrar.setText("Salir");
         cerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cerrarActionPerformed(evt);
@@ -257,6 +264,28 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem2);
+        jMenu2.add(jSeparator3);
+
+        jMenuItem3.setText("Autómata Finito");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Gramática");
+        jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Árbol de expresiones");
+        jMenu2.add(jMenuItem5);
+        jMenu2.add(jSeparator4);
+
+        jMenuItem6.setText("Código intermedio");
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem7.setText("Código optimizado");
+        jMenu2.add(jMenuItem7);
 
         jMenuBar1.add(jMenu2);
 
@@ -528,6 +557,11 @@ public class Inicio extends javax.swing.JFrame {
             return;
         in.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        MostrarTablas mostrarAutomata = new MostrarTablas();
+        mostrarAutomata.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
     public void generarCup(){
        String[] asintactico = {"-parser", "ASintactico", "./src/Analisis_Lexico/sintactico.cup"};                   
                     try {
@@ -673,10 +707,17 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JScrollPane panel_consola;
     public javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables

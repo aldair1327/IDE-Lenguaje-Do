@@ -40,7 +40,7 @@ public class Render_Item extends javax.swing.JPanel {
         txt_contenido.requestFocus();
         txt_contenido.setDocument(doc);
         
-        style = txt_contenido.addStyle("I'm a Style", null);
+        //style = txt_contenido.addStyle("I'm a Style", null);
         
         this.txt_contenido.setText(archivo.contenido);
         
@@ -70,14 +70,17 @@ public class Render_Item extends javax.swing.JPanel {
         txt_numeros.setEditable(false);
         txt_numeros.setBackground(getBackground());
         txt_numeros.setColumns(1);
-        txt_numeros.setFont(new java.awt.Font("Consolas", 0, 20)); // NOI18N
+        txt_numeros.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         txt_numeros.setForeground(new java.awt.Color(102, 102, 102));
         txt_numeros.setRows(8);
+        txt_numeros.setAlignmentY(1.0F);
+        txt_numeros.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 1, 1, 1));
         scroll_numeros.setViewportView(txt_numeros);
 
-        txt_contenido.setFont(new java.awt.Font("Consolas", 0, 20)); // NOI18N
+        txt_contenido.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 10));
+        txt_contenido.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         txt_contenido.setToolTipText("");
-        txt_contenido.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        txt_contenido.setMargin(new java.awt.Insets(2, 2, 10, 2));
         txt_contenido.setMinimumSize(new java.awt.Dimension(4, 20));
         txt_contenido.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
@@ -92,9 +95,9 @@ public class Render_Item extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(scroll_numeros, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scroll_texto, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                .addComponent(scroll_numeros, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(scroll_texto, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -102,8 +105,8 @@ public class Render_Item extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scroll_texto)
-                    .addComponent(scroll_numeros, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
+                    .addComponent(scroll_numeros, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                    .addComponent(scroll_texto))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

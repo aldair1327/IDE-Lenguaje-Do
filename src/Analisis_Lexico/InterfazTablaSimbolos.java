@@ -40,10 +40,11 @@ public class InterfazTablaSimbolos extends javax.swing.JFrame {
         tm =(DefaultTableModel)Table.getModel();
         tm.setRowCount(0);
         for (Token_ l : listaToken) {
-            if(l.componente_lexico.equals("PALABRA_RESERVADA") || l.componente_lexico.equals("ID")){
+            if( l.componente_lexico.equals("ID")){
                 tm.addRow( new Object[]{l.lexema, l.componente_lexico, l.tipoDato, l.valor}); 
             }
         }
+        this.setLocationRelativeTo(this);
     }
    
     @SuppressWarnings("unchecked")

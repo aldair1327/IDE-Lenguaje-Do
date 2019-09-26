@@ -28,12 +28,10 @@ public class Interfaz extends javax.swing.JFrame {
         DefaultTableModel tm=(DefaultTableModel)Table.getModel();
         tm.setRowCount(0);
         for (Token_ l : ls) {
-           String D[]=new String[6];
-            D[0]=l.lexema+"";
-            D[1]=l.componente_lexico;
-            D[2]=l.numero_linea+"";
-            tm.addRow(D); 
+           
+            tm.addRow( new Object[]{l.lexema, l.componente_lexico, l.numero_linea}); 
         }
+        setLocationRelativeTo(this);
     }
    
     @SuppressWarnings("unchecked")
@@ -54,7 +52,9 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Resultados:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bold-text-option.png"))); // NOI18N
+        jLabel2.setText("Tabla de Símbolos");
 
         Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -75,10 +75,11 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(159, 159, 159)
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

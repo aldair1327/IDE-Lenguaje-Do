@@ -58,21 +58,25 @@ public class Analisis_Lexico {
             while(s.sym !=0){
                 lexer.pintar.insertar(reader.readLine());
                 String token = lexer.comp;
-                System.err.println(s.sym);
-                System.err.println(lexer.comp);
+                //System.err.println(s.sym);
+                
+                
+                //System.err.println(lexer.comp);
                 if(token == null){
                     break;
                 }
-                if("SALTO".equals(token)){
-                    numero_linea++;
-                    line=reader.readLine();
-                    continue;
-                }
+//                if("SALTO".equals(token)){
+//                    numero_linea++;
+//                    //System.out.println("numero linea:" + numero_linea);
+//                    
+//                    line=reader.readLine();
+//                    continue;
+//                }
                 
                 Token_ t=new Token_();
                 t.lexema=lexer.lexeme;
                 t.componente_lexico=lexer.comp;//token.toString();
-                t.numero_linea=numero_linea;
+                t.numero_linea=s.right + 1;
                 t.contenido_linea= line;
                 lista_tokens.add(t);
                 s = (Symbol)lexer.next_token();

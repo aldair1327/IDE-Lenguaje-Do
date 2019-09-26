@@ -3,10 +3,10 @@ nota primera = DO;
 nota segunda = RE;
 nota tercera = MI;
 entero i = 0;
-entero n;
-nota[] acordeRe  = [RE , FA,LA ] ; 
+entero n; 
 n = i;
 n++;
+
 mientras(n<10){
   	reproduce(DO);
 	si(n==2){
@@ -21,5 +21,5 @@ mientras(n<10){
 reproduce(RE);
 silencio(2);
 continuar();
-reproduce(acorde);
+reproduce(DO);
 }
