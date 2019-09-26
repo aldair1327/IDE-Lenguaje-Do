@@ -7,7 +7,7 @@ package Ventanas;
 
 import Analisis_Lexico.ASintactico;
 import Analisis_Lexico.Analisis_Lexico;
-import Analisis_Lexico.Analisis_Lexico.Token_;
+import Analisis_Lexico.Token_;
 import Analisis_Lexico.AnalizadorLexico;
 import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;

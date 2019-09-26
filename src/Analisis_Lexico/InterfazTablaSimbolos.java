@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,13 +23,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class InterfazTablaSimbolos extends javax.swing.JFrame {
     public ArrayList<String> listaLex = new ArrayList<String>();
-    public ArrayList<Analisis_Lexico.Token_> listaToken = new ArrayList<Analisis_Lexico.Token_>();
+    public ArrayList<Token_> listaToken = new ArrayList<Token_>();
     public DefaultTableModel tm;
-    public InterfazTablaSimbolos(ArrayList<Analisis_Lexico.Token_> ls,Inicio inicio) {
+    public InterfazTablaSimbolos(ArrayList<Token_> ls,Inicio inicio) {
         initComponents();
         this.inicio=inicio;
         for(int i = 0; i< ls.size();i++){
-        Analisis_Lexico.Token_ aux = ls.get(i);
+        Token_ aux = ls.get(i);
             if (listaLex.contains(aux.lexema)) 
                 continue;
             listaLex.add(aux.lexema);
@@ -38,14 +39,9 @@ public class InterfazTablaSimbolos extends javax.swing.JFrame {
         
         tm =(DefaultTableModel)Table.getModel();
         tm.setRowCount(0);
-        for (Analisis_Lexico.Token_ l : listaToken) {
+        for (Token_ l : listaToken) {
             if(l.componente_lexico.equals("PALABRA_RESERVADA") || l.componente_lexico.equals("ID")){
-                String D[]=new String[6];
-                D[0]=l.lexema+"";
-                D[1]=l.componente_lexico;
-                D[2]=l.tipoDato;
-                D[3]=l.valor+"";
-                tm.addRow(D); 
+                tm.addRow( new Object[]{l.lexema, l.componente_lexico, l.tipoDato, l.valor}); 
             }
         }
     }

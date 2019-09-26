@@ -22,12 +22,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Interfaz extends javax.swing.JFrame {
     
-    public Interfaz(ArrayList<Analisis_Lexico.Token_> ls,Inicio inicio) {
+    public Interfaz(ArrayList<Token_> ls,Inicio inicio) {
         initComponents();
         this.inicio=inicio;
         DefaultTableModel tm=(DefaultTableModel)Table.getModel();
         tm.setRowCount(0);
-        for (Analisis_Lexico.Token_ l : ls) {
+        for (Token_ l : ls) {
            String D[]=new String[6];
             D[0]=l.lexema+"";
             D[1]=l.componente_lexico;

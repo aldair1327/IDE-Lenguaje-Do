@@ -25,11 +25,22 @@ import javax.swing.JTextPane;
  */
 public class Analisis_Lexico {
     public AnalizadorLexico lexer;
-    public class Token_{
-        public String lexema,componente_lexico,tipoDato,valor; 
-        public int numero_linea;
-        public String contenido_linea;
-    }
+//    public class Token_{
+//        public String lexema,componente_lexico,tipoDato,valor; 
+//        public int numero_linea;
+//        public String contenido_linea;
+//        
+//        public Token_ (){
+//            this.lexema = "";
+//            this.componente_lexico = "";
+//            this.tipoDato = "";
+//            this.valor = "";
+//            
+//            this.numero_linea = 0;
+//            
+//            this.contenido_linea ="";
+//        }
+//    }
     private final String ruta_lexer="./src/Analisis_Lexico/Lexer.jflex";
     
     public ArrayList<Token_> obtener_lexemas(Archivos archivo) throws IOException{

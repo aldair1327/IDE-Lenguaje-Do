@@ -73,6 +73,7 @@ public class sym {
   public static final int FALSO = 42;
   public static final int VOLUMEN = 38;
   public static final int DIVASIG = 14;
+  public static final int BOOLEANO = 70;
   public static final int KEYCLOSE = 29;
   public static final int VERDADERO = 41;
   public static final int INICIO = 48;
@@ -148,7 +149,8 @@ public class sym {
   "FAS",
   "SOLS",
   "LAS",
-  "SIS"
+  "SIS",
+  "BOOLEANO"
   };
 }
 

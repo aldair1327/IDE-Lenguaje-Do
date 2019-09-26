@@ -8,7 +8,7 @@ import java.io.FileReader;
 
 //asddasd
 
-import Analisis_Lexico.Analisis_Lexico.Token_;
+import Analisis_Lexico.Token_;
 import Analisis_Lexico.AnalizadorLexico;
 import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
@@ -99,7 +99,7 @@ try{
 /* ------------Declaracion de simbolos terminales y no terminales---------- */
 terminal AND, OR , NOT, ADD, MUL, MIN, DIV,PLUSPLUS,MINMIN, ASIG,ADDASIG,MINASIG,DIVASIG,MULASIG,MAYTHAN,MINTHAN,MAYEQUAL,MINEQUAL,EQUAL,NOTEQUAL,COMILLA,
 COMA,PAROPEN,PARCLOSE,COROPEN,CORCLOSE,KEYOPEN,KEYCLOSE,PUNTO_Y_COMA,MIENTRAS,REPRODUCE,SI,SINO,IMPORTAR,ROMPER,CONTINUAR,VOLUMEN,FRECUENCIA,SILENCIO,VERDADERO,
-FALSO,NULO,IMPRIMIR,NOTA,VACIO,CADENA,INICIO,idNoVal,ENTERO,ID,ERROR,numEntero, POR , VV,DO,RE,MI,FA,SOL,LA,SII, DOS,RES,MIS,FAS,SOLS,LAS,SIS  ;
+FALSO,NULO,IMPRIMIR,NOTA,VACIO,CADENA,INICIO,idNoVal,ENTERO,ID,ERROR,numEntero, POR , VV,DO,RE,MI,FA,SOL,LA,SII, DOS,RES,MIS,FAS,SOLS,LAS,SIS, BOOLEANO  ;
 
 non terminal inicio, cuerpo, inicializarVariable,
 decvariables, dato, sentencia_si, condicion, cond, log, ope_relacional, op_rel, sig_rel, acciones, asignar, llamarFuncion, valoresCamion, cuerpoFuncion, cuerpo_sentencia_si1, sentencia_mientras,
@@ -207,8 +207,19 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                 | tipo:tipo ID:id PUNTO_Y_COMA cuerpo {: //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
                         ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
                 :} 
-                | tipo:tipo asignar:asignacion {:System.out.print(asignacion+"\n"); //String[] sep = asignacion.split(".");   ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
-:}
+                | tipo:tipo asignar:asignacion 
+                  {://System.out.println(asignacion,tipo.toString(),asignacion,ls); 
+                    System.out.println("asignacion:" + asignacion);
+                    System.out.println("tipo: " + tipo.toString());
+                    //System.out.println("ls: " + ls);
+                    String asigTemp = asignacion.toString();
+                    String[] temp = asigTemp.split("\\.");
+                    System.out.println("asigTemp: " + asigTemp);
+                    System.out.println("temp : " + temp.toString());
+                    ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
+                    //  ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); 
+                    //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
+                  :}
                 | tipo ID:e {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:}  
                 | tipo ID:e cuerpo {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
 

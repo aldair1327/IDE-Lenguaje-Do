@@ -5,7 +5,7 @@
  */
 package Tabla_Simbolos;
 
-import Analisis_Lexico.Analisis_Lexico.Token_;
+import Analisis_Lexico.Token_;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -20,6 +20,7 @@ public class Tabla_Simbolos {
     ArrayList<String> listaLex = new ArrayList<String>();
     ArrayList<Token_> listaToken = new ArrayList<Token_>();
     Hashtable<Integer, Token_> tabla_simbolos = new Hashtable<Integer, Token_>();
+    
     public void llenar_hash(Token_ rec){
         Token_ aux = rec;
         if (listaLex.contains(aux.lexema)) 
@@ -29,10 +30,13 @@ public class Tabla_Simbolos {
     }
     public DefaultTableModel llenarJtable(JTable model){
         DefaultTableModel modelo_ = (DefaultTableModel)model.getModel();
-        for(int i = 0; i < listaToken.size(); i++){
-            Token_ aux = listaToken.get(i);
+        for(Token_ aux : listaToken) {
             modelo_.addRow(new Object[] {aux.componente_lexico, aux.lexema});
         }
+//        for(int i = 0; i < listaToken.size(); i++){
+//            Token_ aux = listaToken.
+//            modelo_.addRow(new Object[] {aux.componente_lexico, aux.lexema});
+//        }
         return modelo_;
     }
 }

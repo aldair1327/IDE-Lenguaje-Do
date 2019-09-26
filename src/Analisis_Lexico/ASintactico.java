@@ -7,7 +7,7 @@ package Analisis_Lexico;
 
 import java_cup.runtime.*;
 import java.io.FileReader;
-import Analisis_Lexico.Analisis_Lexico.Token_;
+import Analisis_Lexico.Token_;
 import Analisis_Lexico.AnalizadorLexico;
 import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
@@ -3513,8 +3513,18 @@ class CUP$ASintactico$actions {
 		int asignacionleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int asignacionright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object asignacion = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		System.out.print(asignacion+"\n"); //String[] sep = asignacion.split(".");   ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
-
+		//System.out.println(asignacion,tipo.toString(),asignacion,ls); 
+                    System.out.println("asignacion:" + asignacion);
+                    System.out.println("tipo: " + tipo.toString());
+                    //System.out.println("ls: " + ls);
+                    String asigTemp = asignacion.toString();
+                    String[] temp = asigTemp.split("\\.");
+                    System.out.println("asigTemp: " + asigTemp);
+                    System.out.println("temp : " + temp.toString());
+                    ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
+                    //  ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); 
+                    //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
+                  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
