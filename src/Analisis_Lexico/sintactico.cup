@@ -161,7 +161,7 @@ datos::= ID  |  numEntero  |  VERDADERO  |  FALSO  |  CADENA  |  NOTA  | notapur
 ID COMA datos|  numEntero COMA datos |  VERDADERO COMA datos |  FALSO COMA datos |  CADENA COMA datos |  NOTA COMA datos | notapuras COMA datos |
 notapuras :e datos {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";:} ;
 
-asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :} | 
+asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}  |  
             ID:id opasig datoasig:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}|
             ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {:RESULT= dato+"."+id; :}| 
             ID:id opasig datoasig:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; :}|
@@ -205,9 +205,10 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                     
                  :} 
                 | tipo:tipo ID:id PUNTO_Y_COMA cuerpo {: //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
-                        ls = optab.buscarID(id.toString(),tipo.toString(),ls);
+                        ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
                 :} 
-                | tipo:tipo asignar:asignacion {: this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; :}
+                | tipo:tipo asignar:asignacion {:System.out.print(asignacion+"\n"); //String[] sep = asignacion.split(".");   ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
+:}
                 | tipo ID:e {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:}  
                 | tipo ID:e cuerpo {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
 

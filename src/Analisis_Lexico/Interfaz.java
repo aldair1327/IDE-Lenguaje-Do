@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Leonardo
  */
 public class Interfaz extends javax.swing.JFrame {
+    
     public Interfaz(ArrayList<Analisis_Lexico.Token_> ls,Inicio inicio) {
         initComponents();
         this.inicio=inicio;
@@ -30,7 +31,7 @@ public class Interfaz extends javax.swing.JFrame {
            String D[]=new String[6];
             D[0]=l.lexema+"";
             D[1]=l.componente_lexico;
-            D[2]=l.numero_linea+"";          
+            D[2]=l.numero_linea+"";
             tm.addRow(D); 
         }
     }

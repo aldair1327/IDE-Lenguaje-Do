@@ -44,6 +44,7 @@ public class InterfazTablaSimbolos extends javax.swing.JFrame {
                 D[0]=l.lexema+"";
                 D[1]=l.componente_lexico;
                 D[2]=l.tipoDato;
+                D[3]=l.valor+"";
                 tm.addRow(D); 
             }
         }

@@ -1,7 +1,7 @@
 inicio(){
 nota primera = DO;
-nota segunda = DO;
-nota tercera = DO;
+nota segunda = RE;
+nota tercera = MI;
 entero i = 0;
 entero n;
 nota[] acordeRe  = [RE , FA,LA ] ; 

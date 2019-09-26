@@ -3497,7 +3497,7 @@ class CUP$ASintactico$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		 //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
-                        ls = optab.buscarID(id.toString(),tipo.toString(),ls);
+                        ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
                 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -3513,7 +3513,8 @@ class CUP$ASintactico$actions {
 		int asignacionleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int asignacionright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object asignacion = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
+		System.out.print(asignacion+"\n"); //String[] sep = asignacion.split(".");   ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
+
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
