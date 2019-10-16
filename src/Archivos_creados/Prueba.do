@@ -1,10 +1,10 @@
 inicio(){
 nota primera = DO;
 nota segunda = RE;
-nota tercera = MI;
-entero i = 0;
+nota tercera = DO;
+entero i = 15;
 entero n; 
-n = i;
+n = 10;
 n++;
 
 mientras(n<10){
@@ -22,4 +22,6 @@ reproduce(RE);
 silencio(2);
 continuar();
 reproduce(DO);
+
+
 }

@@ -3,11 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documentos/9no/LenguajeDo/LenguajeDo/src/Ventanas/Inicio.java</file>
-            <file>file:/D:/Documentos/9no/LenguajeDo/LenguajeDo/src/Analisis_Lexico/InterfazTablaSimbolos.java</file>
-            <file>file:/D:/Documentos/9no/LenguajeDo/LenguajeDo/src/Analisis_Lexico/sintactico.cup</file>
-            <file>file:/D:/Documentos/9no/LenguajeDo/LenguajeDo/src/Analisis_Lexico/Analisis_Lexico.java</file>
-            <file>file:/D:/Documentos/9no/LenguajeDo/LenguajeDo/src/Analisis_Lexico/OpeTabla.java</file>
+            <file>file:/C:/Users/EricPc/Documents/Automatas%202/IDE-Lenguaje-Do/src/Analisis_Lexico/Token_.java</file>
+            <file>file:/C:/Users/EricPc/Documents/Automatas%202/IDE-Lenguaje-Do/src/Analisis_Lexico/ASintactico.java</file>
+            <file>file:/C:/Users/EricPc/Documents/Automatas%202/IDE-Lenguaje-Do/src/Analisis_Lexico/Token.java</file>
+            <file>file:/C:/Users/EricPc/Documents/Automatas%202/IDE-Lenguaje-Do/src/Analisis_Lexico/OpeTabla.java</file>
+            <file>file:/C:/Users/EricPc/Documents/Automatas%202/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
         </group>
     </open-files>
 </project-private>

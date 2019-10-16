@@ -22,7 +22,6 @@ public class OpeTabla{
       String valor,
       ArrayList<Token_> ls
       ){
-        System.out.println("****************************************************");
         for (int i = 0; i < ls.size(); i++ ) {
            
             if(ls.get(i).lexema.equals(lexema)){
@@ -31,37 +30,39 @@ public class OpeTabla{
                     ls.get(i).valor = valor;
                     ls.get(i).lexema = lexema;
                     
-//                    Token_ temp;
-//                    temp = new Token_();
-//                    temp.tipoDato = tipo;
-//                    temp.valor = valor;
-//                    temp.lexema = lexema;
-//                    System.out.println(temp.toString());
-//                    if (ls.tipoDato.get(i) != null && !ls.tipoDato.get(i).equals("")) {
-//                        
-//                        System.out.println(ls.get(i).tipoDato + "awa");
-//                            
-//                    }
                        
                    } catch (Exception e) {
                        
                    }
-               
-               
-//               if (ls.get(i).tipoDato != null) {
-//                 ls.get(i).tipoDato = tipo;
-//               }
-//               if (ls.get(i).valor != null) {
-//                  ls.get(i).valor = valor;
-//               }
-               /* System.out.println(valor + "valorcito"); */
-               
-               //System.out.print( ls.get(c).valor + "<-- el valor segun");
                return ls;
             }
         }
         
         return ls;
+    }
+    public Token_ buscarIDCup(String lexema, ArrayList<Token_> ls){
+        int i = 0;
+        for (i = 0; i < ls.size(); i++ ) {
+            if(ls.get(i).lexema.equals(lexema) && !ls.get(i).tipoDato.equals("")){
+                System.out.println(ls.get(i).tipoDato.toString() +"---------------");
+                return ls.get(i);
+            }
+        }
+        return null;
+    }
+    public String verificarTipo(String lexema, ArrayList<Token_> ls){
+        try { 
+            if(Integer.parseInt(lexema.toString())/Integer.parseInt(lexema.toString())==1)
+                return "entero"; 
+            if(lexema.toString()=="true" || lexema.toString()=="falso")
+                return "boleano";
+            if(lexema.toString()=="DO" || lexema.toString()=="RE" || lexema.toString()=="MI" || lexema.toString()=="FA"
+                    || lexema.toString()=="SOL" || lexema.toString()=="LA" || lexema.toString()=="SI")
+                return "nota";  
+        } catch ( Exception d) {
+            
+        }
+        return "cadena";
     }
     
 }

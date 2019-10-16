@@ -1897,7 +1897,7 @@ public class ASintactico extends java_cup.runtime.lr_parser {
     public void setLex(AnalizadorLexico le){
         les =le;
     }
-
+public static boolean anterior = false;
 public static String errores = "";
 StringBuilder m = new StringBuilder("");
 /* Reporte de error encontrado. */
@@ -2705,7 +2705,7 @@ class CUP$ASintactico$actions {
 		int datoleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT= dato+"."+id; 
+		 anterior=false; RESULT= dato+"."+id; 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2720,7 +2720,7 @@ class CUP$ASintactico$actions {
 		int datoleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT= dato+"."+id; 
+		 anterior=false; RESULT= dato+"."+id; 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2735,7 +2735,23 @@ class CUP$ASintactico$actions {
 		int datoleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		RESULT= dato+"."+id; 
+		
+                if(anterior){
+                        System.out.println(anterior+" asignar");
+                        Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
+                        Token_ idAComp = optab.buscarIDCup(dato.toString(),ls);
+                        if(idAAsig == null)
+                            this.parser.append("Error: 51 en la lineaaa: "+(idright+1)+" El dato  no ha sido declarado. \n");
+                        if(idAComp == null)
+                            this.parser.append("Error: 51 en la linebbb: "+(datoright+1)+" El dato  no ha sido declarado. \n");
+                        if(idAAsig != null && idAComp != null){
+                            String tipo = optab.verificarTipo(dato.toString() , ls);
+                            
+                        }
+                    }
+                    anterior=false;
+                    RESULT= dato+"."+id; 
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2774,7 +2790,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");
+		 RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2786,7 +2802,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");
+		 RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2798,7 +2814,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
+		 RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2810,7 +2826,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2822,7 +2838,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
+		 RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2834,7 +2850,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2846,7 +2862,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.append("Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");
+		 RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2858,7 +2874,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");
+		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2870,7 +2886,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2882,7 +2898,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2894,7 +2910,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2990,7 +3006,7 @@ class CUP$ASintactico$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object entero = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); 
+		 anterior=true; RESULT= entero; System.out.println(anterior+" asignar"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("tipo",30, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3002,7 +3018,7 @@ class CUP$ASintactico$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object entero = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); 
+		 anterior=true; RESULT= entero; System.out.println(anterior+" asignar"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("tipo",30, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3014,7 +3030,7 @@ class CUP$ASintactico$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object entero = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); 
+		 anterior=true; RESULT= entero; System.out.println(anterior+" asignar"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("tipo",30, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3498,6 +3514,7 @@ class CUP$ASintactico$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		 //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
                         ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
+                        anterior=false;
                 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -3514,14 +3531,26 @@ class CUP$ASintactico$actions {
 		int asignacionright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object asignacion = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		//System.out.println(asignacion,tipo.toString(),asignacion,ls); 
-                    System.out.println("asignacion:" + asignacion);
-                    System.out.println("tipo: " + tipo.toString());
-                    //System.out.println("ls: " + ls);
-                    String asigTemp = asignacion.toString();
-                    String[] temp = asigTemp.split("\\.");
-                    System.out.println("asigTemp: " + asigTemp);
-                    System.out.println("temp : " + temp.toString());
-                    ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
+                    try { 
+                        //System.out.println("asignacion:" + asignacion);
+                        //System.out.println("tipo: " + tipo.toString());
+                        //System.out.println("ls: " + ls);
+                        String asigTemp = asignacion.toString();
+                        String[] temp = asigTemp.split("\\.");
+                        //System.out.println("asigTemp: " + asigTemp);
+                        //System.out.println("temp : " + temp.toString());
+                        
+                        try { 
+                            if(tipo.toString() == "entero" && (Integer.parseInt(temp[0])/Integer.parseInt(temp[0]))==1)
+                                System.out.println("Es entero");
+
+                        } catch ( Exception d) {
+                            this.parser.append("Error: 51 en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
+                        }
+                        ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
+                    } catch ( Exception d) {
+                      System.out.println(d.getMessage());
+                    }
                     //  ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); 
                     //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
                   

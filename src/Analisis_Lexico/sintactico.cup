@@ -40,7 +40,7 @@ parser code
     public void setLex(AnalizadorLexico le){
         les =le;
     }
-
+public static String anterior = "";
 public static String errores = "";
 StringBuilder m = new StringBuilder("");
 /* Reporte de error encontrado. */
@@ -163,26 +163,40 @@ notapuras :e datos {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba u
 
 asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}  |  
             ID:id opasig datoasig:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}|
-            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {:RESULT= dato+"."+id; :}| 
+            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {:
+
+                        Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
+                        Token_ idAComp = optab.buscarIDCup(dato.toString(),ls);
+                        if(idAAsig == null)
+                            this.parser.append("Error: 51 en la lineaaa: "+(idright+1)+" El dato  no ha sido declarado. \n");
+                        if(idAComp == null)
+                            this.parser.append("Error: 51 en la linebbb: "+(datoright+1)+" El dato  no ha sido declarado. \n");
+                        if(idAAsig != null && idAComp != null){
+                            String tipo = optab.verificarTipo(dato.toString() , ls);
+                            
+                        }
+
+                    RESULT= dato+"."+id; 
+                    :} | 
             ID:id opasig datoasig:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; :}|
             ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
 
-            ID ASIG :e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
-            ID ASIG :e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
+            ID ASIG :e PUNTO_Y_COMA cuerpo{: RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
+            ID ASIG :e PUNTO_Y_COMA {: RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
 
-            errores1 ASIG dato PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 ASIG dato PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
+            errores1 ASIG dato PUNTO_Y_COMA:e cuerpo{: RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
+            errores1 ASIG dato PUNTO_Y_COMA:e {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
 
-            errores1 opasig dato PUNTO_Y_COMA:e cuerpo{:this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 opasig dato PUNTO_Y_COMA:e {:this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
+            errores1 opasig dato PUNTO_Y_COMA:e cuerpo{: RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
+            errores1 opasig dato PUNTO_Y_COMA:e {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
 
-            ID dato:e PUNTO_Y_COMA cuerpo{:this.parser.append("Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
-            ID dato:e PUNTO_Y_COMA {:this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
+            ID dato:e PUNTO_Y_COMA cuerpo{: RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
+            ID dato:e PUNTO_Y_COMA {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
 
-            ID ASIG dato:e cuerpo{:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
-            ID ASIG dato:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+            ID ASIG dato:e cuerpo{: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+            ID ASIG dato:e {: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
 
-            ID opasig dato:e {:this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+            ID opasig dato:e {: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
             error:e cuerpo ;
 
 opasig::= ADDASIG  |  MINASIG  |  DIVASIG  |  MULASIG ;
@@ -209,14 +223,25 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                 :} 
                 | tipo:tipo asignar:asignacion 
                   {://System.out.println(asignacion,tipo.toString(),asignacion,ls); 
-                    System.out.println("asignacion:" + asignacion);
-                    System.out.println("tipo: " + tipo.toString());
-                    //System.out.println("ls: " + ls);
-                    String asigTemp = asignacion.toString();
-                    String[] temp = asigTemp.split("\\.");
-                    System.out.println("asigTemp: " + asigTemp);
-                    System.out.println("temp : " + temp.toString());
-                    ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
+                    try { 
+                        //System.out.println("asignacion:" + asignacion);
+                        //System.out.println("tipo: " + tipo.toString());
+                        //System.out.println("ls: " + ls);
+                        String asigTemp = asignacion.toString();
+                        String[] temp = asigTemp.split("\\.");
+                        //System.out.println("asigTemp: " + asigTemp);
+                        //System.out.println("temp : " + temp.toString());
+                        try { 
+                            if(tipo.toString() == "entero" && (Integer.parseInt(temp[0])/Integer.parseInt(temp[0]))==1)
+                                System.out.println("Es entero");
+
+                        } catch ( Exception d) {
+                            this.parser.append("Error: 51 en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
+                        }
+                        ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
+                    } catch ( Exception d) {
+                      System.out.println(d.getMessage());
+                    }
                     //  ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); 
                     //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
                   :}
