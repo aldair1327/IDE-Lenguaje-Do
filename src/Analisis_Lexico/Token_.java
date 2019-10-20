@@ -31,6 +31,13 @@ public class Token_ {
         this.valor = valor;
     }
     
+    public Token_(String componente_lexico, String lexema, String tipoDato, String valor) {
+        this.componente_lexico = componente_lexico;
+        this.lexema = lexema;
+        this.tipoDato = tipoDato;
+        this.valor = valor;
+    }
+    
     @Override
     public String toString(){
         String mensaje = "";
