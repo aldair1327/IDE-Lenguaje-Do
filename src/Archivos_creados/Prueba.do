@@ -3,8 +3,9 @@ nota primera = DO;
 nota segunda = RE;
 nota tercera = DO;
 entero i = 15;
+n = n;
 entero n; 
-n = 10;
+
 n++;
 
 mientras(n<10){

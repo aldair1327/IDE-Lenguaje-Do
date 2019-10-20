@@ -104,7 +104,7 @@ FALSO,NULO,IMPRIMIR,NOTA,VACIO,CADENA,INICIO,idNoVal,ENTERO,ID,ERROR,numEntero, 
 non terminal inicio, cuerpo, inicializarVariable,
 decvariables, dato, sentencia_si, condicion, cond, log, ope_relacional, op_rel, sig_rel, acciones, asignar, llamarFuncion, valoresCamion, cuerpoFuncion, cuerpo_sentencia_si1, sentencia_mientras,
 incrementar_var,  funcionesDo,declaraReproduce , declaraImprimir , declaraImportar , declaraContinuar , declaraSilencio ,
-declaraVolumen , declaraFrecuencia ,opasig , datoasig, tipo, ciclos, operacion, ari, rel, opers, sentencia_por, ope_logico, arreglo, asig_arreglo, datos, log2,errores,errores1,ciclos_errores, notas,notapuras;
+declaraVolumen , declaraFrecuencia ,opasig , datoasig, tipo, ciclos, operacion, ari, rel, opers, sentencia_por, ope_logico, arreglo, asig_arreglo, datos, log2,errores,errores1,ciclos_errores, notas,notapuras, asignarDeclaracion;
    
 start with inicio;
 
@@ -141,7 +141,7 @@ errores1 ::= NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;
 ciclos_errores ::= MIENTRAS | SI;
 
     
-cuerpo ::= asignar | decvariables  | funcionesDo | ciclos | incrementar_var | arreglo  ;
+cuerpo ::= decvariables |  asignar | funcionesDo | ciclos | incrementar_var | arreglo  ;
 
 arreglo::= tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo |
             tipo COROPEN CORCLOSE ID PUNTO_Y_COMA cuerpo |
@@ -164,20 +164,50 @@ notapuras :e datos {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba u
 asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}  |  
             ID:id opasig datoasig:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}|
             ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {:
-
+                        System.out.println("Lista que no entra: \n");
+                        for(int i = 0; i<ls.size(); i++){
+                            if (ls.get(i).numero_linea == 7) {
+                                System.out.println(ls.get(i).toString());
+                            }
+                        }
                         Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
                         Token_ idAComp = optab.buscarIDCup(dato.toString(),ls);
                         if(idAAsig == null)
-                            this.parser.append("Error: 51 en la lineaaa: "+(idright+1)+" El dato  no ha sido declarado. \n");
+                            System.out.println(idAAsig);
+                            //System.out.println(idAComp);
+                            this.parser.append("Error idAAsig: en la linea: "+(idright+1)+" El dato  no ha sido declarado. \n");
                         if(idAComp == null)
-                            this.parser.append("Error: 51 en la linebbb: "+(datoright+1)+" El dato  no ha sido declarado. \n");
+                            this.parser.append("Error idAComp: en la linea: "+(datoright+1)+" El dato  no ha sido declarado. \n");
                         if(idAAsig != null && idAComp != null){
                             String tipo = optab.verificarTipo(dato.toString() , ls);
-                            
                         }
 
                     RESULT= dato+"."+id; 
                     :} | 
+            ID:id opasig datoasig:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; :}|
+            ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
+
+            ID ASIG :e PUNTO_Y_COMA cuerpo{: RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
+            ID ASIG :e PUNTO_Y_COMA {: RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
+
+            errores1 ASIG dato PUNTO_Y_COMA:e cuerpo{: RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
+            errores1 ASIG dato PUNTO_Y_COMA:e {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
+
+            errores1 opasig dato PUNTO_Y_COMA:e cuerpo{: RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
+            errores1 opasig dato PUNTO_Y_COMA:e {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
+
+            ID dato:e PUNTO_Y_COMA cuerpo{: RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
+            ID dato:e PUNTO_Y_COMA {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
+
+            ID ASIG dato:e cuerpo{: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+            ID ASIG dato:e {: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+
+            ID opasig dato:e {: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+            error:e cuerpo ;
+
+asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}  |  
+            ID:id opasig datoasig:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}|
+            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; :} | 
             ID:id opasig datoasig:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; :}|
             ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
 
@@ -218,10 +248,14 @@ notapuras ::= RE | MI | FA | SOL | LA | SII | DO | DOS | RES | MIS | FAS | SOLS 
 decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toString()+ " TIPO: " + tipo.toString()  + "\n"; 
                     
                  :} 
+
+
                 | tipo:tipo ID:id PUNTO_Y_COMA cuerpo {: //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
                         ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
                 :} 
-                | tipo:tipo asignar:asignacion 
+
+
+                | tipo:tipo asignarDeclaracion:asignacion 
                   {://System.out.println(asignacion,tipo.toString(),asignacion,ls); 
                     try { 
                         //System.out.println("asignacion:" + asignacion);
@@ -236,13 +270,17 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                                 System.out.println("Es entero");
 
                         } catch ( Exception d) {
-                            this.parser.append("Error: 51 en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
+                            System.err.println("Exception :" + d.getMessage());
+                            this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
                         }
+                        //Aqui si tiene los tipo de datos
                         ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
+                        
+                        //System.out.println("Tabla de eric:" + ls.toString());
                     } catch ( Exception d) {
                       System.out.println(d.getMessage());
                     }
-                    //  ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); 
+                    //ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); 
                     //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
                   :}
                 | tipo ID:e {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:}  
@@ -416,14 +454,14 @@ sentencia_por::= POR PAROPEN decvariables COMA condicion COMA asignar PARCLOSE K
                  POR PAROPEN :e COMA condicion COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 48 en la linea: "+(eright+1)+" - Se esperaba una declaracion de variables \n";:} | 
                  POR PAROPEN decvariables COMA :e COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 49 en la linea: "+(eright+1)+" - Se esperaba una condicion  \n";:} | 
                  POR PAROPEN decvariables COMA condicion COMA :e PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 50 en la linea: "+(eright+1)+" - Se esperaba una asignacion \n";:} | 
-                 POR PAROPEN decvariables COMA condicion COMA asignar KEYOPEN :e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 51 en la linea: "+(eright+1)+" - Se esperaba un ')'despues de la asignacion \n";:} | 
+                 POR PAROPEN decvariables COMA condicion COMA asignar KEYOPEN :e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 55 en la linea: "+(eright+1)+" - Se esperaba un ')'despues de la asignacion \n";:} | 
                  POR PAROPEN decvariables COMA condicion COMA asignar PARCLOSE cuerpo KEYCLOSE:e cuerpo {:this.parser.errores+="Error: 52 en la linea: "+(eright+1)+" - Se esperaba un '{' despues de '(' \n";:} | 
                  
                  POR:e decvariables COMA condicion COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 47 en la linea: "+(eright+1)+" - Se esperaba '(' despues de del POR  \n";:} | 
                  POR PAROPEN :e COMA condicion COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 48 en la linea: "+(eright+1)+" - Se esperaba una declaracion de variables \n";:} | 
                  POR PAROPEN decvariables COMA :e COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 49 en la linea: "+(eright+1)+" - Se esperaba una condicion  \n";:} | 
                  POR PAROPEN decvariables COMA condicion COMA :e PARCLOSE KEYOPEN cuerpo KEYCLOSE  {:this.parser.errores+="Error: 50 en la linea: "+(eright+1)+" - Se esperaba una asignacion \n";:} | 
-                 POR PAROPEN decvariables COMA condicion COMA asignar KEYOPEN :e cuerpo KEYCLOSE  {:this.parser.errores+="Error: 51 en la linea: "+(eright+1)+" - Se esperaba un ')'despues de la asignacion \n";:} | 
+                 POR PAROPEN decvariables COMA condicion COMA asignar KEYOPEN :e cuerpo KEYCLOSE  {:this.parser.errores+="Error: 55 en la linea: "+(eright+1)+" - Se esperaba un ')'despues de la asignacion \n";:} | 
                  POR PAROPEN decvariables COMA condicion COMA asignar PARCLOSE cuerpo KEYCLOSE:e {:this.parser.errores+="Error: 52 en la linea: "+(eright+1)+" - Se esperaba un '{' despues de '(' \n";:}  ;
                  
 

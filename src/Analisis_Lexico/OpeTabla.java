@@ -30,7 +30,8 @@ public class OpeTabla{
                     ls.get(i).valor = valor;
                     ls.get(i).lexema = lexema;
                     
-                       
+                    System.out.println("valor asignado:" + ls.get(i).toString());
+                    
                    } catch (Exception e) {
                        
                    }
@@ -42,6 +43,8 @@ public class OpeTabla{
     }
     public Token_ buscarIDCup(String lexema, ArrayList<Token_> ls){
         int i = 0;
+        
+        //System.err.println(ls.toString());
         for (i = 0; i < ls.size(); i++ ) {
             if(ls.get(i).lexema.equals(lexema) && !ls.get(i).tipoDato.equals("")){
                 System.out.println(ls.get(i).tipoDato.toString() +"---------------");

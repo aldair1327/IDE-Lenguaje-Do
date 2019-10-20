@@ -47,11 +47,11 @@ public class sym {
   public static final int LA = 61;
   public static final int RE = 57;
   public static final int EQUAL = 20;
-  public static final int COMILLA = 22;
   public static final int error = 1;
+  public static final int COMILLA = 22;
   public static final int NULO = 43;
-  public static final int COMA = 23;
   public static final int MUL = 6;
+  public static final int COMA = 23;
   public static final int CADENA = 47;
   public static final int ADD = 5;
   public static final int SILENCIO = 40;
