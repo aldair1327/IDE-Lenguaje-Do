@@ -5,6 +5,7 @@
  */
 package Miscelaneos;
 
+import Analisis_Lexico.Nodo;
 import javax.swing.JOptionPane;
 import Miscelaneos.Renders.Render_Item;
 import Archivos.Archivos;
@@ -14,6 +15,9 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
@@ -185,5 +189,73 @@ public class Miscelaneo  {
         File f= new File(ruta);
         return f.isDirectory();
     }
+    
+    public static void main(String[] args){
+        Nodo prueba = new Nodo();
+        prueba.Etiqueta="Q0";
+        prueba.valor="ID";
+        prueba.idNod = 1;
+        
+        Nodo hijo_izq= new Nodo();
+        hijo_izq.Etiqueta = "Q1";
+        prueba.valor="NOTA";
+        prueba.idNod = 2;
+        
+        Nodo hijo_der= new Nodo();
+        hijo_izq.Etiqueta = "Q2";
+        prueba.valor="ID";
+        prueba.idNod = 3;
+        
+        prueba.AddHijos(hijo_izq);
+        prueba.AddHijos(hijo_der);
+        
+        Graficar(recorrido(prueba), "dot");
+    }
+    
+    private static String recorrido(Nodo raiz) {
+      String cuerpo = "";
+        for (Nodo hijos : raiz.hijos) {
+
+            if(raiz.valor==null){
+                cuerpo += "\"" + raiz.idNod + "_" + raiz.Etiqueta ;
+            }else {
+                cuerpo += "\"" + raiz.idNod + "_(" + raiz.Etiqueta+")" + raiz.valor ; }
+            
+        if(!("VACIO".equals(hijos.Etiqueta))){   
+            if (hijos.valor==null){
+                cuerpo +=  "\"->\"" + hijos.idNod + "_" + hijos.Etiqueta + "\"";
+            }else{
+                cuerpo +=  "\"->\"" + hijos.idNod + "_(" + hijos.Etiqueta+")" + hijos.valor +"\"" ;
+            }
+          }else {cuerpo += "\"";}
+        cuerpo += recorrido(hijos);
+        }
+        return cuerpo;
+    }
+
+    private static void Graficar(String cadena, String cad) {
+   
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        String nombre = cad;
+        String archivo = nombre + ".dot";
+        try {
+            fichero = new FileWriter(archivo);
+            pw = new PrintWriter(fichero);
+            pw.println("digraph G {node[shape=box, style=filled, color=Gray95]; edge[color=blue];rankdir=UD \n");
+            pw.println(cadena);
+            pw.println("\n}");
+            fichero.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
+            String cmd = "dot.exe -Tpng " + nombre + ".dot -o " + cad + ".png"; //Comando de apagado en linux
+            Runtime.getRuntime().exec(cmd);
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+    }
+    
     
 }
