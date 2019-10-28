@@ -9,6 +9,7 @@ import Analisis_Lexico.Token_;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import javax.swing.JFrame;
 
 /**
  *
@@ -37,6 +38,14 @@ public class AutomataFinitoN {
                 + "(ENTERO, NOTA, CADENA O ID)";
     }
     
+    public Token_ getFirst(){
+        return automata.get(0);
+    }
+    
+    public Token_ getAnterior(int i){
+        return automata.get(i - 1);
+    }
+    
     private String afn_declaracion(List<Token_> automata_temporal){
         /* 
             En teoria la declaracion deberia de ser:
@@ -46,6 +55,8 @@ public class AutomataFinitoN {
             Declaracion c =     TIPO_DATO ID ;
         */
         //Generacion de pila de los posibles resultados
+        Token_ tipo_dato = automata_temporal.get(0);
+        
         String declaracion_a[] = {"ID", "ASIG", "ID", "PUNTO_Y_COMA"};
         String declaracion_b[] = {"ID", "ASIG", "numEntero", "PUNTO_Y_COMA"};
         String declaracion_c[] = {"ID", "PUNTO_Y_COMA"};
@@ -66,14 +77,47 @@ public class AutomataFinitoN {
         System.out.println("IF 1******************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_a)) {
             System.out.println("retorno algo");
+                    
+        
+            JFrame jf = new JFrame();
+            jf.setTitle("Automata finito");
+            jf.setSize(800, 400);
+            jf.setVisible(true);
+            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
+            t.setAutomata(automata_declaracion_a, automata_temporal, tipo_dato);
+            jf.add(t);
+            
+            
             return "Eligió el automata de declaracion 1";
         }
         System.out.println("IF 2*****************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_b)) {
+            JFrame jf = new JFrame();
+            jf.setTitle("Automata finito");
+            jf.setSize(800, 400);
+            jf.setVisible(true);
+            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
+            t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
+            jf.add(t);
+            
             return "Eligió el automata de declaracion 2";
         }
         System.out.println("IF 3****************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_c)) {
+            JFrame jf = new JFrame();
+            jf.setTitle("Automata finito");
+            jf.setSize(800, 400);
+            jf.setVisible(true);
+            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
+            t.setAutomata(automata_declaracion_c, automata_temporal, tipo_dato);
+            jf.add(t);
+            
             return "Eligió el automata de declaracion 3";
         }
         
@@ -82,7 +126,87 @@ public class AutomataFinitoN {
     }
     
     private String afn_asignacion(List<Token_> automata_temporal){
-        return "404";
+        /* 
+            En teoria la asignacion deberia de ser:
+            ID = ID ;
+            ID = DO ;
+            ID = RE ;
+            ID = MI ;
+            ID = FA ;
+            ID = SOL ;
+            ID = LA ;
+            ID = SI ;
+            ID = numEntero ;
+            ID = NOTA ;
+        */
+        //Generacion de pila de los posibles resultados
+
+        
+        String declaracion_a[] = {"ID", "ASIG", "ID", "PUNTO_Y_COMA"};
+        String declaracion_b[] = {"ID", "ASIG", "numEntero", "PUNTO_Y_COMA"};
+        String declaracion_c[] = {"ID", "PUNTO_Y_COMA"};
+        
+        ArrayList<String> automata_declaracion_a;
+        ArrayList<String> automata_declaracion_b;
+        ArrayList<String> automata_declaracion_c;
+        
+        automata_declaracion_a = llenarLista(declaracion_a);
+        automata_declaracion_b = llenarLista(declaracion_b);
+        automata_declaracion_c = llenarLista(declaracion_c);
+       
+        //Como ya se validó el PRIMER TOKEN de la pila (TIPO_DATO) 
+        //    se procede a eliminarlo
+        automata_temporal.remove(0);
+        
+        //Empieza el proceso de comparacion
+        System.out.println("IF 1******************************");
+        if (validacionRecursividad(automata_temporal, automata_declaracion_a)) {
+            System.out.println("retorno algo");
+                    
+        
+            JFrame jf = new JFrame();
+            jf.setTitle("Automata finito");
+            jf.setSize(800, 400);
+            jf.setVisible(true);
+            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
+            t.setAutomata(automata_declaracion_a, automata_temporal, tipo_dato);
+            jf.add(t);
+            
+            
+            return "Eligió el automata de asignacion 1";
+        }
+        System.out.println("IF 2*****************************");
+        if (validacionRecursividad(automata_temporal, automata_declaracion_b)) {
+            JFrame jf = new JFrame();
+            jf.setTitle("Automata finito");
+            jf.setSize(800, 400);
+            jf.setVisible(true);
+            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
+            t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
+            jf.add(t);
+            
+            return "Eligió el automata de asignacion 2";
+        }
+        System.out.println("IF 3****************************");
+        if (validacionRecursividad(automata_temporal, automata_declaracion_c)) {
+            JFrame jf = new JFrame();
+            jf.setTitle("Automata finito");
+            jf.setSize(800, 400);
+            jf.setVisible(true);
+            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
+            t.setAutomata(automata_declaracion_c, automata_temporal, tipo_dato);
+            jf.add(t);
+            
+            return "Eligió el automata de asignacion 3";
+        }
+        
+        return "La expresión terminó en un estado no final";
     }
     /*
     0 == Terminó correctamente en un estado final
@@ -91,12 +215,10 @@ public class AutomataFinitoN {
     -1 == ?????
     */
     private boolean validacionRecursividad(List<Token_> datos, List<String> declaracion){
-        //System.out.println("Tamaño de datos: " + datos.size());
-        //System.out.println("Tamaño de declaracion: " + declaracion.size());
+
         if (datos.size() == 0 && declaracion.size() == 0) return true;
         if (datos.size() == 0) return false;
         if (declaracion.size() == 0) return false;
-        
         
         if (datos.get(0).componente_lexico.equals(declaracion.get(0))) {
             
@@ -105,7 +227,6 @@ public class AutomataFinitoN {
                 declaracion.subList(1, declaracion.size())
             ));
         }
-        
         return false;
     }
    
