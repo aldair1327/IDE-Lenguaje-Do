@@ -86,7 +86,7 @@ public class AutomataFinitoN {
             jf.setTitle("Automata finito");
             jf.setSize(800, 400);
             jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
             t.setAutomata(automata_declaracion_a, automata_temporal, tipo_dato);
@@ -101,7 +101,7 @@ public class AutomataFinitoN {
             jf.setTitle("Automata finito");
             jf.setSize(800, 400);
             jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
             t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
@@ -115,7 +115,7 @@ public class AutomataFinitoN {
             jf.setTitle("Automata finito");
             jf.setSize(800, 400);
             jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
             t.setAutomata(automata_declaracion_c, automata_temporal, tipo_dato);
@@ -130,7 +130,7 @@ public class AutomataFinitoN {
             jf.setTitle("Automata finito");
             jf.setSize(800, 400);
             jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
             t.setAutomata(automata_declaracion_d, automata_temporal, tipo_dato);
@@ -185,7 +185,7 @@ public class AutomataFinitoN {
             jf.setTitle("Automata finito");
             jf.setSize(800, 400);
             jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
             //t.setAutomata(automata_declaracion_a, automata_temporal, tipo_dato);
@@ -200,7 +200,7 @@ public class AutomataFinitoN {
             jf.setTitle("Automata finito");
             jf.setSize(800, 400);
             jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
            // t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
@@ -214,7 +214,7 @@ public class AutomataFinitoN {
             jf.setTitle("Automata finito");
             jf.setSize(800, 400);
             jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
             //t.setAutomata(automata_declaracion_c, automata_temporal, tipo_dato);
