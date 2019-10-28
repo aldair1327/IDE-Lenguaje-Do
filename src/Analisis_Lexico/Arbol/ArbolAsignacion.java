@@ -73,7 +73,7 @@ public class ArbolAsignacion {
     
     private JPanel repintarArbol(JPanel panel) {
 
-        panel.removeAll();
+        //panel.removeAll();
         TitledBorder title = BorderFactory.createTitledBorder("YOUR_TITLE");
         panel.setBorder(title);
         Rectangle tamaño = panel.getBounds();

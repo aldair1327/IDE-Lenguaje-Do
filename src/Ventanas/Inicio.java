@@ -10,6 +10,7 @@ import Analisis_Lexico.Analisis_Lexico;
 import Analisis_Lexico.Token_;
 import Analisis_Lexico.AnalizadorLexico;
 import Analisis_Lexico.Arbol.ArbolAsignacion;
+import Analisis_Lexico.Automata_finito.AutomataFinitoN;
 import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
 import Analisis_Lexico.InterfazTablaSimbolos;
@@ -538,7 +539,50 @@ public class Inicio extends javax.swing.JFrame {
                 Icon icon2 = new ImageIcon(getClass().getResource("/Imagenes/sitemap.png"));
                 mostrarAutomata.panelOptimizado.addTab("Arboles De Expresion",icon2, 
                         arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol), "Exp");
-            }            
+            }          
+            
+            // de ls se optienen los lexemas y componentes lexicos
+            
+           System.out.println("\n\n *********************** lista de inicio ************************");
+           System.out.println(ls);
+           System.out.println("\n\n *********************** lista de fin ************************");
+            ArrayList<Token_> lista_declaraciones = new ArrayList<>();
+            Boolean inicio_declaracion = false;
+            for(Token_ elemento : ls){
+                switch (elemento.lexema.trim()) {
+                    case "entero":
+                        inicio_declaracion = true;
+                        elemento.componente_lexico = "ENTERO";
+                        //lista_declaraciones.add(elemento);
+                        break;
+                    case "nota":
+                        inicio_declaracion = true;
+                        elemento.componente_lexico = "NOTA";
+                        //lista_declaraciones.add(elemento);
+                        break;
+                    case "cadena":
+                        inicio_declaracion = true;
+                        elemento.componente_lexico = "CADENA";
+                        //lista_declaraciones.add(elemento);
+                        break;
+                    case ";":
+                        if (inicio_declaracion) {
+                            inicio_declaracion = false;
+                            lista_declaraciones.add(elemento);
+                            for(Token_ elemento2 : lista_declaraciones) {
+                                System.out.println("Lexeman: " + elemento2.lexema );
+                                System.out.println("Componente lexico: " + elemento2.componente_lexico + "\n\n");
+                            }
+                            AutomataFinitoN automata = new AutomataFinitoN(lista_declaraciones);
+                            automata.genararAutomata();
+                            lista_declaraciones.clear();
+                        }
+                }
+                if (inicio_declaracion) {
+                    lista_declaraciones.add(elemento);
+                }
+                
+            }
             
             
             if("".equals(as.errores)){

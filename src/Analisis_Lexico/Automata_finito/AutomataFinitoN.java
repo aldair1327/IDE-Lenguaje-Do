@@ -16,9 +16,9 @@ import javax.swing.JFrame;
  * @author Williams Vallejo
  */
 public class AutomataFinitoN {
-    private List<Token_> automata;
+    public List<Token_> automata;
     
-    AutomataFinitoN(List<Token_> automata){
+    public AutomataFinitoN(List<Token_> automata){
         this.automata = automata;
     }
     
@@ -57,17 +57,20 @@ public class AutomataFinitoN {
         //Generacion de pila de los posibles resultados
         Token_ tipo_dato = automata_temporal.get(0);
         
-        String declaracion_a[] = {"ID", "ASIG", "ID", "PUNTO_Y_COMA"};
-        String declaracion_b[] = {"ID", "ASIG", "numEntero", "PUNTO_Y_COMA"};
+        String declaracion_a[] = {"ID", "ASSIGNACION", "ID", "PUNTO_Y_COMA"};
+        String declaracion_d[] = {"ID", "ASSIGNACION", "PALABRA_RESERVADA", "PUNTO_Y_COMA"};
+        String declaracion_b[] = {"ID", "ASSIGNACION", "numEntero", "PUNTO_Y_COMA"};
         String declaracion_c[] = {"ID", "PUNTO_Y_COMA"};
         
         ArrayList<String> automata_declaracion_a;
         ArrayList<String> automata_declaracion_b;
         ArrayList<String> automata_declaracion_c;
+        ArrayList<String> automata_declaracion_d;
         
         automata_declaracion_a = llenarLista(declaracion_a);
         automata_declaracion_b = llenarLista(declaracion_b);
         automata_declaracion_c = llenarLista(declaracion_c);
+        automata_declaracion_d = llenarLista(declaracion_d);
        
         //Como ya se validó el PRIMER TOKEN de la pila (TIPO_DATO) 
         //    se procede a eliminarlo
@@ -120,6 +123,21 @@ public class AutomataFinitoN {
             
             return "Eligió el automata de declaracion 3";
         }
+        System.out.println("IF 4****************************");
+        if (validacionRecursividad(automata_temporal, automata_declaracion_d)) {
+            System.out.println("Entro al IF 4");
+            JFrame jf = new JFrame();
+            jf.setTitle("Automata finito");
+            jf.setSize(800, 400);
+            jf.setVisible(true);
+            jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
+            t.setAutomata(automata_declaracion_d, automata_temporal, tipo_dato);
+            jf.add(t);
+            
+            return "Eligió el automata de declaracion 4";
+        }
         
         return "La expresión terminó en un estado no final";
         
@@ -135,9 +153,8 @@ public class AutomataFinitoN {
             ID = FA ;
             ID = SOL ;
             ID = LA ;
-            ID = SI ;
+            ID = SII ;
             ID = numEntero ;
-            ID = NOTA ;
         */
         //Generacion de pila de los posibles resultados
 
@@ -171,7 +188,7 @@ public class AutomataFinitoN {
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
-            t.setAutomata(automata_declaracion_a, automata_temporal, tipo_dato);
+            //t.setAutomata(automata_declaracion_a, automata_temporal, tipo_dato);
             jf.add(t);
             
             
@@ -186,7 +203,7 @@ public class AutomataFinitoN {
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
-            t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
+           // t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
             jf.add(t);
             
             return "Eligió el automata de asignacion 2";
@@ -200,7 +217,7 @@ public class AutomataFinitoN {
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
-            t.setAutomata(automata_declaracion_c, automata_temporal, tipo_dato);
+            //t.setAutomata(automata_declaracion_c, automata_temporal, tipo_dato);
             jf.add(t);
             
             return "Eligió el automata de asignacion 3";
