@@ -3,7 +3,10 @@ nota primera = DO;
 nota segunda = RE;
 nota tercera = DO;
 entero i = 15;
-n = n;
+n = 10;
+h = 20;
+d = 10;
+n = a;
 entero n; 
 
 n++;

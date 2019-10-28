@@ -9,6 +9,7 @@ import Analisis_Lexico.ASintactico;
 import Analisis_Lexico.Analisis_Lexico;
 import Analisis_Lexico.Token_;
 import Analisis_Lexico.AnalizadorLexico;
+import Analisis_Lexico.Arbol.ArbolAsignacion;
 import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
 import Analisis_Lexico.InterfazTablaSimbolos;
@@ -17,6 +18,8 @@ import Archivos.Archivos;
 import Manejador_errores.Manejador_Errores;
 import Miscelaneos.Miscelaneo;
 import Tabla_Simbolos.Tabla_Simbolos;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -32,8 +35,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.text.Style;
 import javax.swing.text.StyledDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -528,6 +534,13 @@ public class Inicio extends javax.swing.JFrame {
             ls = as.ls;
             this.cons.setText(as.errores);
             
+            for(String arboles: as.arbolesAsignacion){
+                Icon icon2 = new ImageIcon(getClass().getResource("/Imagenes/sitemap.png"));
+                mostrarAutomata.panelOptimizado.addTab("Arboles De Expresion",icon2, 
+                        arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol), "Exp");
+            }            
+            
+            
             if("".equals(as.errores)){
                 this.cons.setText("----------------------------**Analisis exitoso**----------------------------");
                 //Nodo raiz = as.padre;
@@ -559,7 +572,6 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        MostrarTablas mostrarAutomata = new MostrarTablas();
         mostrarAutomata.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
     public void generarCup(){
@@ -596,52 +608,6 @@ public class Inicio extends javax.swing.JFrame {
        }
        return true;
     }
-    private String recorrido(Nodo raiz) {
-      String cuerpo = "";
-        for (Nodo hijos : raiz.hijos) {
-     
-        
-            
-            if(raiz.valor==null){
-                cuerpo += "\"" + raiz.idNod + "_" + raiz.Etiqueta ;
-            }else {
-                cuerpo += "\"" + raiz.idNod + "_(" + raiz.Etiqueta+")" + raiz.valor ; }
-            
-        if(!("VACIO".equals(hijos.Etiqueta))){   
-            if (hijos.valor==null){
-                cuerpo +=  "\"->\"" + hijos.idNod + "_" + hijos.Etiqueta + "\"";
-            }else{
-                cuerpo +=  "\"->\"" + hijos.idNod + "_(" + hijos.Etiqueta+")" + hijos.valor +"\"" ;
-            }
-          }else {cuerpo += "\"";}
-        cuerpo += recorrido(hijos);
-        }
-        return cuerpo;
-    }
-
-    private void Graficar(String cadena, String cad) {
-   
-            FileWriter fichero = null;
-        PrintWriter pw = null;
-        String nombre = cad;
-        String archivo = nombre + ".dot";
-        try {
-            fichero = new FileWriter(archivo);
-            pw = new PrintWriter(fichero);
-            pw.println("digraph G {node[shape=box, style=filled, color=Gray95]; edge[color=blue];rankdir=UD \n");
-            pw.println(cadena);
-            pw.println("\n}");
-            fichero.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        try {
-            String cmd = "dot.exe -Tpng " + nombre + ".dot -o " + cad + ".png"; //Comando de apagado en linux
-            Runtime.getRuntime().exec(cmd);
-        } catch (IOException ioe) {
-            System.out.println(ioe);
-        }
-    } 
      
      
     private final String ruta_default="./src/Archivos_creados/"; 
@@ -653,6 +619,8 @@ public class Inicio extends javax.swing.JFrame {
     private int id_archivo;
     Interfaz in;
     InterfazTablaSimbolos tabla;
+    ArbolAsignacion arbolesAeignacion= new ArbolAsignacion();
+    MostrarTablas mostrarAutomata = new MostrarTablas();
     
     /**
      * @param args the command line arguments
