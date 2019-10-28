@@ -32,6 +32,7 @@ parser code
     public AnalizadorLexico  les;
     public ArrayList<Token_> ls;
     public OpeTabla optab = new OpeTabla();
+    public ArrayList<String> arbolesAsignacion = new ArrayList<String> ();
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -164,7 +165,8 @@ notapuras :e datos {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba u
 asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}  |  
             ID:id opasig datoasig:dato PUNTO_Y_COMA {: RESULT= dato+"."+id; :}|
             ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {:
-                        System.out.println("Lista que no entra: \n");
+                        arbolesAsignacion.add(id.toString()+"!=!"+dato.toString()+"!;");
+                        System.out.println("Lista que no entra: \n"+dato.toString());
                         for(int i = 0; i<ls.size(); i++){
                             if (ls.get(i).numero_linea == 7) {
                                 System.out.println(ls.get(i).toString());

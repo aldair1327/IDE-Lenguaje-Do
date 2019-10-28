@@ -30,7 +30,7 @@ public class MostrarTablas extends javax.swing.JFrame {
 
         panelOptimizado = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        panelArbol = new javax.swing.JPanel();
         panelGramatica = new javax.swing.JPanel();
         panelIntermedio = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -50,18 +50,19 @@ public class MostrarTablas extends javax.swing.JFrame {
 
         panelOptimizado.addTab("Autómata Finito", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png")), jPanel1); // NOI18N
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelArbolLayout = new javax.swing.GroupLayout(panelArbol);
+        panelArbol.setLayout(panelArbolLayout);
+        panelArbolLayout.setHorizontalGroup(
+            panelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 864, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelArbolLayout.setVerticalGroup(
+            panelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 436, Short.MAX_VALUE)
         );
 
-        panelOptimizado.addTab("Arbol de expresiones", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/sitemap.png")), jPanel2); // NOI18N
+        panelOptimizado.addTab("Arbol de expresiones", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/sitemap.png")), panelArbol); // NOI18N
+        panelArbol.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout panelGramaticaLayout = new javax.swing.GroupLayout(panelGramatica);
         panelGramatica.setLayout(panelGramaticaLayout);
@@ -119,6 +120,8 @@ public class MostrarTablas extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        getAccessibleContext().setAccessibleDescription("");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -162,10 +165,10 @@ public class MostrarTablas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    public javax.swing.JPanel panelArbol;
     private javax.swing.JPanel panelGramatica;
     private javax.swing.JPanel panelIntermedio;
-    private javax.swing.JTabbedPane panelOptimizado;
+    public javax.swing.JTabbedPane panelOptimizado;
     // End of variables declaration//GEN-END:variables
 }

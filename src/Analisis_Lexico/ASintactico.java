@@ -1990,6 +1990,7 @@ public class ASintactico extends java_cup.runtime.lr_parser {
     public AnalizadorLexico  les;
     public ArrayList<Token_> ls;
     public OpeTabla optab = new OpeTabla();
+    public ArrayList<String> arbolesAsignacion = new ArrayList<String> ();
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -2837,7 +2838,8 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                        System.out.println("Lista que no entra: \n");
+                        arbolesAsignacion.add(id.toString()+"!=!"+dato.toString()+"!;");
+                        System.out.println("Lista que no entra: \n"+dato.toString());
                         for(int i = 0; i<ls.size(); i++){
                             if (ls.get(i).numero_linea == 7) {
                                 System.out.println(ls.get(i).toString());
