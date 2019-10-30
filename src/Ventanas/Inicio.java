@@ -41,6 +41,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.text.Style;
 import javax.swing.text.StyledDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -548,6 +549,8 @@ public class Inicio extends javax.swing.JFrame {
            System.out.println("\n\n *********************** lista de fin ************************");
             ArrayList<Token_> lista_declaraciones = new ArrayList<>();
             Boolean inicio_declaracion = false;
+            JTabbedPane tabbedPane = new JTabbedPane();
+            
             for(Token_ elemento : ls){
                 switch (elemento.lexema.trim()) {
                     case "entero":
@@ -574,7 +577,7 @@ public class Inicio extends javax.swing.JFrame {
                                 System.out.println("Componente lexico: " + elemento2.componente_lexico + "\n\n");
                             }
                             AutomataFinitoN automata = new AutomataFinitoN(lista_declaraciones);
-                            automata.genararAutomata();
+                            tabbedPane.addTab("Tab",automata.genararAutomata());
                             lista_declaraciones.clear();
                         }
                 }
@@ -583,6 +586,7 @@ public class Inicio extends javax.swing.JFrame {
                 }
                 
             }
+            tabbedPane.setVisible(true);
             
             
             if("".equals(as.errores)){

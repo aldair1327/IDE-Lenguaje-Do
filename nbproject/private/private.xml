@@ -3,14 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Williams/Documents/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
-            <file>file:/D:/Williams/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Analisis_Lexico.java</file>
-            <file>file:/D:/Williams/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Automata_finito/pruebas_AFN.java</file>
-            <file>file:/D:/Williams/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/ArbolAsignacion.java</file>
-            <file>file:/D:/Williams/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Automata_finito/LienzoAutomata.java</file>
-            <file>file:/D:/Williams/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/sintactico.cup</file>
-            <file>file:/D:/Williams/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Automata_finito/AutomataFinitoN.java</file>
-            <file>file:/D:/Williams/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Lexer.jflex</file>
+            <file>file:/C:/Users/willi/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Automata_finito/AutomataFinitoN.java</file>
+            <file>file:/C:/Users/willi/Documents/IDE-Lenguaje-Do/src/Ventanas/MostrarTablas.java</file>
+            <file>file:/C:/Users/willi/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/ArbolAsignacion.java</file>
+            <file>file:/C:/Users/willi/Documents/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
+            <file>file:/C:/Users/willi/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Automata_finito/LienzoAutomata.java</file>
+            <file>file:/C:/Users/willi/Documents/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/SimuladorArbolBinario.java</file>
         </group>
     </open-files>
 </project-private>
