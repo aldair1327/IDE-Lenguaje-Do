@@ -39,6 +39,7 @@ import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -586,7 +587,13 @@ public class Inicio extends javax.swing.JFrame {
                 }
                 
             }
-            tabbedPane.setVisible(true);
+            JFrame jf = new JFrame();
+            jf.setTitle("Automata finito");
+            jf.setSize(800, 400);
+            jf.setVisible(true);
+            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            jf.setResizable(false);
+            jf.add(tabbedPane);
             
             
             if("".equals(as.errores)){
