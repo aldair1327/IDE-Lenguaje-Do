@@ -16,6 +16,7 @@ import Analisis_Lexico.Interfaz;
 import Analisis_Lexico.InterfazTablaSimbolos;
 import Analisis_Lexico.Nodo;
 import Archivos.Archivos;
+import BajoNivel.imprimirCI;
 import Manejador_errores.Manejador_Errores;
 import Miscelaneos.Miscelaneo;
 import Tabla_Simbolos.Tabla_Simbolos;
@@ -443,6 +444,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void analizar_lexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizar_lexicoActionPerformed
      analizar_lexico_sintactico();
+     
     }//GEN-LAST:event_analizar_lexicoActionPerformed
 
     private void archivosValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_archivosValueChanged
@@ -541,8 +543,10 @@ public class Inicio extends javax.swing.JFrame {
                 Icon icon2 = new ImageIcon(getClass().getResource("/Imagenes/sitemap.png"));
                 mostrarAutomata.panelOptimizado.addTab("Arboles De Expresion",icon2, 
                         arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol), "Exp");
+               
             }          
-            
+            imprimirCI intermedio = new imprimirCI();
+            intermedio.imprimir(as.ci);
             // de ls se optienen los lexemas y componentes lexicos
             
            System.out.println("\n\n *********************** lista de inicio ************************");
@@ -607,8 +611,7 @@ public class Inicio extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        
-        
+      
         in=new Interfaz(ls,this);
         tabla=new InterfazTablaSimbolos(ls,this);
         
