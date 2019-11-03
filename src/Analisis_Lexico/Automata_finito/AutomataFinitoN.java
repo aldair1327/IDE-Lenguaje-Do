@@ -22,7 +22,7 @@ public class AutomataFinitoN {
         this.automata = automata;
     }
     
-    public String genararAutomata(){
+    public LienzoAutomata genararAutomata(){
         
         //Analizando por cual de los 2 automatas existentes debe de irse
         System.out.println(automata.get(0).componente_lexico);
@@ -32,10 +32,11 @@ public class AutomataFinitoN {
             case "CADENA":
                 return afn_declaracion(this.automata);
             case "ID":
-                return afn_asignacion(this.automata);
+                //return afn_asignacion(this.automata);
         }
-        return "Error: Componente lexico no coincide con los requeridos "
-                + "(ENTERO, NOTA, CADENA O ID)";
+        return null;
+        //return "Error: Componente lexico no coincide con los requeridos "
+            //    + "(ENTERO, NOTA, CADENA O ID)";
     }
     
     public Token_ getFirst(){
@@ -46,7 +47,7 @@ public class AutomataFinitoN {
         return automata.get(i - 1);
     }
     
-    private String afn_declaracion(List<Token_> automata_temporal){
+    private LienzoAutomata afn_declaracion(List<Token_> automata_temporal){
         /* 
             En teoria la declaracion deberia de ser:
             Declaracion a =     TIPO_DATO ID = ID ;
@@ -82,64 +83,71 @@ public class AutomataFinitoN {
             System.out.println("retorno algo");
                     
         
-            JFrame jf = new JFrame();
-            jf.setTitle("Automata finito");
-            jf.setSize(800, 400);
-            jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
+//            JFrame jf = new JFrame();
+//            jf.setTitle("Automata finito");
+//            jf.setSize(800, 400);
+//            jf.setVisible(true);
+//            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//            jf.setResizable(false);
+            
+            LienzoAutomata t = new LienzoAutomata(800, 400);
             t.setAutomata(automata_declaracion_a, automata_temporal, tipo_dato);
-            jf.add(t);
+            //jf.add(t);
+            return t;
             
-            
-            return "Eligió el automata de declaracion 1";
+            //return "Eligió el automata de declaracion 1";
         }
         System.out.println("IF 2*****************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_b)) {
-            JFrame jf = new JFrame();
-            jf.setTitle("Automata finito");
-            jf.setSize(800, 400);
-            jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
-            t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
-            jf.add(t);
+//            JFrame jf = new JFrame();
+//            jf.setTitle("Automata finito");
+//            jf.setSize(800, 400);
+//            jf.setVisible(true);
+//            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//            jf.setResizable(false);
             
-            return "Eligió el automata de declaracion 2";
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
+            //jf.add(t);
+            return t;
+            //return "Eligió el automata de declaracion 2";
         }
         System.out.println("IF 3****************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_c)) {
-            JFrame jf = new JFrame();
-            jf.setTitle("Automata finito");
-            jf.setSize(800, 400);
-            jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
-            t.setAutomata(automata_declaracion_c, automata_temporal, tipo_dato);
-            jf.add(t);
+//            JFrame jf = new JFrame();
+//            jf.setTitle("Automata finito");
+//            jf.setSize(800, 400);
+//            jf.setVisible(true);
+//            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//            jf.setResizable(false);
             
-            return "Eligió el automata de declaracion 3";
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_c, automata_temporal, tipo_dato);
+            //jf.add(t);
+            return t;
+            
+            //return "Eligió el automata de declaracion 3";
         }
         System.out.println("IF 4****************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_d)) {
             System.out.println("Entro al IF 4");
-            JFrame jf = new JFrame();
-            jf.setTitle("Automata finito");
-            jf.setSize(800, 400);
-            jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
-            t.setAutomata(automata_declaracion_d, automata_temporal, tipo_dato);
-            jf.add(t);
+//            JFrame jf = new JFrame();
+//            jf.setTitle("Automata finito");
+//            jf.setSize(800, 400);
+//            jf.setVisible(true);
+//            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//            jf.setResizable(false);
             
-            return "Eligió el automata de declaracion 4";
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_d, automata_temporal, tipo_dato);
+            //jf.add(t);
+            return t;
+            
+            //return "Eligió el automata de declaracion 4";
         }
         
-        return "La expresión terminó en un estado no final";
+        return null;
+        //return "La expresión terminó en un estado no final";
         
     }
     
@@ -186,7 +194,8 @@ public class AutomataFinitoN {
             jf.setSize(800, 400);
             jf.setVisible(true);
             jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+            jf.setResizable(false);
+            
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
             //t.setAutomata(automata_declaracion_a, automata_temporal, tipo_dato);
             jf.add(t);
@@ -201,6 +210,7 @@ public class AutomataFinitoN {
             jf.setSize(800, 400);
             jf.setVisible(true);
             jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            jf.setResizable(false);
 
             LienzoAutomata t = new LienzoAutomata(jf.getWidth(), jf.getHeight());
            // t.setAutomata(automata_declaracion_b, automata_temporal, tipo_dato);
