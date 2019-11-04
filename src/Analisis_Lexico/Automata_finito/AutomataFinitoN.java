@@ -2,11 +2,13 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ */ 
 package Analisis_Lexico.Automata_finito;
 
 import Analisis_Lexico.Token_;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import javax.swing.JFrame;
@@ -25,7 +27,7 @@ public class AutomataFinitoN {
     public LienzoAutomata genararAutomata(){
         
         //Analizando por cual de los 2 automatas existentes debe de irse
-        System.out.println(automata.get(0).componente_lexico);
+        //System.out.println(automata.get(0).componente_lexico);
         switch(automata.get(0).componente_lexico){
             case "ENTERO":
             case "NOTA":
@@ -56,6 +58,9 @@ public class AutomataFinitoN {
             Declaracion c =     TIPO_DATO ID ;
         */
         //Generacion de pila de los posibles resultados
+        if (automata_temporal.isEmpty()) {
+            return null;
+        }
         Token_ tipo_dato = automata_temporal.get(0);
         
         String declaracion_a[] = {"ID", "ASSIGNACION", "ID", "PUNTO_Y_COMA"};
@@ -72,7 +77,7 @@ public class AutomataFinitoN {
         automata_declaracion_b = llenarLista(declaracion_b);
         automata_declaracion_c = llenarLista(declaracion_c);
         automata_declaracion_d = llenarLista(declaracion_d);
-       
+        //Considerando que existe una lista de pilas a dibujar en la vista, se podria hacer un metodo que agregue la pila original para que la vista la dibuje
         //Como ya se validó el PRIMER TOKEN de la pila (TIPO_DATO) 
         //    se procede a eliminarlo
         automata_temporal.remove(0);
@@ -80,7 +85,7 @@ public class AutomataFinitoN {
         //Empieza el proceso de comparacion
         System.out.println("IF 1******************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_a)) {
-            System.out.println("retorno algo");
+            //System.out.println("retorno algo");
                     
         
 //            JFrame jf = new JFrame();
@@ -97,7 +102,7 @@ public class AutomataFinitoN {
             
             //return "Eligió el automata de declaracion 1";
         }
-        System.out.println("IF 2*****************************");
+        System.out.println("Automata de Declaracion 1 Invalido\nIF 2*****************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_b)) {
 //            JFrame jf = new JFrame();
 //            jf.setTitle("Automata finito");
@@ -112,7 +117,7 @@ public class AutomataFinitoN {
             return t;
             //return "Eligió el automata de declaracion 2";
         }
-        System.out.println("IF 3****************************");
+        System.out.println("Automata de Declaracion 2 Invalido\nIF 3****************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_c)) {
 //            JFrame jf = new JFrame();
 //            jf.setTitle("Automata finito");
@@ -128,7 +133,7 @@ public class AutomataFinitoN {
             
             //return "Eligió el automata de declaracion 3";
         }
-        System.out.println("IF 4****************************");
+        System.out.println("Automata de Declaracion 3 Invalido\nIF 4****************************");
         if (validacionRecursividad(automata_temporal, automata_declaracion_d)) {
             System.out.println("Entro al IF 4");
 //            JFrame jf = new JFrame();
@@ -242,18 +247,36 @@ public class AutomataFinitoN {
     -1 == ?????
     */
     private boolean validacionRecursividad(List<Token_> datos, List<String> declaracion){
-
-        if (datos.size() == 0 && declaracion.size() == 0) return true;
-        if (datos.size() == 0) return false;
-        if (declaracion.size() == 0) return false;
+        if (datos.isEmpty()&& declaracion.isEmpty()) {            
+            System.out.println("No quedan elementos por validar\nPila Valida");
+            return true;
+        }
+        if (datos.isEmpty()) {
+            System.out.println("Pila Vacia-Faltan elementos\nPila Invalida");
+            return false;
+        }
+        if (declaracion.isEmpty()) {
+            System.out.println("Sobran elementos en la validacion\nPila Invalida");
+            return false;
+        }
+        System.out.println("--------");
+        List<Token_> temp=datos;        
+        for(Token_ dato:temp){
+            System.out.println("|"+dato.componente_lexico+"|");
+        }
+        boolean comparacion=datos.get(0).componente_lexico.equals(declaracion.get(0));
         
-        if (datos.get(0).componente_lexico.equals(declaracion.get(0))) {
-            
+        System.out.println(datos.get(0).componente_lexico+" = "+declaracion.get(0)+" ? "+ (comparacion?"Si":"No"));
+        
+        if (comparacion) {
+            System.out.println("Se remueve "+datos.get(0).componente_lexico);
+            //En este punto se podria agregar otra pila a la vista para que sean redibujadas ambas pilas y pueda ser observado el proceso
             return(validacionRecursividad(
                 datos.subList(1, datos.size()), 
                 declaracion.subList(1, declaracion.size())
             ));
         }
+        System.out.println("Pila Invalida");
         return false;
     }
    

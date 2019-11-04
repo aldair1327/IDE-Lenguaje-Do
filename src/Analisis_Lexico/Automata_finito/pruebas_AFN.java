@@ -20,7 +20,7 @@ public class pruebas_AFN {
         ArrayList<Token_> prueba1;
         prueba1 = new ArrayList<>();
         
-        String componente_pruebas1[] = {"NOTA", "ID", "ASIG", "ID", "PUNTO_Y_COMA"};
+        String componente_pruebas1[] = {"NOTA", "ID", "ASSIGNACION", "ID", "PUNTO_Y_COMA"};
         String lexema_pruebas1[] = {"nota", "variable", "=", "a", ";"};
         
         String datos_pruebas2[] = {"NOTA", "ID", "ASIG", "numEntero", "PUNTO_Y_COMA"};
