@@ -11,6 +11,7 @@ import Analisis_Lexico.Token_;
 import Analisis_Lexico.AnalizadorLexico;
 import Analisis_Lexico.Arbol.ArbolAsignacion;
 import Analisis_Lexico.Automata_finito.AutomataFinitoN;
+import Analisis_Lexico.PilaAutomata.ValidacionPila;
 import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
 import Analisis_Lexico.InterfazTablaSimbolos;
@@ -582,6 +583,8 @@ public class Inicio extends javax.swing.JFrame {
                                 System.out.println("Componente lexico: " + elemento2.componente_lexico + "\n\n");
                             }
                             AutomataFinitoN automata = new AutomataFinitoN(lista_declaraciones);
+                            ValidacionPila pila = new ValidacionPila(lista_declaraciones);
+                            pila.genararAutomata();
                             tabbedPane.addTab("Tab",automata.genararAutomata());
                             lista_declaraciones.clear();
                         }
