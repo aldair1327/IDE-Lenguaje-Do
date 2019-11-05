@@ -546,6 +546,14 @@ public class Inicio extends javax.swing.JFrame {
                         arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol), "Exp");
                
             }          
+            
+            for(int i = 1; i< as.listavar.size();i++){
+                 for(int j = 0; j<as.ci.size();j++){
+                   
+                     as.ci.set(j,as.ci.get(j).replaceAll("\\b"+as.listavar.get(i)+"\\b", "temp"+i));     
+                     
+                 }
+            }
             imprimirCI intermedio = new imprimirCI();
             intermedio.imprimir(as.ci);
             // de ls se optienen los lexemas y componentes lexicos

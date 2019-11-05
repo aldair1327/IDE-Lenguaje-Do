@@ -34,6 +34,7 @@ parser code
     public OpeTabla optab = new OpeTabla();
     public ArrayList<String> arbolesAsignacion = new ArrayList<String> ();
     public ArrayList<String> ci = new ArrayList<String> ();
+    public ArrayList<String> listavar = new ArrayList<String> ();
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -164,13 +165,18 @@ ID COMA datos|  numEntero COMA datos |  VERDADERO COMA datos |  FALSO COMA datos
 notapuras :e datos {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";:} ;
 
 asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
-               ci.add(id+" = " + dato + "\n" );      
+               ci.add(id+" = " + dato + "\n" );
+               listavar.add(id+"");
+               listavar.add("\n");
              RESULT= dato+"."+id; :}  |  
             ID:id opasig:opa datoasig:dato PUNTO_Y_COMA {: 
-               ci.add(id+" "+ opa +" " + dato + "\n" ); 
+               ci.add(id+" "+ opa +" " + dato + "\n" );
+               listavar.add(id+"");
+               listavar.add("\n");
                 RESULT= dato+"."+id; :}|
             ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {:
-                
+                listavar.add(id+"");
+               listavar.add("\n");
                 ci.add(id+" = " + dato + "\n" );      
                         arbolesAsignacion.add(id.toString()+"!=!"+dato.toString()+"!;");
                         System.out.println("Lista que no entra: \n"+dato.toString());
@@ -194,7 +200,9 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
                     RESULT= dato+"."+id; 
                     :} | 
             ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo {:
-            ci.add(id+" "+ opa +" " + dato + "\n" );    
+            ci.add(id+" "+ opa +" " + dato + "\n" );  
+              listavar.add(id+"");
+              listavar.add("\n");
              RESULT= dato+"."+id; :}|
             ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
 
@@ -217,18 +225,24 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
             error:e cuerpo ;
 
 asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id;
-                ci.add(id +" = "+dato+ "\n" );      
+                ci.add(id +" = "+dato+ "\n" );
+                listavar.add(id+"");
+                 listavar.add("\n");
              :}  |  
             ID:id opasig:opa datoasig:dato PUNTO_Y_COMA {: RESULT= dato+"."+id;
                 ci.add(id+" "+ opa +" " + dato + "\n" ); 
-  
+                listavar.add(id+"");
+                 listavar.add("\n");
              :}|
             ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; 
-                ci.add(id +" = "+dato +"\n" );                  
+                ci.add(id +" = "+dato +"\n" ); 
+                listavar.add(id+"");
+                 listavar.add("\n");
             :} | 
             ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo {:
                 ci.add(id+" "+ opa +" " + dato + "\n" ); 
-
+                listavar.add(id+"");
+                 listavar.add("\n");
              RESULT= dato+"."+id; :}|
             ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
 
@@ -278,13 +292,17 @@ notapuras ::= RE | MI | FA | SOL | LA | SII | DO | DOS | RES | MIS | FAS | SOLS 
 
 decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toString()+ " TIPO: " + tipo.toString()  + "\n"; 
                     RESULT=tipo+" "+id;  
-                    ci.add(tipo+" "+id+"\n"); 
+                    ci.add(tipo+" "+id+"\n");
+                    listavar.add(id+"");
+                    listavar.add("\n");
                  :}
 
 
                 | tipo:tipo ID:id PUNTO_Y_COMA cuerpo {:
                     RESULT=tipo+" "+id;
                     ci.add(tipo+" "+id+"\n"); 
+                    listavar.add(id+"");
+                    listavar.add("\n");
                          //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
                         ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
                 :} 
@@ -295,7 +313,8 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                     String[] a = asignacion.toString().split("\\.");
                        RESULT=tipo+" "+a[1];           
                   ci.add(tipo +" "+ a[1] +"\n");      
-                    
+                  listavar.add(a[1]+"");
+                  listavar.add("\n");  
                     //System.out.println(asignacion,tipo.toString(),asignacion,ls); 
                     try { 
                         //System.out.println("asignacion:" + asignacion);
@@ -339,10 +358,11 @@ funcionesDo ::= declaraReproduce  |  declaraImprimir  |  declaraImportar  |  dec
 
 declaraReproduce ::= REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA {:
                      ci.add("ent "+ n + "\n tono("+n+")\n" ); 
-
+                     listavar.add(n+"");
                      :} |
                      REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA cuerpo {:
                      ci.add("ent "+ n + "\n tono("+n+")\n" );
+                     listavar.add(n+"");
                     :}|
                      PAROPEN:e notas PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";:} | 
                      NOTA:e PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n";:} |  
@@ -602,10 +622,8 @@ log ::= ope_logico:op AND ope_logico:opp
         NOT PAROPEN log:log PARCLOSE {: RESULT="NOT("+log+")"; :} |
         NOT PAROPEN ID:id PARCLOSE{: RESULT="NOT("+id+")"; :} ;
 
-log2 ::= AND{: this.parser.append(" && ");
-                    :} |
-         OR{: this.parser.append(" || ");
-                    :};
+log2 ::= AND |
+         OR;
 
 pe_logico::= ID:id {: RESULT=id; :} | VERDADERO:id {: RESULT=id; :} | FALSO:id {: RESULT=id; :};
 
