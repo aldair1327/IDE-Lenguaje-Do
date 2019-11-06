@@ -11,10 +11,13 @@ import Analisis_Lexico.Token_;
 import Analisis_Lexico.AnalizadorLexico;
 import Analisis_Lexico.Arbol.ArbolAsignacion;
 import Analisis_Lexico.Automata_finito.AutomataFinitoN;
+import Analisis_Lexico.PilaAutomata.ValidacionPila;
 import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
 import Analisis_Lexico.InterfazTablaSimbolos;
 import Analisis_Lexico.Nodo;
+import Analisis_Lexico.OpeTabla;
+import Analisis_Lexico.Semantico.Validaciones;
 import Archivos.Archivos;
 import BajoNivel.imprimirCI;
 import Manejador_errores.Manejador_Errores;
@@ -61,6 +64,12 @@ public class Inicio extends javax.swing.JFrame {
     public String errores_Sintacticos="";
     public static List<String> listaErrores;
     
+    public OpeTabla optab = new OpeTabla();
+    Token_ idAAsig = null;
+    Token_ idAComp = null;
+    String tipo_aAsig="";
+    String tipo_aComp="";
+    String valor_aComp="";
 
     
     public Inicio() {
@@ -537,14 +546,35 @@ public class Inicio extends javax.swing.JFrame {
             as.setLex(lexera);
             as.parse();
             ls = as.ls;
+            Validaciones v = new Validaciones();
+            
+            as.errores += v.AsignacionSimple(as.asig_simples, ls);
+            as.errores += v.InicializarVariable(as.asig_Ini, ls);
             this.cons.setText(as.errores);
             
+            /***************Arboles***************/
+            int numero = 0;
+            arbolesAeignacion.x = 10;
+            arbolesAeignacion.y = 10;
+            mostrarAutomata.panelArbol.removeAll();
             for(String arboles: as.arbolesAsignacion){
+                if(numero>5)
+                    numero=1;
                 Icon icon2 = new ImageIcon(getClass().getResource("/Imagenes/sitemap.png"));
                 mostrarAutomata.panelOptimizado.addTab("Arboles De Expresion",icon2, 
-                        arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol), "Exp");
-               
-            }          
+                        arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol,numero), "Exp");
+                numero ++;
+                
+            }            
+            /***************Arboles***************/
+            
+            for(int i = 1; i< as.listavar.size();i++){
+                 for(int j = 0; j<as.ci.size();j++){
+                   
+                     as.ci.set(j,as.ci.get(j).replaceAll("\\b"+as.listavar.get(i)+"\\b", "temp"+i));     
+                     
+                 }
+            }
             imprimirCI intermedio = new imprimirCI();
             intermedio.imprimir(as.ci);
             // de ls se optienen los lexemas y componentes lexicos
@@ -582,6 +612,8 @@ public class Inicio extends javax.swing.JFrame {
                                 System.out.println("Componente lexico: " + elemento2.componente_lexico + "\n\n");
                             }
                             AutomataFinitoN automata = new AutomataFinitoN(lista_declaraciones);
+                            ValidacionPila pila = new ValidacionPila(lista_declaraciones);
+                            pila.genararAutomata();
                             tabbedPane.addTab("Tab",automata.genararAutomata());
                             lista_declaraciones.clear();
                         }

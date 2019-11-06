@@ -1971,6 +1971,9 @@ public class ASintactico extends java_cup.runtime.lr_parser {
     public OpeTabla optab = new OpeTabla();
     public ArrayList<String> arbolesAsignacion = new ArrayList<String> ();
     public ArrayList<String> ci = new ArrayList<String> ();
+    public ArrayList<String> listavar = new ArrayList<String> ();
+    public ArrayList<String> asig_simples = new ArrayList<String> ();
+    public ArrayList<String> asig_Ini = new ArrayList<String> ();
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -2788,7 +2791,9 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		
-               ci.add(id+" = " + dato + "\n" );      
+               ci.add(id+" = " + dato + "\n" );
+               listavar.add(id+"");
+               listavar.add("\n");
              RESULT= dato+"."+id; 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -2808,7 +2813,9 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		 
-               ci.add(id+" "+ opa +" " + dato + "\n" ); 
+               ci.add(id+" "+ opa +" " + dato + "\n" );
+               listavar.add(id+"");
+               listavar.add("\n");
                 RESULT= dato+"."+id; 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -2825,7 +2832,8 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                
+                listavar.add(id+"");
+               listavar.add("\n");
                 ci.add(id+" = " + dato + "\n" );      
                         arbolesAsignacion.add(id.toString()+"!=!"+dato.toString()+"!;");
                         System.out.println("Lista que no entra: \n"+dato.toString());
@@ -2845,6 +2853,8 @@ class CUP$ASintactico$actions {
                         if(idAAsig != null && idAComp != null){
                             String tipo = optab.verificarTipo(dato.toString() , ls);
                         }
+                        
+                        asig_simples.add(id+"="+dato+"="+(idright+1));
 
                     RESULT= dato+"."+id; 
                     
@@ -2866,7 +2876,9 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-            ci.add(id+" "+ opa +" " + dato + "\n" );    
+            ci.add(id+" "+ opa +" " + dato + "\n" );  
+              listavar.add(id+"");
+              listavar.add("\n");
              RESULT= dato+"."+id; 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -3039,7 +3051,12 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		 RESULT= dato+"."+id;
-                ci.add(id +" = "+dato+ "\n" );      
+
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+                    
+                ci.add(id +" = "+dato+ "\n" );
+                listavar.add(id+"");
+                 listavar.add("\n");
              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -3059,8 +3076,12 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		 RESULT= dato+"."+id;
+                
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+
                 ci.add(id+" "+ opa +" " + dato + "\n" ); 
-  
+                listavar.add(id+"");
+                 listavar.add("\n");
              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -3077,7 +3098,12 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		 RESULT= dato+"."+id; 
-                ci.add(id +" = "+dato +"\n" );                  
+
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+
+                ci.add(id +" = "+dato +"\n" ); 
+                listavar.add(id+"");
+                 listavar.add("\n");
             
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -3098,7 +3124,8 @@ class CUP$ASintactico$actions {
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
                 ci.add(id+" "+ opa +" " + dato + "\n" ); 
-
+                listavar.add(id+"");
+                 listavar.add("\n");
              RESULT= dato+"."+id; 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -3806,7 +3833,9 @@ class CUP$ASintactico$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		 //this.parser.errores+= id.toString()+ " TIPO: " + tipo.toString()  + "\n"; 
                     RESULT=tipo+" "+id;  
-                    ci.add(tipo+" "+id+"\n"); 
+                    ci.add(tipo+" "+id+"\n");
+                    listavar.add(id+"");
+                    listavar.add("\n");
                  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -3825,6 +3854,8 @@ class CUP$ASintactico$actions {
 		
                     RESULT=tipo+" "+id;
                     ci.add(tipo+" "+id+"\n"); 
+                    listavar.add(id+"");
+                    listavar.add("\n");
                          //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
                         ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
                 
@@ -3846,7 +3877,8 @@ class CUP$ASintactico$actions {
                     String[] a = asignacion.toString().split("\\.");
                        RESULT=tipo+" "+a[1];           
                   ci.add(tipo +" "+ a[1] +"\n");      
-                    
+                  listavar.add(a[1]+"");
+                  listavar.add("\n");  
                     //System.out.println(asignacion,tipo.toString(),asignacion,ls); 
                     try { 
                         //System.out.println("asignacion:" + asignacion);
@@ -4010,7 +4042,7 @@ class CUP$ASintactico$actions {
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
                      ci.add("ent "+ n + "\n tono("+n+")\n" ); 
-
+                     listavar.add(n+"");
                      
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -4025,6 +4057,7 @@ class CUP$ASintactico$actions {
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
 		
                      ci.add("ent "+ n + "\n tono("+n+")\n" );
+                     listavar.add(n+"");
                     
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -6068,8 +6101,7 @@ class CUP$ASintactico$actions {
           case 335: // log2 ::= AND 
             {
               Object RESULT =null;
-		 this.parser.append(" && ");
-                    
+
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log2",41, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6078,8 +6110,7 @@ class CUP$ASintactico$actions {
           case 336: // log2 ::= OR 
             {
               Object RESULT =null;
-		 this.parser.append(" || ");
-                    
+
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log2",41, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
