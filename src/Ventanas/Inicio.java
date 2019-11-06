@@ -540,12 +540,21 @@ public class Inicio extends javax.swing.JFrame {
             ls = as.ls;
             this.cons.setText(as.errores);
             
+            /***************Arboles***************/
+            int numero = 0;
+            arbolesAeignacion.x = 10;
+            arbolesAeignacion.y = 10;
+            mostrarAutomata.panelArbol.removeAll();
             for(String arboles: as.arbolesAsignacion){
+                if(numero>5)
+                    numero=1;
                 Icon icon2 = new ImageIcon(getClass().getResource("/Imagenes/sitemap.png"));
                 mostrarAutomata.panelOptimizado.addTab("Arboles De Expresion",icon2, 
-                        arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol), "Exp");
-               
-            }          
+                        arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol,numero), "Exp");
+                numero ++;
+                
+            }            
+            /***************Arboles***************/
             
             for(int i = 1; i< as.listavar.size();i++){
                  for(int j = 0; j<as.ci.size();j++){
