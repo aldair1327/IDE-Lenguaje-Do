@@ -1972,6 +1972,8 @@ public class ASintactico extends java_cup.runtime.lr_parser {
     public ArrayList<String> arbolesAsignacion = new ArrayList<String> ();
     public ArrayList<String> ci = new ArrayList<String> ();
     public ArrayList<String> listavar = new ArrayList<String> ();
+    public ArrayList<String> asig_simples = new ArrayList<String> ();
+    public ArrayList<String> asig_Ini = new ArrayList<String> ();
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -2851,6 +2853,8 @@ class CUP$ASintactico$actions {
                         if(idAAsig != null && idAComp != null){
                             String tipo = optab.verificarTipo(dato.toString() , ls);
                         }
+                        
+                        asig_simples.add(id+"="+dato+"="+(idright+1));
 
                     RESULT= dato+"."+id; 
                     
@@ -3047,6 +3051,9 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		 RESULT= dato+"."+id;
+
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+                    
                 ci.add(id +" = "+dato+ "\n" );
                 listavar.add(id+"");
                  listavar.add("\n");
@@ -3069,6 +3076,9 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		 RESULT= dato+"."+id;
+                
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+
                 ci.add(id+" "+ opa +" " + dato + "\n" ); 
                 listavar.add(id+"");
                  listavar.add("\n");
@@ -3088,6 +3098,9 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		 RESULT= dato+"."+id; 
+
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+
                 ci.add(id +" = "+dato +"\n" ); 
                 listavar.add(id+"");
                  listavar.add("\n");

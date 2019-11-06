@@ -34,6 +34,8 @@ parser code
     public ArrayList<String> arbolesAsignacion = new ArrayList<String> ();
     public ArrayList<String> ci = new ArrayList<String> ();
     public ArrayList<String> listavar = new ArrayList<String> ();
+    public ArrayList<String> asig_simples = new ArrayList<String> ();
+    public ArrayList<String> asig_Ini = new ArrayList<String> ();
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -195,6 +197,8 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
                         if(idAAsig != null && idAComp != null){
                             String tipo = optab.verificarTipo(dato.toString() , ls);
                         }
+                        
+                        asig_simples.add(id+"="+dato+"="+(idright+1));
 
                     RESULT= dato+"."+id; 
                     :} | 
@@ -224,16 +228,25 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
             error:e cuerpo ;
 
 asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id;
+
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+                    
                 ci.add(id +" = "+dato+ "\n" );
                 listavar.add(id+"");
                  listavar.add("\n");
              :}  |  
             ID:id opasig:opa datoasig:dato PUNTO_Y_COMA {: RESULT= dato+"."+id;
+                
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+
                 ci.add(id+" "+ opa +" " + dato + "\n" ); 
                 listavar.add(id+"");
                  listavar.add("\n");
              :}|
             ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; 
+
+                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+
                 ci.add(id +" = "+dato +"\n" ); 
                 listavar.add(id+"");
                  listavar.add("\n");

@@ -16,6 +16,8 @@ import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
 import Analisis_Lexico.InterfazTablaSimbolos;
 import Analisis_Lexico.Nodo;
+import Analisis_Lexico.OpeTabla;
+import Analisis_Lexico.Semantico.Validaciones;
 import Archivos.Archivos;
 import BajoNivel.imprimirCI;
 import Manejador_errores.Manejador_Errores;
@@ -62,6 +64,12 @@ public class Inicio extends javax.swing.JFrame {
     public String errores_Sintacticos="";
     public static List<String> listaErrores;
     
+    public OpeTabla optab = new OpeTabla();
+    Token_ idAAsig = null;
+    Token_ idAComp = null;
+    String tipo_aAsig="";
+    String tipo_aComp="";
+    String valor_aComp="";
 
     
     public Inicio() {
@@ -538,6 +546,10 @@ public class Inicio extends javax.swing.JFrame {
             as.setLex(lexera);
             as.parse();
             ls = as.ls;
+            Validaciones v = new Validaciones();
+            
+            as.errores += v.AsignacionSimple(as.asig_simples, ls);
+            as.errores += v.InicializarVariable(as.asig_Ini, ls);
             this.cons.setText(as.errores);
             
             /***************Arboles***************/

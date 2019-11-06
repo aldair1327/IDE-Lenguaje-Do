@@ -67,5 +67,30 @@ public class OpeTabla{
         }
         return "cadena";
     }
+    public String validar_tipoDato(String lexema, ArrayList<Token_> ls){
+        int i = 0;
+        
+        //System.err.println(ls.toString());
+        for (i = 0; i < ls.size(); i++ ) {
+            if(ls.get(i).lexema.equals(lexema) && !ls.get(i).tipoDato.equals("")){
+                System.out.println(ls.get(i).tipoDato.toString() +"SE ENCONTRO TIPO DE DATO");
+                return ls.get(i).tipoDato.toString();
+            }
+        }
+        return null;
+    }
+    
+    public String ObtenerValor(String lexema, ArrayList<Token_> ls){
+        int i = 0;
+        
+        //System.err.println(ls.toString());
+        for (i = 0; i < ls.size(); i++ ) {
+            if(ls.get(i).lexema.equals(lexema)){
+                System.out.println("--------------------------------------------->  " + ls.get(i).valor +"  <--------------- Valor");
+                return ls.get(i).valor;
+            }
+        }
+        return null;
+    }
     
 }
