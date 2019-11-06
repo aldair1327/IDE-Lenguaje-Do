@@ -330,7 +330,7 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addComponent(analizar_lexico)
+                .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
@@ -579,10 +579,39 @@ public class Inicio extends javax.swing.JFrame {
             intermedio.imprimir(as.ci);
             // de ls se optienen los lexemas y componentes lexicos
             
-           System.out.println("\n\n *********************** lista de inicio ************************");
-           System.out.println(ls);
-           System.out.println("\n\n *********************** lista de fin ************************");
-            ArrayList<Token_> lista_declaraciones = new ArrayList<>();
+//           System.out.println("\n\n *********************** lista de inicio ************************");
+//           System.out.println(ls);
+//           System.out.println("\n\n *********************** lista de fin ************************");
+
+            // AutomataFN - Declaraciones
+            automataDeclaraciones(ls);
+            
+            
+            // AutomataFN - Asignaciones
+            //Asignaciones Willy
+            automataAsignaciones(ls);
+            
+            
+            if("".equals(as.errores)){
+                this.cons.setText("----------------------------**Analisis exitoso**----------------------------");
+                //Nodo raiz = as.padre;
+                //Graficar(recorrido(raiz), "AST_PROYECTO");
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+      
+        in=new Interfaz(ls,this);
+        tabla=new InterfazTablaSimbolos(ls,this);
+        
+             
+    }
+    
+    private void automataDeclaraciones(ArrayList<Token_> ls){
+        ArrayList<Token_> lista_declaraciones = new ArrayList<>();
             Boolean inicio_declaracion = false;
             JTabbedPane tabbedPane = new JTabbedPane();
             
@@ -607,13 +636,8 @@ public class Inicio extends javax.swing.JFrame {
                         if (inicio_declaracion) {
                             inicio_declaracion = false;
                             lista_declaraciones.add(elemento);
-                            for(Token_ elemento2 : lista_declaraciones) {
-                                System.out.println("Lexeman: " + elemento2.lexema );
-                                System.out.println("Componente lexico: " + elemento2.componente_lexico + "\n\n");
-                            }
                             AutomataFinitoN automata = new AutomataFinitoN(lista_declaraciones);
-                            ValidacionPila pila = new ValidacionPila(lista_declaraciones);
-                            pila.genararAutomata();
+                            
                             tabbedPane.addTab("Tab",automata.genararAutomata());
                             lista_declaraciones.clear();
                         }
@@ -621,34 +645,96 @@ public class Inicio extends javax.swing.JFrame {
                 if (inicio_declaracion) {
                     lista_declaraciones.add(elemento);
                 }
-                
-            }
-            JFrame jf = new JFrame();
-            jf.setTitle("Automata finito");
-            jf.setSize(800, 400);
-            jf.setVisible(true);
-            jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            jf.setResizable(false);
-            jf.add(tabbedPane);
-            
-            
-            if("".equals(as.errores)){
-                this.cons.setText("----------------------------**Analisis exitoso**----------------------------");
-                //Nodo raiz = as.padre;
-                //Graficar(recorrido(raiz), "AST_PROYECTO");
             }
             
-        } catch (IOException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-      
-        in=new Interfaz(ls,this);
-        tabla=new InterfazTablaSimbolos(ls,this);
-        
-             
+            if (tabbedPane.getTabCount() > 0) {
+                Icon icon = new ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png"));
+                mostrarAutomata.panelOptimizado.addTab("AFN - Declaraciones",icon, tabbedPane, "AFN- DEC");
+                //mostrarAutomata.panelOptimizado.add(tabbedPane);
+//                JFrame jf = new JFrame();
+//                jf.setTitle("Automata finito - Declaraciones");
+//                jf.setSize(800, 400);
+//                jf.setVisible(true);
+//                jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//                jf.setResizable(false);
+//                jf.add(tabbedPane);
+            }
     }
+    
+    private void automataAsignaciones(ArrayList<Token_> ls){
+        ArrayList<Token_> ls_sin_declaraciones = ls;
+            Boolean inicio_declaracion = false;
+            for(int i = 0; i < ls_sin_declaraciones.size(); i++){
+                switch (ls_sin_declaraciones.get(i).lexema.trim()) {
+                    case "entero":
+                        inicio_declaracion = true;
+                        ls_sin_declaraciones.set(i, null);
+                        break;
+                    case "nota":
+                        inicio_declaracion = true;
+                        ls_sin_declaraciones.set(i, null);
+                        break;
+                    case "cadena":
+                        inicio_declaracion = true;
+                        ls_sin_declaraciones.set(i, null);
+                        break;
+                    case ";":
+                        if (inicio_declaracion) {
+                            inicio_declaracion = false;
+                        ls_sin_declaraciones.set(i, null);
+                        }
+                }
+                if (inicio_declaracion) {
+                        ls_sin_declaraciones.set(i, null);
+                }
+            }
+            for(int i = 0; i < ls_sin_declaraciones.size(); i ++) {
+                if (ls_sin_declaraciones.get(i) == null) {
+                    ls_sin_declaraciones.remove(i);
+                    i = 0;
+                }
+            }
+            
+            
+            ArrayList<Token_> lista_asignaciones = new ArrayList<>();
+            Boolean inicio_asignacion = false;
+            JTabbedPane tabbedPane_asignaciones = new JTabbedPane();
+            
+            for(Token_ elemento : ls_sin_declaraciones){
+                switch (elemento.componente_lexico.trim()) {
+                    case "ID":
+                        inicio_asignacion = true;
+                        break;
+                    
+                    case "PUNTO_Y_COMA":
+                        if (inicio_asignacion) {
+                            inicio_asignacion = false;
+                            lista_asignaciones.add(elemento);
+                            
+                            AutomataFinitoN automata = new AutomataFinitoN(lista_asignaciones);
+                            tabbedPane_asignaciones.addTab("Tab",automata.genararAutomata());
+                            lista_asignaciones.clear();
+                        }
+                }
+                if (inicio_asignacion) {
+                    lista_asignaciones.add(elemento);
+                }
+            }
+            
+            if (tabbedPane_asignaciones.getTabCount() > 0) {
+                Icon icon = new ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png"));
+                mostrarAutomata.panelOptimizado.addTab("AFN - Asignaciones",icon, tabbedPane_asignaciones, "AFN- ASIG");
+                
+//                JFrame jf_asignaciones = new JFrame();
+//                jf_asignaciones.setTitle("Automata finito - Asignaciones");
+//                jf_asignaciones.setSize(800, 400);
+//                jf_asignaciones.setVisible(true);
+//                jf_asignaciones.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//                jf_asignaciones.setResizable(false);
+//                jf_asignaciones.add(tabbedPane_asignaciones);
+            }
+    }
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         if(tabla == null)
             return;

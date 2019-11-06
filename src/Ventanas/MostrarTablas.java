@@ -29,7 +29,7 @@ public class MostrarTablas extends javax.swing.JFrame {
     private void initComponents() {
 
         panelOptimizado = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        panelAutomata = new javax.swing.JPanel();
         panelArbol = new javax.swing.JPanel();
         panelGramatica = new javax.swing.JPanel();
         panelIntermedio = new javax.swing.JPanel();
@@ -37,18 +37,18 @@ public class MostrarTablas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelAutomataLayout = new javax.swing.GroupLayout(panelAutomata);
+        panelAutomata.setLayout(panelAutomataLayout);
+        panelAutomataLayout.setHorizontalGroup(
+            panelAutomataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 864, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelAutomataLayout.setVerticalGroup(
+            panelAutomataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 436, Short.MAX_VALUE)
         );
 
-        panelOptimizado.addTab("Autómata Finito", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png")), jPanel1); // NOI18N
+        panelOptimizado.addTab("Autómata Finito", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png")), panelAutomata); // NOI18N
 
         javax.swing.GroupLayout panelArbolLayout = new javax.swing.GroupLayout(panelArbol);
         panelArbol.setLayout(panelArbolLayout);
@@ -164,11 +164,11 @@ public class MostrarTablas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    public javax.swing.JPanel jPanel3;
     public javax.swing.JPanel panelArbol;
-    private javax.swing.JPanel panelGramatica;
-    private javax.swing.JPanel panelIntermedio;
+    public javax.swing.JPanel panelAutomata;
+    public javax.swing.JPanel panelGramatica;
+    public javax.swing.JPanel panelIntermedio;
     public javax.swing.JTabbedPane panelOptimizado;
     // End of variables declaration//GEN-END:variables
 }

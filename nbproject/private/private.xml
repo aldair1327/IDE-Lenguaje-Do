@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202/IDE-Lenguaje-Do/src/Analisis_Lexico/sintactico.cup</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/ArbolAsignacion.java</file>
+            <file>file:/C:/Users/willi/Documents/Github/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
+            <file>file:/C:/Users/willi/Documents/Github/IDE-Lenguaje-Do/src/Ventanas/MostrarTablas.java</file>
+            <file>file:/C:/Users/willi/Documents/Github/IDE-Lenguaje-Do/src/Analisis_Lexico/Automata_finito/LienzoAutomata.java</file>
+            <file>file:/C:/Users/willi/Documents/Github/IDE-Lenguaje-Do/src/Analisis_Lexico/Automata_finito/AutomataFinitoN.java</file>
         </group>
     </open-files>
 </project-private>

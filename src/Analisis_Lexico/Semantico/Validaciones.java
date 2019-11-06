@@ -57,7 +57,7 @@ public class Validaciones {
                         }else{
                             tipo_aAsig = optab.validar_tipoDato(aux[0],ls);
                             tipo_aComp = "entero";
-                            JOptionPane.showMessageDialog(null,tipo_aAsig);
+                            //JOptionPane.showMessageDialog(null,tipo_aAsig);
                             
                             if( !tipo_aAsig.equals(tipo_aComp)){
                                 cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
@@ -85,7 +85,7 @@ public class Validaciones {
                              cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + 
                                            " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig+ " \n";
                         }else{
-                            JOptionPane.showMessageDialog(null,asig.get(0));
+                            //JOptionPane.showMessageDialog(null,asig.get(0));
                             valor = optab.ObtenerValor(aux[1], ls);
                             if( valor == null ){
                                 cad += "Error en la linea: "+aux[2]+ " La variable: " + aux[1] + " no ha sido inicializada  \n";
@@ -100,7 +100,7 @@ public class Validaciones {
     public String InicializarVariable(ArrayList<String> ini, ArrayList<Token_> ls){
         cad ="";
         Collections.reverse(ini);
-        JOptionPane.showMessageDialog(null,ini.get(0));
+        //JOptionPane.showMessageDialog(null,ini.get(0));
         
         for(int x=0; x < ini.size(); x++) {
             aux = ini.get(x).split("=");
@@ -123,7 +123,7 @@ public class Validaciones {
                         }else{
                             tipo_aAsig = optab.validar_tipoDato(aux[0],ls);
                             tipo_aComp = "entero";
-                            JOptionPane.showMessageDialog(null,tipo_aAsig);
+                            //JOptionPane.showMessageDialog(null,tipo_aAsig);
                             
                             if( !tipo_aAsig.equals(tipo_aComp)){
                                 cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
@@ -143,7 +143,7 @@ public class Validaciones {
                             }else{
                                 tipo_aAsig = optab.validar_tipoDato(aux[0],ls);
                                 tipo_aComp = "nota";
-                                JOptionPane.showMessageDialog(null,tipo_aAsig);
+                                //JOptionPane.showMessageDialog(null,tipo_aAsig);
 
                                 if( !tipo_aAsig.equals(tipo_aComp)){
                                     cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
