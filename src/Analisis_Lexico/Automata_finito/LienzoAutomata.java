@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.RepaintManager;
 
 /**
  *
@@ -20,8 +21,7 @@ import javax.swing.JPanel;
  */
 public class LienzoAutomata extends JPanel{
     public ArrayList<String> automata_modelo;
-     public List<Token_> automata_a_validar;
-     public Token_ tipo_dato;
+    public List<Token_> automata_a_validar;
     public String cadena_automata = "";
     public int ancho_ventana = 0;
     public int alto_ventana = 0;
@@ -31,23 +31,22 @@ public class LienzoAutomata extends JPanel{
         this.alto_ventana = alto;
     }
     
-    public void setAutomata(ArrayList<String> automata_modelo, List<Token_> automata_a_validar, Token_ tipo_dato) {
+    public void setAutomata(ArrayList<String> automata_modelo, List<Token_> automata_a_validar) {
         this.automata_modelo = automata_modelo;
         this.automata_a_validar = automata_a_validar;
-        this.tipo_dato = tipo_dato;
-        //entero a = 0 ;
-        cadena_automata += tipo_dato.lexema;
+        
         for(Token_ elemento : automata_a_validar){
             cadena_automata += " " + elemento.lexema ;
         }
-        
-        repaint();
+        //repaint();
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+        //super.repaint();
+        //super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
         fondo(g);
+        
         //Ecuacion inicial
         textoEcuacion(g,"Instruccion inicial: " + cadena_automata );
         
@@ -55,8 +54,6 @@ public class LienzoAutomata extends JPanel{
         g.setFont(new Font("Arial", 0, 12));
         g.setColor(Color.BLACK);
         g.drawLine(10, this.alto_ventana / 2, 30, this.alto_ventana / 2);
-        
-        automata_modelo.add(0, tipo_dato.componente_lexico);
         
         for (int i = 0; i <= automata_modelo.size() ; i++) {
             //Siguiente estado
@@ -77,7 +74,6 @@ public class LienzoAutomata extends JPanel{
             }
 
         }
-
     }
     
     private void fondo(Graphics g){
