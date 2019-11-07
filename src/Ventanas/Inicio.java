@@ -118,6 +118,8 @@ public class Inicio extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        btnVPila = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -267,6 +269,11 @@ public class Inicio extends javax.swing.JFrame {
         jMenuBar1.add(btn_nuevo);
 
         jMenu2.setText("Mostrar Tablas");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         jMenuItem1.setText("Tabla de simbolos");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -305,6 +312,16 @@ public class Inicio extends javax.swing.JFrame {
 
         jMenuItem7.setText("Código optimizado");
         jMenu2.add(jMenuItem7);
+        jMenu2.add(jSeparator5);
+
+        btnVPila.setText("Pila Asignaciones");
+        btnVPila.setEnabled(false);
+        btnVPila.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVPilaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(btnVPila);
 
         jMenuBar1.add(jMenu2);
 
@@ -453,7 +470,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void analizar_lexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizar_lexicoActionPerformed
      analizar_lexico_sintactico();
-     
+     btnVPila.setEnabled(true);
     }//GEN-LAST:event_analizar_lexicoActionPerformed
 
     private void archivosValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_archivosValueChanged
@@ -582,7 +599,7 @@ public class Inicio extends javax.swing.JFrame {
 //           System.out.println("\n\n *********************** lista de inicio ************************");
 //           System.out.println(ls);
 //           System.out.println("\n\n *********************** lista de fin ************************");
-
+            vPila.tabPanel.removeAll();
             // AutomataFN - Declaraciones
             automataDeclaraciones(ls);
             
@@ -614,6 +631,7 @@ public class Inicio extends javax.swing.JFrame {
         ArrayList<Token_> lista_declaraciones = new ArrayList<>();
             Boolean inicio_declaracion = false;
             JTabbedPane tabbedPane = new JTabbedPane();
+            JTabbedPane tPilaA = new JTabbedPane();
             
             for(Token_ elemento : ls){
                 switch (elemento.lexema.trim()) {
@@ -637,7 +655,8 @@ public class Inicio extends javax.swing.JFrame {
                             inicio_declaracion = false;
                             lista_declaraciones.add(elemento);
                             AutomataFinitoN automata = new AutomataFinitoN(lista_declaraciones);
-                            
+                            ValidacionPila pila= new ValidacionPila(lista_declaraciones);
+                            tPilaA.addTab("Tab",pila.genararAutomata());
                             tabbedPane.addTab("Tab",automata.genararAutomata());
                             lista_declaraciones.clear();
                         }
@@ -649,7 +668,9 @@ public class Inicio extends javax.swing.JFrame {
             
             if (tabbedPane.getTabCount() > 0) {
                 Icon icon = new ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png"));
+                Icon iconStack = new ImageIcon(getClass().getResource("/Imagenes/stack.png"));
                 mostrarAutomata.panelOptimizado.addTab("AFN - Declaraciones",icon, tabbedPane, "AFN- DEC");
+                vPila.tabPanel.addTab("Pila - Declaraciones",iconStack, tPilaA, "STACK- DEC");
                 //mostrarAutomata.panelOptimizado.add(tabbedPane);
 //                JFrame jf = new JFrame();
 //                jf.setTitle("Automata finito - Declaraciones");
@@ -699,6 +720,7 @@ public class Inicio extends javax.swing.JFrame {
             ArrayList<Token_> lista_asignaciones = new ArrayList<>();
             Boolean inicio_asignacion = false;
             JTabbedPane tabbedPane_asignaciones = new JTabbedPane();
+            JTabbedPane tPilaA = new JTabbedPane();
             
             for(Token_ elemento : ls_sin_declaraciones){
                 switch (elemento.componente_lexico.trim()) {
@@ -713,6 +735,8 @@ public class Inicio extends javax.swing.JFrame {
                             
                             AutomataFinitoN automata = new AutomataFinitoN(lista_asignaciones);
                             tabbedPane_asignaciones.addTab("Tab",automata.genararAutomata());
+                            ValidacionPila pila= new ValidacionPila(lista_asignaciones);
+                            tPilaA.addTab("Tab",pila.genararAutomata());
                             lista_asignaciones.clear();
                         }
                 }
@@ -720,11 +744,11 @@ public class Inicio extends javax.swing.JFrame {
                     lista_asignaciones.add(elemento);
                 }
             }
-            
             if (tabbedPane_asignaciones.getTabCount() > 0) {
                 Icon icon = new ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png"));
+                Icon iconStack = new ImageIcon(getClass().getResource("/Imagenes/stack.png"));
                 mostrarAutomata.panelOptimizado.addTab("AFN - Asignaciones",icon, tabbedPane_asignaciones, "AFN- ASIG");
-                
+                vPila.tabPanel.addTab("Pila - Asignaciones",iconStack, tPilaA, "STACK- ASIG");
 //                JFrame jf_asignaciones = new JFrame();
 //                jf_asignaciones.setTitle("Automata finito - Asignaciones");
 //                jf_asignaciones.setSize(800, 400);
@@ -750,6 +774,14 @@ public class Inicio extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         mostrarAutomata.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void btnVPilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVPilaActionPerformed
+        vPila.setVisible(true);
+    }//GEN-LAST:event_btnVPilaActionPerformed
     public void generarCup(){
        String[] asintactico = {"-parser", "ASintactico", "./src/Analisis_Lexico/sintactico.cup"};                   
                     try {
@@ -797,6 +829,7 @@ public class Inicio extends javax.swing.JFrame {
     InterfazTablaSimbolos tabla;
     ArbolAsignacion arbolesAeignacion= new ArbolAsignacion();
     MostrarTablas mostrarAutomata = new MostrarTablas();
+    Pila vPila=new Pila();
     
     /**
      * @param args the command line arguments
@@ -836,6 +869,7 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analizar_lexico;
     private javax.swing.JTree archivos;
+    private javax.swing.JMenuItem btnVPila;
     private javax.swing.JMenuItem btn_abrir;
     private javax.swing.JMenuItem btn_abrir_carpeta;
     private javax.swing.JMenuItem btn_guardar;
@@ -862,6 +896,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JScrollPane panel_consola;
     public javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables

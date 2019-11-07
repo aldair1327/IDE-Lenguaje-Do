@@ -1,4 +1,5 @@
 inicio ( ){
- entero a  ;
+  nota c=do;
+  nota b = c;
 }
 

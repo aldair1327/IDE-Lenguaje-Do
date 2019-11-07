@@ -1,6 +1,6 @@
 inicio(){
 nota brians += 5;
-entero a= 2;
+entero nota= 2 ;
 entero b= 3;
 reproduce(MI);
 silencio();
