@@ -602,6 +602,12 @@ public class Inicio extends javax.swing.JFrame {
             vPila.tabPanel.removeAll();
             
             
+            //AHI VIENE LO DE WILLY y Gaby
+                // AutomataFN - Declaraciones
+                automataDeclaraciones(ls);
+            
+            //TERMINA LO DE WILLY y Gaby
+            
             if("".equals(as.errores)){
                 this.cons.setText("----------------------------**Analisis exitoso**----------------------------");
                 //Nodo raiz = as.padre;
@@ -621,9 +627,55 @@ public class Inicio extends javax.swing.JFrame {
     }
     
    
+    private void automataDeclaraciones(ArrayList<Token_> ts){
+        ArrayList<Token_> lista_declaraciones = new ArrayList<>();
+            Boolean inicio_declaracion = false;
+            JTabbedPane tabbedPane = new JTabbedPane();
+            JTabbedPane tPilaA = new JTabbedPane();
+            
+            for(Token_ elemento : ts){
+                switch (elemento.lexema.trim()) {
+                    case "entero":
+                        inicio_declaracion = true;
+                        elemento.componente_lexico = "ENTERO";
+                        //lista_declaraciones.add(elemento);
+                        break;
+                    case "nota":
+                        inicio_declaracion = true;
+                        elemento.componente_lexico = "NOTA";
+                        //lista_declaraciones.add(elemento);
+                        break;
+                    case "cadena":
+                        inicio_declaracion = true;
+                        elemento.componente_lexico = "CADENA";
+                        //lista_declaraciones.add(elemento);
+                        break;
+                    
+                    case ";":
+                        if (inicio_declaracion) {
+                            inicio_declaracion = false;
+                            lista_declaraciones.add(elemento);
+                            AutomataFinitoN automata = new AutomataFinitoN(lista_declaraciones);
+                            ValidacionPila pila= new ValidacionPila(lista_declaraciones);
+                            tPilaA.addTab("Tab",pila.genararAutomata());
+                            tabbedPane.addTab("Tab",automata.genararAutomata());
+                            lista_declaraciones.clear();
+                        }
+                }
+                if (inicio_declaracion) {
+                    lista_declaraciones.add(elemento);
+                }
+            }
+            
+            if (tabbedPane.getTabCount() > 0) {
+                Icon icon = new ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png"));
+                Icon iconStack = new ImageIcon(getClass().getResource("/Imagenes/stack.png"));
+                mostrarAutomata.panelOptimizado.addTab("AFN - Declaraciones",icon, tabbedPane, "AFN- DEC");
+                vPila.tabPanel.addTab("Pila - Declaraciones",iconStack, tPilaA, "STACK- DEC");
+            }
+    }
     
-    
-    
+   
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         if(tabla == null)
             return;
