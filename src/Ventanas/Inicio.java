@@ -600,13 +600,6 @@ public class Inicio extends javax.swing.JFrame {
 //           System.out.println(ls);
 //           System.out.println("\n\n *********************** lista de fin ************************");
             vPila.tabPanel.removeAll();
-            // AutomataFN - Declaraciones
-            automataDeclaraciones(ls);
-            
-            
-            // AutomataFN - Asignaciones
-            //Asignaciones Willy
-            automataAsignaciones(ls);
             
             
             if("".equals(as.errores)){
@@ -627,137 +620,9 @@ public class Inicio extends javax.swing.JFrame {
              
     }
     
-    private void automataDeclaraciones(ArrayList<Token_> ls){
-        ArrayList<Token_> lista_declaraciones = new ArrayList<>();
-            Boolean inicio_declaracion = false;
-            JTabbedPane tabbedPane = new JTabbedPane();
-            JTabbedPane tPilaA = new JTabbedPane();
-            
-            for(Token_ elemento : ls){
-                switch (elemento.lexema.trim()) {
-                    case "entero":
-                        inicio_declaracion = true;
-                        elemento.componente_lexico = "ENTERO";
-                        //lista_declaraciones.add(elemento);
-                        break;
-                    case "nota":
-                        inicio_declaracion = true;
-                        elemento.componente_lexico = "NOTA";
-                        //lista_declaraciones.add(elemento);
-                        break;
-                    case "cadena":
-                        inicio_declaracion = true;
-                        elemento.componente_lexico = "CADENA";
-                        //lista_declaraciones.add(elemento);
-                        break;
-                    case ";":
-                        if (inicio_declaracion) {
-                            inicio_declaracion = false;
-                            lista_declaraciones.add(elemento);
-                            AutomataFinitoN automata = new AutomataFinitoN(lista_declaraciones);
-                            ValidacionPila pila= new ValidacionPila(lista_declaraciones);
-                            tPilaA.addTab("Tab",pila.genararAutomata());
-                            tabbedPane.addTab("Tab",automata.genararAutomata());
-                            lista_declaraciones.clear();
-                        }
-                }
-                if (inicio_declaracion) {
-                    lista_declaraciones.add(elemento);
-                }
-            }
-            
-            if (tabbedPane.getTabCount() > 0) {
-                Icon icon = new ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png"));
-                Icon iconStack = new ImageIcon(getClass().getResource("/Imagenes/stack.png"));
-                mostrarAutomata.panelOptimizado.addTab("AFN - Declaraciones",icon, tabbedPane, "AFN- DEC");
-                vPila.tabPanel.addTab("Pila - Declaraciones",iconStack, tPilaA, "STACK- DEC");
-                //mostrarAutomata.panelOptimizado.add(tabbedPane);
-//                JFrame jf = new JFrame();
-//                jf.setTitle("Automata finito - Declaraciones");
-//                jf.setSize(800, 400);
-//                jf.setVisible(true);
-//                jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//                jf.setResizable(false);
-//                jf.add(tabbedPane);
-            }
-    }
+   
     
-    private void automataAsignaciones(ArrayList<Token_> ls){
-        ArrayList<Token_> ls_sin_declaraciones = ls;
-            Boolean inicio_declaracion = false;
-            for(int i = 0; i < ls_sin_declaraciones.size(); i++){
-                switch (ls_sin_declaraciones.get(i).lexema.trim()) {
-                    case "entero":
-                        inicio_declaracion = true;
-                        ls_sin_declaraciones.set(i, null);
-                        break;
-                    case "nota":
-                        inicio_declaracion = true;
-                        ls_sin_declaraciones.set(i, null);
-                        break;
-                    case "cadena":
-                        inicio_declaracion = true;
-                        ls_sin_declaraciones.set(i, null);
-                        break;
-                    case ";":
-                        if (inicio_declaracion) {
-                            inicio_declaracion = false;
-                        ls_sin_declaraciones.set(i, null);
-                        }
-                }
-                if (inicio_declaracion) {
-                        ls_sin_declaraciones.set(i, null);
-                }
-            }
-            for(int i = 0; i < ls_sin_declaraciones.size(); i ++) {
-                if (ls_sin_declaraciones.get(i) == null) {
-                    ls_sin_declaraciones.remove(i);
-                    i = 0;
-                }
-            }
-            
-            
-            ArrayList<Token_> lista_asignaciones = new ArrayList<>();
-            Boolean inicio_asignacion = false;
-            JTabbedPane tabbedPane_asignaciones = new JTabbedPane();
-            JTabbedPane tPilaA = new JTabbedPane();
-            
-            for(Token_ elemento : ls_sin_declaraciones){
-                switch (elemento.componente_lexico.trim()) {
-                    case "ID":
-                        inicio_asignacion = true;
-                        break;
-                    
-                    case "PUNTO_Y_COMA":
-                        if (inicio_asignacion) {
-                            inicio_asignacion = false;
-                            lista_asignaciones.add(elemento);
-                            
-                            AutomataFinitoN automata = new AutomataFinitoN(lista_asignaciones);
-                            tabbedPane_asignaciones.addTab("Tab",automata.genararAutomata());
-                            ValidacionPila pila= new ValidacionPila(lista_asignaciones);
-                            tPilaA.addTab("Tab",pila.genararAutomata());
-                            lista_asignaciones.clear();
-                        }
-                }
-                if (inicio_asignacion) {
-                    lista_asignaciones.add(elemento);
-                }
-            }
-            if (tabbedPane_asignaciones.getTabCount() > 0) {
-                Icon icon = new ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png"));
-                Icon iconStack = new ImageIcon(getClass().getResource("/Imagenes/stack.png"));
-                mostrarAutomata.panelOptimizado.addTab("AFN - Asignaciones",icon, tabbedPane_asignaciones, "AFN- ASIG");
-                vPila.tabPanel.addTab("Pila - Asignaciones",iconStack, tPilaA, "STACK- ASIG");
-//                JFrame jf_asignaciones = new JFrame();
-//                jf_asignaciones.setTitle("Automata finito - Asignaciones");
-//                jf_asignaciones.setSize(800, 400);
-//                jf_asignaciones.setVisible(true);
-//                jf_asignaciones.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//                jf_asignaciones.setResizable(false);
-//                jf_asignaciones.add(tabbedPane_asignaciones);
-            }
-    }
+    
     
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         if(tabla == null)
