@@ -11,19 +11,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 
 /**
  *
  * @author Williams Vallejo
  */
 public class AutomataFinitoN {
-    public List<Token_> automata;
+    public ArrayList<Token_> automata;
     
-    public AutomataFinitoN(List<Token_> automata){
+    public AutomataFinitoN(ArrayList<Token_> automata){
         this.automata = automata;
     }
     
-    public LienzoAutomata genararAutomata(){
+    public JTabbedPane genararAutomata(){
         //Analizando por cual de los 2 automatas existentes debe de irse
         // System.out.println(automata.get(0).componente_lexico);
         String elemento_1 = automata.get(0).componente_lexico;
@@ -48,7 +49,7 @@ public class AutomataFinitoN {
         return automata.get(i - 1);
     }
     
-    private LienzoAutomata afn_declaracion(List<Token_> automata_temporal){
+    private JTabbedPane afn_declaracion(ArrayList<Token_> automata_temporal){
         /* 
             En teoria la declaracion deberia de ser:
             Declaracion a =     TIPO_DATO ID = ID ;
@@ -85,27 +86,52 @@ public class AutomataFinitoN {
             }
         }
         
-        LienzoAutomata t = new LienzoAutomata(800, 400);
+        JTabbedPane panes = new JTabbedPane();
+        
         if (validacionRecursividad(automata_temporal, automata_declaracion_a)) {
-            t.setAutomata(automata_declaracion_a, automata_temporal);
-            return t;
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_a, automata_temporal, "Camino 1 - Correcto");
+            panes.addTab("Camino 1 - Correcto", t);
+        }else {
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_a, automata_temporal, "Camino 1 - Incorrecto");
+            panes.addTab("Camino 1 - Incorrecto", t);
         }
+        
         if (validacionRecursividad(automata_temporal, automata_declaracion_b)) {
-            t.setAutomata(automata_declaracion_b, automata_temporal);
-            return t;
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_b, automata_temporal, "Camino 2 - Correcto");
+            panes.addTab("Camino 2 - Correcto", t);
+        }else {
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_b, automata_temporal, "Camino 2 - Incorrecto");
+            panes.addTab("Camino 2 - Incorrecto", t);
         }
+        
         if (validacionRecursividad(automata_temporal, automata_declaracion_c)) {
-            t.setAutomata(automata_declaracion_c, automata_temporal);
-            return t;
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_c, automata_temporal, "Camino 3 - Correcto");
+            panes.addTab("Camino 3 - Correcto", t);
+        }else {
+           LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_c, automata_temporal, "Camino 3 - Incorrecto");
+            panes.addTab("Camino 3 - Incorrecto", t);
         }
+        
         if (validacionRecursividad(automata_temporal, automata_declaracion_d)) {
-            t.setAutomata(automata_declaracion_d, automata_temporal);
-            return t;
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_d, automata_temporal, "Camino 4 - Correcto");
+            panes.addTab("Camino 4 - Correcto", t);
+        }else {
+            LienzoAutomata t = new LienzoAutomata(800, 400);
+            t.setAutomata(automata_declaracion_d, automata_temporal, "Camino 4 - Incorrecto");
+            panes.addTab("Camino 4 - Incorrecto", t);
         }
-        return null;
+        
+        return panes;
     }
     
-    private LienzoAutomata afn_asignacion(List<Token_> automata_temporal){
+    private JTabbedPane afn_asignacion(ArrayList<Token_> automata_temporal){
         /* 
             En teoria la asignacion deberia de ser:
             ID = ID ;
@@ -155,17 +181,17 @@ public class AutomataFinitoN {
         }
         cadena2 +="]";
         
-        System.out.println("automata original: " + cadena);
-        System.out.println("automata base: " + cadena2);
+        //System.out.println("automata original: " + cadena);
+        //System.out.println("automata base: " + cadena2);
         
-        
+        JTabbedPane panes = new JTabbedPane();
         if (validacionRecursividad(automata_temporal, automata_asignacion)) {
             LienzoAutomata t = new LienzoAutomata(800, 400);
-            t.setAutomata(automata_asignacion, automata_temporal);
-            return t;
+            t.setAutomata(automata_asignacion, automata_temporal, "Camino 1 - Correcto");
+            panes.addTab("Camino 1 - Correcto", t);
         }
 
-        return null;
+        return panes;
     }
     
     /*

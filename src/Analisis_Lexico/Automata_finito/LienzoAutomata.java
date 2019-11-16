@@ -21,24 +21,29 @@ import javax.swing.RepaintManager;
  */
 public class LienzoAutomata extends JPanel{
     public ArrayList<String> automata_modelo;
-    public List<Token_> automata_a_validar;
+    public ArrayList<Token_> automata_a_validar;
     public String cadena_automata = "";
-    public int ancho_ventana = 0;
-    public int alto_ventana = 0;
-
+    public int ancho_ventana;
+    public int alto_ventana;
+    public String mensajeEstado = "TERMINO";
+    
+    
     public LienzoAutomata(int ancho, int alto){
         this.ancho_ventana = ancho;
         this.alto_ventana = alto;
     }
     
-    public void setAutomata(ArrayList<String> automata_modelo, List<Token_> automata_a_validar) {
-        this.automata_modelo = automata_modelo;
-        this.automata_a_validar = automata_a_validar;
+    public void setAutomata(ArrayList<String> automata_modelo, ArrayList<Token_> automata_a_validar, String mensaje) {
+        this.automata_modelo = new ArrayList<>(automata_modelo);
+        this.automata_a_validar = new ArrayList<> (automata_a_validar);
+        this.mensajeEstado = mensaje;
+        
         
         for(Token_ elemento : automata_a_validar){
             cadena_automata += " " + elemento.lexema ;
         }
-        //repaint();
+        //System.out.println("Entro al set automata");
+        repaint();
     }
 
     @Override
@@ -50,10 +55,25 @@ public class LienzoAutomata extends JPanel{
         //Ecuacion inicial
         textoEcuacion(g,"Instruccion inicial: " + cadena_automata );
         
-        //Estado inicial
+        dibujarModelo(g);
+        
+        dibujarRecorrido(g);
+        //System.out.println("es el paint componbents");
+        //dibujarRecorrido(g, automata_modelo.size());
+        
+        g.setColor(new Color(149,173,208)); //eS COLOR AZUL
+        g.setColor(new Color(183,28,28)); // COLOR ROJO DANGER
+        g.setFont(new Font("Arial", 1, 18));
+        g.drawString(mensajeEstado, ( this.ancho_ventana / 2 ) - 150, 320);
+        
+    }
+    
+    private void dibujarModelo(Graphics g){
+        //Linea que va al estado inicial
         g.setFont(new Font("Arial", 0, 12));
         g.setColor(Color.BLACK);
         g.drawLine(10, this.alto_ventana / 2, 30, this.alto_ventana / 2);
+        
         
         for (int i = 0; i <= automata_modelo.size() ; i++) {
             //Siguiente estado
@@ -73,6 +93,33 @@ public class LienzoAutomata extends JPanel{
                 letraTransicion(g, (80 + (130 * i)), automata_modelo.get(i));
             }
 
+        }
+    }
+    
+    
+    public void dibujarRecorrido(Graphics g) {
+        //Linea que va al estado inicial
+        g.setFont(new Font("Arial", 0, 12));
+        
+        g.setColor(new Color(149,173,208)); //eS COLOR AZUL
+        g.fillOval(30 + 15 + (130 * 0), (this.alto_ventana / 2) , 20, 20);
+        boolean flag = false;
+        for (int i = 1; i <= automata_modelo.size() ; i++) {
+            //System.out.println("If de ["+automata_a_validar.get(i-1).componente_lexico+"] con ["+automata_modelo.get(i-1)+"]");
+            if (automata_a_validar.get(i-1).componente_lexico == automata_modelo.get(i-1)) {
+                g.setColor(new Color(149,173,208)); //eS COLOR AZUL
+                g.fillOval(30 + 15 + (130 * i), (this.alto_ventana / 2) , 20, 20);
+                flag = true;
+            } else {
+                g.setColor(new Color(183,28,28)); // COLOR ROJO DANGER
+                g.fillOval(30 + 15 + (130 * i), (this.alto_ventana / 2) , 20, 20);
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            g.setColor(new Color(149,173,208)); //eS COLOR AZUL
+            g.fillOval(30 + 15 + (130 * (automata_modelo.size())), (this.alto_ventana / 2) , 20, 20);
         }
     }
     
@@ -96,6 +143,6 @@ public class LienzoAutomata extends JPanel{
         g.drawString(componente, x, (this.alto_ventana / 2) - 20);
     }
     
-
+        
 
 }
