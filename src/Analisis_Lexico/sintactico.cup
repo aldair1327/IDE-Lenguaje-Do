@@ -36,6 +36,9 @@ parser code
     public ArrayList<String> listavar = new ArrayList<String> ();
     public ArrayList<String> asig_simples = new ArrayList<String> ();
     public ArrayList<String> asig_Ini = new ArrayList<String> ();
+    public ArrayList<String> op_log = new ArrayList<String> ();
+    public ArrayList<String> inc_var = new ArrayList<String> ();
+
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -186,7 +189,7 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
                                 System.out.println(ls.get(i).toString());
                             }
                         }
-                        Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
+                        /*Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
                         Token_ idAComp = optab.buscarIDCup(dato.toString(),ls);
                         if(idAAsig == null)
                             System.out.println(idAAsig);
@@ -196,7 +199,7 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
                             this.parser.append("Error idAComp: en la linea: "+(datoright+1)+" El dato  no ha sido declarado. \n");
                         if(idAAsig != null && idAComp != null){
                             String tipo = optab.verificarTipo(dato.toString() , ls);
-                        }
+                        }*/
                         
                         asig_simples.add(id+"="+dato+"="+(idright+1));
 
@@ -342,7 +345,7 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
 
                         } catch ( Exception d) {
                             System.err.println("Exception :" + d.getMessage());
-                            this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
+                            //this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
                         }
                         //Aqui si tiene los tipo de datos
                         ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
@@ -499,21 +502,24 @@ ari ::= opers ADD opers |
        
 incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA  {:
                     RESULT=id+"++";
-                    
+                    inc_var.add(id+"="+ "=++" + (idright+1)); 
                     ci.add(id+" + 1\n" );
                     :}| 
                     ID:id MINMIN PUNTO_Y_COMA {:
                     RESULT=id+"--";
+                    inc_var.add(id+"=" + "=--" + (idright+1));
                     ci.add(id+" - 1\n" );
                     //this.parser.append("var "+id+"\n"+id+" - 1" );
                     :}  | 
                     ID:id PLUSPLUS PUNTO_Y_COMA cuerpo {:
+                    inc_var.add(id+"=" + "=++" +(idright+1));
                     RESULT=id+"++";
                     ci.add(id+" + 1\n" );
                     //this.parser.append("var "+id+"\n"+id+" + 1" );
                     :}| 
                     ID:id MINMIN PUNTO_Y_COMA cuerpo {:
                     RESULT=id+"--";
+                    inc_var.add(id+"="+ "=--" + (idright+1) );
                     ci.add(id+" - 1\n" );
                     //this.parser.append("var "+id+"\n"+id+" - 1" );
                     :}| 
@@ -606,9 +612,14 @@ condicion::= log:id {: RESULT=id; :}
 
 
 rel::= op_rel:op sig_rel:sig op_rel:opp
-        {: RESULT=op+" "+sig+" "+opp; :} 
+        {: 
+           op_log.add(op+"="+ opp +"="+(opright+1));
+           RESULT=op+" "+sig+" "+opp;
+        :} 
         |  op_rel:op sig_rel:sig rel:res 
-        {: RESULT=op+" "+sig+" "+res; :};
+        {: RESULT=op+" "+sig+" "+res; 
+           op_log.add(op+"="+(opright+1));
+        :};
 
 op_rel::= ID:id {: RESULT=id; :}   
             |   VERDADERO:id {: RESULT=id; :}   
@@ -622,9 +633,15 @@ op_rel::= ID:id {: RESULT=id; :}
 cond::=  rel:id {: RESULT=id; :} ;
 
 log ::= ope_logico:op AND ope_logico:opp 
-        {: RESULT=op+" && "+opp; :} |
+        {: RESULT=op+" && "+opp; 
+            //op_log.add(op+"="+ opp +"="+(opright+1));
+            
+        :} |
         ope_logico:op OR ope_logico:opp 
-        {: RESULT=op+" || "+opp; :} |
+        {: RESULT=op+" || "+opp; 
+            //op_log.add(op+"="+ opp +"="+(opright+1));
+            
+        :} |
         NOT ope_logico:op 
         {: RESULT="NOT "+op; :} | 
         ope_logico:op AND log:log 

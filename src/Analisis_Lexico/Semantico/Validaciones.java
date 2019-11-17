@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 public class Validaciones {
     Analisis_Lexico.Token_  idAAsig=null,idAComp=null; //idAAsig lado izquierdo, idAComp lado derecho
     
-    String cad = "",tipo_aAsig ="", tipo_aComp="",valor="";
+    String cad = "",tipo_aAsig ="", tipo_aComp="",valor="",valor2="";
     String aux [] = new String [3]; // 0 es el dato izq, 1 el derecho y el 2 es el número de línea
     
     Analisis_Lexico.OpeTabla optab = new OpeTabla();
@@ -38,21 +38,21 @@ public class Validaciones {
                         if(idAAsig == null){
 //                             System.out.println("IF ASIGNULL"+idAAsig);
 //                             System.out.println(idAComp);
-                             cad += "Error en la linea: "+aux[2]+ " El dato " + aux[0] + "  no ha sido declarado. \n";
+                             cad += "Error semántico en la linea: a1 - "+aux[2]+ " El dato " + aux[0] + "  no ha sido declarado. \n";
                              continue;
                         }
                         if( aux[0].length() > 25 ){
-                            cad += "Error en la línea: " + aux[2] + " El tamaño del identificador " + aux[0] + " excede el límite de 25 caracteres \n";  
+                            cad += "Error semántico en la linea: a2 - " + aux[2] + " El tamaño del identificador " + aux[0] + " excede el límite de 25 caracteres \n";  
                             continue;
                             
                         }else if( aux[1].length() > 25 ){
-                            cad += "Error en la línea: " + aux[2] + " El tamaño del identificador " + aux[1] + " excede el límite de 25 caracteres \n";
+                            cad += "Error semántico en la linea: a3 - " + aux[2] + " El tamaño del identificador " + aux[1] + " excede el límite de 25 caracteres \n";
                             continue;
                         }
                         
                         Integer.parseInt(aux[1]);
                         if( aux[1].length() > 2){
-                            cad += "Error en la linea: "+aux[2]+ " El tamaño del valor " + aux[1] + "  excede el límite de 3 dígitos. \n";
+                            cad += "Error semántico en la linea: a4 - "+aux[2]+ " El tamaño del valor " + aux[1] + "  excede el límite de 3 dígitos. \n";
                             
                         }else{
                             tipo_aAsig = optab.validar_tipoDato(aux[0],ls);
@@ -60,21 +60,21 @@ public class Validaciones {
                             //JOptionPane.showMessageDialog(null,tipo_aAsig);
                             
                             if( !tipo_aAsig.equals(tipo_aComp)){
-                                cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
+                                cad += "Error semántico en la linea: a5 - "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
 
                             }
                         }
                                 
                     }catch(NumberFormatException e){
                         if(idAComp == null){
-                            cad += "Error en la linea: "+aux[2]+ " El dato " + aux[1] + "  no ha sido declarado. \n";
+                            cad += "Error semántico en la linea: a6 - "+aux[2]+ " El dato " + aux[1] + "  no ha sido declarado. \n";
                         }
                         
                         tipo_aAsig = optab.validar_tipoDato(aux[0],ls);
                         tipo_aComp = optab.validar_tipoDato(aux[1],ls);
                         
                         if(idAAsig == null){
-                           cad += "Error en la linea: "+aux[2]+ " El dato " + aux[0] + "  no ha sido declarado. \n";
+                           cad += "Error semántico en la linea: a7 - "+aux[2]+ " El dato " + aux[0] + "  no ha sido declarado. \n";
                            continue;
                         }
                         
@@ -82,13 +82,13 @@ public class Validaciones {
                         //JOptionPane.showMessageDialog(null,tipo_aAsig);
                         
                         if( !tipo_aAsig.equals(tipo_aComp)){
-                             cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + 
+                             cad += "Error semántico en la linea:a8 - "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + 
                                            " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig+ " \n";
                         }else{
                             //JOptionPane.showMessageDialog(null,asig.get(0));
                             valor = optab.ObtenerValor(aux[1], ls);
                             if( valor == null ){
-                                cad += "Error en la linea: "+aux[2]+ " La variable: " + aux[1] + " no ha sido inicializada  \n";
+                                cad += "Error semántico en la linea:a9 - "+aux[2]+ " La variable: " + aux[1] + " no ha sido inicializada  \n";
                             } 
                         }
                     }
@@ -107,18 +107,18 @@ public class Validaciones {
             if(!valorPredefinido(aux[1])){
                     try{
                         if( aux[0].length() > 25 ){
-                            cad += "Error en la línea: " + aux[2] + " El tamaño del identificador " + aux[0] + " excede el límite de 25 caracteres \n";  
+                            cad += "Error semántico en la linea: b1 - " + aux[2] + " El tamaño del identificador " + aux[0] + " excede el límite de 25 caracteres \n";  
                             continue;
                             
                         }else if( aux[1].length() > 25 ){
-                            cad += "Error en la línea: " + aux[2] + " El tamaño del identificador " + aux[1] + " excede el límite de 25 caracteres \n";
+                            cad += "Error semántico en la linea: b2 - " + aux[2] + " El tamaño del identificador " + aux[1] + " excede el límite de 25 caracteres \n";
                             continue;
                         }
                         
                         Integer.parseInt(aux[1]); 
                         
                         if( aux[1].length() > 2){
-                            cad += "Error en la linea: "+aux[2]+ " El tamaño del valor " + aux[1] + "  excede el límite de 3 caracteres. \n";
+                            cad += "Error semántico en la linea: b3 - "+aux[2]+ " El tamaño del valor " + aux[1] + "  excede el límite de 3 caracteres. \n";
                             
                         }else{
                             tipo_aAsig = optab.validar_tipoDato(aux[0],ls);
@@ -126,7 +126,7 @@ public class Validaciones {
                             //JOptionPane.showMessageDialog(null,tipo_aAsig);
                             
                             if( !tipo_aAsig.equals(tipo_aComp)){
-                                cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
+                                cad += "Error semántico en la linea: b4 - "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
 
                             }
                         }
@@ -135,7 +135,7 @@ public class Validaciones {
                         idAComp = optab.buscarIDCup(aux[1],ls);
                         
                         if(idAComp == null){
-                            cad += "Error en la linea: "+aux[2]+ " El dato " + aux[1] + "  no ha sido declarado. \n";
+                            cad += "Error semántico en la linea: b5 - "+ aux[2] + " El dato " + aux[1] + "  no ha sido declarado. \n";
 
                         }else{
                             if(valorPredefinido(aux[1])){
@@ -146,7 +146,7 @@ public class Validaciones {
                                 //JOptionPane.showMessageDialog(null,tipo_aAsig);
 
                                 if( !tipo_aAsig.equals(tipo_aComp)){
-                                    cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
+                                    cad += "Error semántico en la linea:b6 - "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
 
                                 }
                             }
@@ -155,7 +155,7 @@ public class Validaciones {
                             tipo_aComp = optab.validar_tipoDato(aux[1],ls);
 
                             if( !tipo_aAsig.equals(tipo_aComp)){
-                                cad += "Error en la linea: "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
+                                cad += "Error semántico en la linea: b7 - "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
 
                                 }else{
                                         //System.out.println("-------------> " + aux[1] + "<------------    ANTES DE OBTENER VALOR \n" + ls );
@@ -163,19 +163,178 @@ public class Validaciones {
                                         valor = optab.ObtenerValor(aux[1], ls);
 
                                         if( valor == null ){
-                                            cad += "Error en la linea: "+aux[2]+ " La variable: " + aux[1] + " no ha sido inicializada  \n";
+                                            cad += "Error semántico en la linea:b8 - "+aux[2]+ " La variable: " + aux[1] + " no ha sido inicializada  \n";
                                         }
                                     }
                             }
                     }
             }else{
-                continue;
             }
             
         }
         
         return cad;
     }
+    
+    public String OpLogSimples(ArrayList<String> ini, ArrayList<Token_> ls){
+        cad ="";
+        Collections.reverse(ini);
+        //JOptionPane.showMessageDialog(null,ini.get(0));
+        
+        for(int x=0; x < ini.size(); x++) {
+            //JOptionPane.showMessageDialog(null,ini.get(x));
+            aux = ini.get(x).split("=");
+                    try{
+                        Integer.parseInt(aux[0]);
+                        //JOptionPane.showMessageDialog(null,"PARTE IZQUIERDA ES NUMERO");
+                        try{
+                            //JOptionPane.showMessageDialog(null,.equals("entero"));
+                             tipo_aAsig =optab.validar_tipoDato(aux[1], ls);
+                             
+                        if(tipo_aAsig != null && optab.validar_tipoDato(aux[1], ls).equals("entero")){
+                            //JOptionPane.showMessageDialog(null,"ES ENTERA LA PARTE IZQUIERDA");
+                            if(optab.ObtenerValor(aux[1], ls) == null){
+                                cad += "Error semántico en la linea: c2 - "+ aux[2] + " condición icompatible. La variable "+ aux[1] +
+                                       " no ha sido inicializada . \n";
+                                }else{
+                                        
+                                    }
+                            }else if(!(optab.verificarTipo(aux[1], ls) != null && optab.verificarTipo(aux[1], ls).equals("entero"))){
+                                cad += "Error semántico en la linea:c9 - "+aux[2]+ " La variable: " + aux[1] + " no ha sido declarada  \n";
+                            }else{
+                                
+                                cad += "Error semántico en la linea:c9 - "+aux[2]+ " La variable: " + aux[1] + " no ha sido incializada  \n";
+                            }
+                        }catch(Exception e){
+                            String o ="";
+                            for(int i =0;i < aux.length;i++){
+                                o += aux[i];
+                            }
+                             
+                           //JOptionPane.showMessageDialog(null,o);
+                        }
+                    }catch(NumberFormatException e){
+                        //JOptionPane.showMessageDialog(null,"HAY LETRAS EN PARTE IZQUIERDA");
+                        idAComp = optab.buscarIDCup(aux[1],ls); 
+                        idAAsig = optab.buscarIDCup(aux[0],ls);
+                        if(idAAsig == null){
+                        //JOptionPane.showMessageDialog(null,"PARTE IZQUIERDA NO DECLARADA");
+                            cad += "Error semántico en la linea: c1 - "+ aux[2] + " El dato " + aux[0] + "  no ha sido declarado. \n";
+                            continue;
+                        }
+                        if(idAComp == null){
+                            try{
+                                Integer.parseInt(aux[1]);
+                                //JOptionPane.showMessageDialog(null,"PARTE DERECHA ES NUMERO");
+                                //JOptionPane.showMessageDialog(null,optab.validar_tipoDato(aux[0], ls).equals("entero"));
+                                 
+                                if(optab.validar_tipoDato(aux[0], ls).equals("entero")){
+                                    //JOptionPane.showMessageDialog(null,"ES ENTERA LA PARTE IZQUIERDA");
+                                    if(optab.ObtenerValor(aux[0], ls) == null){
+                                         cad += "Error semántico en la linea: c2 - "+ aux[2] + " condición icompatible. La variable "+ aux[0] +
+                                        " no ha sido inicializada . \n"; 
+                                        continue;
+                                    }else{
+                                        
+                                    }
+                                }else{
+                                    cad += "Error semántico en la linea: c2 - "+ aux[2] + " condición icompatible. El tipo de dato de "+ aux[0] +
+                                    " no es compatible con el tipo de dato de: "+aux[1] +". \n"; 
+                                    continue;
+                                }
+                                
+                            }catch(NumberFormatException z){
+                                //JOptionPane.showMessageDialog(null,"HAY LETRAS EN PARTE DERECHA");
+                                cad += "Error semántico en la linea: c1.2 - "+ aux[2] + " El dato " + aux[1] + "  no ha sido declarado. \n";
+                                
+                            }
+                        }
+                        
+                        //JOptionPane.showConfirmDialog(null, "SI ESTAN DECLARADAS");
+                        if(!valorPredefinido(aux[0])){
+                            cad += "Error semántico en la linea: c2 - "+ aux[2] + " condición icompatible. El tipo de dato de "+ aux[0] +
+                                    " no es compatible con el tipo de dato de: "+aux[1] +". \n";    
+                        
+                        }else if(!valorPredefinido(aux[1])){
+                            cad += "Error semántico en la linea: c2 - "+ aux[2] + " condición icompatible. El tipo de dato de "+ aux[0] +
+                                    " no es compatible con el tipo de dato de: "+aux[1] +". \n";    
+                            
+                        }else{
+                            tipo_aAsig = optab.validar_tipoDato(aux[0],ls);
+                            tipo_aComp = optab.validar_tipoDato(aux[1],ls);
+
+                            if( !tipo_aAsig.equals(tipo_aComp)){
+                                cad += "Error semántico en la linea: c3 - "+aux[2]+ "  condición incompatible, el tipo de dato de: " + aux[0] + 
+                                        " no es compatible con el tipo de dato de: "+ aux[1] +". Se esperaba un valor del tipo: " + tipo_aComp +  " \n";
+
+                            }else{
+                                    //System.out.println("-------------> " + aux[1] + "<------------    ANTES DE OBTENER VALOR \n" + ls );
+                                        
+                                    valor = optab.ObtenerValor(aux[0], ls);
+                                    valor2 = optab.ObtenerValor(aux[1], ls);
+                                        
+                                    if( valor == null ){
+                                        cad += "Error semántico en la linea:c4 - "+aux[2]+ " La variable: " + aux[0] + " no ha sido inicializada  \n";
+                                    }else if(valor2 == null){
+                                            cad += "Error semántico en la linea:c4 - "+aux[2]+ " La variable: " + aux[1] + " no ha sido inicializada  \n";
+                                            }else{
+                                            }
+                                }
+                        }
+                    }
+        }
+        return cad;
+    }
+    
+    public String IncVar(ArrayList<String> ini, ArrayList<Token_> ls){
+        cad ="";
+        Collections.reverse(ini);
+        //JOptionPane.showMessageDialog(null,ini.get(0));
+        
+        for(int x=0; x < ini.size(); x++) {
+            //JOptionPane.showMessageDialog(null,ini.get(x));
+            aux = ini.get(x).split("=");
+                    try{
+                        Integer.parseInt(aux[0]);
+                        cad += "Error semántico en la línea: " + aux[2] + "La operación " + aux[1] + "solo puede ser ejecutada en variables del tipo enterio";  
+                    }catch(NumberFormatException e){
+                        //JOptionPane.showMessageDialog(null,"POSIBLE ID");
+                        tipo_aAsig = optab.validar_tipoDato(aux[0], ls);
+                        //JOptionPane.showMessageDialog(null,tipo_aAsig);
+                        
+                        if(valorPredefinido(aux[0])){
+                             //JOptionPane.showMessageDialog(null,"VALOR PREDEFINIDO");
+                            cad += "Error semántico en la línea: " + aux[2] + "La operación " + aux[1] 
+                                    +" solo puede ejecutarse con variales enteras, no con valores estáticos";
+                            
+                        }else{
+                                if(tipo_aAsig == null){
+                                 //JOptionPane.showMessageDialog(null,"SIN DECLARAR");
+                                cad += "Error semántico en la línea: " + aux[2] + "La operación " + aux[1] 
+                                        +"no puede ejecutarse porque la variable " + aux[0] + "No ha sido declarada.";
+
+                                }else if(tipo_aAsig.equals("entero")){
+                                 //JOptionPane.showMessageDialog(null,"TIPO ENTERO");
+                                 //JOptionPane.showMessageDialog(null,tipo_aAsig);
+                                 valor = optab.ObtenerValor(aux[0], ls);
+
+                                    if(valor == null){
+                                         //JOptionPane.showMessageDialog(null,"SIN INICIALIZAR");
+                                        
+                                        cad += "Error semántico en la línea: " + aux[2] + "La operación " + aux[1] 
+                                            +"no puede ejecutarse porque la variable " + aux[0] + "No ha sido inicializada.";
+                                    }
+                                }else{
+                                   cad += "Error semántico en la línea: " + aux[2] + "La operación " + aux[1] 
+                                            +"no puede ejecutarse porque la variable " + aux[0] + "debe ser del tipo entero."; 
+                                }
+                        }
+                        
+                    } 
+        }
+        return cad;
+    }
+    
     
     private boolean valorPredefinido(String id){
         switch(id){

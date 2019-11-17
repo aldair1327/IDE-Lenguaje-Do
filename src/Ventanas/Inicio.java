@@ -567,6 +567,8 @@ public class Inicio extends javax.swing.JFrame {
             
             as.errores += v.AsignacionSimple(as.asig_simples, ls);
             as.errores += v.InicializarVariable(as.asig_Ini, ls);
+            as.errores += v.OpLogSimples(as.op_log,ls);
+            as.errores += v.IncVar(as.inc_var, ls);
             this.cons.setText(as.errores);
             
             /***************Arboles***************/

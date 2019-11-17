@@ -1974,6 +1974,9 @@ public class ASintactico extends java_cup.runtime.lr_parser {
     public ArrayList<String> listavar = new ArrayList<String> ();
     public ArrayList<String> asig_simples = new ArrayList<String> ();
     public ArrayList<String> asig_Ini = new ArrayList<String> ();
+    public ArrayList<String> op_log = new ArrayList<String> ();
+    public ArrayList<String> inc_var = new ArrayList<String> ();
+
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -2842,7 +2845,7 @@ class CUP$ASintactico$actions {
                                 System.out.println(ls.get(i).toString());
                             }
                         }
-                        Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
+                        /*Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
                         Token_ idAComp = optab.buscarIDCup(dato.toString(),ls);
                         if(idAAsig == null)
                             System.out.println(idAAsig);
@@ -2852,7 +2855,7 @@ class CUP$ASintactico$actions {
                             this.parser.append("Error idAComp: en la linea: "+(datoright+1)+" El dato  no ha sido declarado. \n");
                         if(idAAsig != null && idAComp != null){
                             String tipo = optab.verificarTipo(dato.toString() , ls);
-                        }
+                        }*/
                         
                         asig_simples.add(id+"="+dato+"="+(idright+1));
 
@@ -3894,7 +3897,7 @@ class CUP$ASintactico$actions {
 
                         } catch ( Exception d) {
                             System.err.println("Exception :" + d.getMessage());
-                            this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
+                            //this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
                         }
                         //Aqui si tiene los tipo de datos
                         ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
@@ -5055,7 +5058,7 @@ class CUP$ASintactico$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
                     RESULT=id+"++";
-                    
+                    inc_var.add(id+"="+ "=++" + (idright+1)); 
                     ci.add(id+" + 1\n" );
                     
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
@@ -5071,6 +5074,7 @@ class CUP$ASintactico$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
                     RESULT=id+"--";
+                    inc_var.add(id+"=" + "=--" + (idright+1));
                     ci.add(id+" - 1\n" );
                     //this.parser.append("var "+id+"\n"+id+" - 1" );
                     
@@ -5086,6 +5090,7 @@ class CUP$ASintactico$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
 		
+                    inc_var.add(id+"=" + "=++" +(idright+1));
                     RESULT=id+"++";
                     ci.add(id+" + 1\n" );
                     //this.parser.append("var "+id+"\n"+id+" + 1" );
@@ -5103,6 +5108,7 @@ class CUP$ASintactico$actions {
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
 		
                     RESULT=id+"--";
+                    inc_var.add(id+"="+ "=--" + (idright+1) );
                     ci.add(id+" - 1\n" );
                     //this.parser.append("var "+id+"\n"+id+" - 1" );
                     
@@ -5870,7 +5876,10 @@ class CUP$ASintactico$actions {
 		int oppleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int oppright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object opp = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=op+" "+sig+" "+opp; 
+		 
+           op_log.add(op+"="+ opp +"="+(opright+1));
+           RESULT=op+" "+sig+" "+opp;
+        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("rel",34, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5889,6 +5898,8 @@ class CUP$ASintactico$actions {
 		int resright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object res = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		 RESULT=op+" "+sig+" "+res; 
+           op_log.add(op+"="+(opright+1));
+        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("rel",34, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6012,6 +6023,9 @@ class CUP$ASintactico$actions {
 		int oppright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object opp = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		 RESULT=op+" && "+opp; 
+            //op_log.add(op+"="+ opp +"="+(opright+1));
+            
+        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6027,6 +6041,9 @@ class CUP$ASintactico$actions {
 		int oppright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object opp = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		 RESULT=op+" || "+opp; 
+            //op_log.add(op+"="+ opp +"="+(opright+1));
+            
+        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;

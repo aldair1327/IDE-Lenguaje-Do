@@ -1,30 +1,18 @@
 inicio(){
-nota primera = DO;
-nota segunda = RE;
-nota tercera = DO;
-entero i = 15;
-entero n; 
-n = 10;
-h = 20;
-d = 10;
-n = a;
-n = 10;
-n = a;
-n = 10;
+entero r;
+entero n;
+mientras(z >=10){
+entero c;
 
-
-n++;
-
-mientras(n<10){
   	reproduce(DO);
-	si(n==2){
+	si(2==n){
+entero hn;
 		silencio(1); //detiene por un segundo
 	          volumen(1); //coloca el volumen en 1
 		imprimir(n);
 	}
-	
-  n++;
-
+entero d=9;	
+d--;
 }
 reproduce(RE);
 silencio(2);
