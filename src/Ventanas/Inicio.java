@@ -596,6 +596,7 @@ public class Inicio extends javax.swing.JFrame {
             }
             imprimirCI intermedio = new imprimirCI();
             intermedio.imprimir(as.ci);
+            intermedio.imprimir2(as.codop);
             // de ls se optienen los lexemas y componentes lexicos
             
 //           System.out.println("\n\n *********************** lista de inicio ************************");
