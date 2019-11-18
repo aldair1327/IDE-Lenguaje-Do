@@ -125,7 +125,12 @@ public class Validaciones {
                             tipo_aComp = "entero";
                             //JOptionPane.showMessageDialog(null,tipo_aAsig);
                             
-                            if( !tipo_aAsig.equals(tipo_aComp)){
+                            if(tipo_aAsig == null){
+                                //JOptionPane.showMessageDialog(null,"NULL");
+                                cad += "Error semántico en la linea: b4 - "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
+
+                            }else if(!tipo_aAsig.equals(tipo_aComp)){
+                                //JOptionPane.showMessageDialog(null,"TIPOS DIFERNTES");
                                 cad += "Error semántico en la linea: b4 - "+aux[2]+ " Asignación incompatible, el tipo de dato de: " + aux[1] + " no es compatible. Se esperaba un valor del tipo: " + tipo_aAsig +  " \n";
 
                             }
@@ -251,11 +256,11 @@ public class Validaciones {
                         }
                         
                         //JOptionPane.showConfirmDialog(null, "SI ESTAN DECLARADAS");
-                        if(!valorPredefinido(aux[0])){
+                           if(valorPredefinido(aux[0])){
                             cad += "Error semántico en la linea: c2 - "+ aux[2] + " condición icompatible. El tipo de dato de "+ aux[0] +
                                     " no es compatible con el tipo de dato de: "+aux[1] +". \n";    
                         
-                        }else if(!valorPredefinido(aux[1])){
+                        }else if(valorPredefinido(aux[1])){
                             cad += "Error semántico en la linea: c2 - "+ aux[2] + " condición icompatible. El tipo de dato de "+ aux[0] +
                                     " no es compatible con el tipo de dato de: "+aux[1] +". \n";    
                             
@@ -263,7 +268,7 @@ public class Validaciones {
                             tipo_aAsig = optab.validar_tipoDato(aux[0],ls);
                             tipo_aComp = optab.validar_tipoDato(aux[1],ls);
 
-                            if( !tipo_aAsig.equals(tipo_aComp)){
+                            if( !tipo_aAsig.equals(tipo_aComp) && !(tipo_aAsig.equals("entero"))){
                                 cad += "Error semántico en la linea: c3 - "+aux[2]+ "  condición incompatible, el tipo de dato de: " + aux[0] + 
                                         " no es compatible con el tipo de dato de: "+ aux[1] +". Se esperaba un valor del tipo: " + tipo_aComp +  " \n";
 
