@@ -590,6 +590,18 @@ public class Inicio extends javax.swing.JFrame {
                      
                  }
             }
+            for(int j = 0; j<as.codop.size();j++){
+                   
+                     as.codop.set(j,as.codop.get(j).replaceAll("DO", "130.80"));     
+                     as.codop.set(j,as.codop.get(j).replaceAll("RE", "146.80"));
+                     as.codop.set(j,as.codop.get(j).replaceAll("MI", "164.80"));
+                     as.codop.set(j,as.codop.get(j).replaceAll("FA", "174.60"));
+                     as.codop.set(j,as.codop.get(j).replaceAll("SOL", "196.00"));
+                     as.codop.set(j,as.codop.get(j).replaceAll("LA", "220.00"));
+                     as.codop.set(j,as.codop.get(j).replaceAll("SI", "246.90"));
+                 }
+            
+            
             imprimirCI intermedio = new imprimirCI(archivo_seleccionado.nombre_archivo);
             intermedio.imprimir(as.ci);
             intermedio.imprimir2(as.codop);
