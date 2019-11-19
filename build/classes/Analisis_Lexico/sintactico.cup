@@ -36,6 +36,10 @@ parser code
     public ArrayList<String> listavar = new ArrayList<String> ();
     public ArrayList<String> asig_simples = new ArrayList<String> ();
     public ArrayList<String> asig_Ini = new ArrayList<String> ();
+    public ArrayList<String> op_log = new ArrayList<String> ();
+    public ArrayList<String> inc_var = new ArrayList<String> ();
+    public ArrayList<String> codop = new ArrayList<String> ();
+
 
     public void setList( ArrayList<Token_> ls){
         this.ls = ls;
@@ -116,7 +120,7 @@ start with inicio;
 ///////////////////////////////////////////////////////////////////------INICIO---------///////////////////////////////////////////////////////////////////
 ////////////////////////////////////{:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ( despu�s de inicio";:}////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo KEYCLOSE  | 
+inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE {:   codop.add( "void loop(){ \n" + c + "\n}"); :} | 
           INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE  | 
           
           INICIO PAROPEN PARCLOSE KEYOPEN cuerpo :e  {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";:}   |  
@@ -145,9 +149,20 @@ errores1 ::= NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;
 ciclos_errores ::= MIENTRAS | SI;
 
     
-cuerpo ::= decvariables |  asignar | funcionesDo | ciclos | incrementar_var | arreglo  ;
+cuerpo ::= decvariables:id {: RESULT= id+""; :} |  
+           asignar:id {: 
+           String[] a = id.toString().split("\\.");
+           if(a.length == 2){
+           RESULT= a[1]+" = "+a[0]+";\n";  
+           }else if(a.length == 3){
+            RESULT= a[1]+" = "+a[0]+";\n"+a[2]; 
+            }
+            :} 
+             | 
+           funcionesDo:id {: RESULT= id+""; :} | ciclos:id {: RESULT= id+""; :} | 
+           incrementar_var:id {: RESULT= id+""; :} | arreglo  ;
 
-arreglo::= tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo |
+            arreglo::= tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo |
             tipo COROPEN CORCLOSE ID PUNTO_Y_COMA cuerpo |
             COROPEN :e CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un tipo de dato antes de '[' \n";:}|
             tipo :e CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un '[' despues de el tipo de dato' \n";:}|
@@ -175,7 +190,7 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
                listavar.add(id+"");
                listavar.add("\n");
                 RESULT= dato+"."+id; :}|
-            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {:
+            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo:c {:
                 listavar.add(id+"");
                listavar.add("\n");
                 ci.add(id+" = " + dato + "\n" );      
@@ -186,7 +201,7 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
                                 System.out.println(ls.get(i).toString());
                             }
                         }
-                        Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
+                        /*Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
                         Token_ idAComp = optab.buscarIDCup(dato.toString(),ls);
                         if(idAAsig == null)
                             System.out.println(idAAsig);
@@ -196,17 +211,17 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
                             this.parser.append("Error idAComp: en la linea: "+(datoright+1)+" El dato  no ha sido declarado. \n");
                         if(idAAsig != null && idAComp != null){
                             String tipo = optab.verificarTipo(dato.toString() , ls);
-                        }
+                        }*/
                         
                         asig_simples.add(id+"="+dato+"="+(idright+1));
 
-                    RESULT= dato+"."+id; 
+                    RESULT= dato+"."+id+"."+c; 
                     :} | 
-            ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo {:
+            ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo:c {:
             ci.add(id+" "+ opa +" " + dato + "\n" );  
               listavar.add(id+"");
               listavar.add("\n");
-             RESULT= dato+"."+id; :}|
+             RESULT= dato+"."+id+"."+c; :}|
             ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
 
             ID ASIG :e PUNTO_Y_COMA cuerpo{: RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
@@ -230,7 +245,6 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
 asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id;
 
                 asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
-                    
                 ci.add(id +" = "+dato+ "\n" );
                 listavar.add(id+"");
                  listavar.add("\n");
@@ -243,7 +257,7 @@ asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id;
                 listavar.add(id+"");
                  listavar.add("\n");
              :}|
-            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo {: RESULT= dato+"."+id; 
+            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo:c {: RESULT= dato+"."+id+"."+c; 
 
                 asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
 
@@ -251,11 +265,11 @@ asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id;
                 listavar.add(id+"");
                  listavar.add("\n");
             :} | 
-            ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo {:
+            ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo:c {:
                 ci.add(id+" "+ opa +" " + dato + "\n" ); 
                 listavar.add(id+"");
                  listavar.add("\n");
-             RESULT= dato+"."+id; :}|
+             RESULT= dato+"."+id+"."+c; :}|
             ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
 
             ID ASIG :e PUNTO_Y_COMA cuerpo{: RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
@@ -303,15 +317,20 @@ notapuras ::= RE | MI | FA | SOL | LA | SII | DO | DOS | RES | MIS | FAS | SOLS 
 
 
 decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toString()+ " TIPO: " + tipo.toString()  + "\n"; 
-                    RESULT=tipo+" "+id;  
+                    
+                    if(tipo.toString().equals("entero")){
+                    RESULT="int"+" "+id+";\n";  
+                    }
                     ci.add(tipo+" "+id+"\n");
                     listavar.add(id+"");
                     listavar.add("\n");
                  :}
 
 
-                | tipo:tipo ID:id PUNTO_Y_COMA cuerpo {:
-                    RESULT=tipo+" "+id;
+                | tipo:tipo ID:id PUNTO_Y_COMA cuerpo:c {:
+                    if(tipo.toString().equals("entero")){
+                    RESULT="int"+" "+id+";\n"+c;  
+                    }
                     ci.add(tipo+" "+id+"\n"); 
                     listavar.add(id+"");
                     listavar.add("\n");
@@ -320,11 +339,28 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                 :} 
 
 
-                | tipo:tipo asignarDeclaracion:asignacion 
+                | tipo:tipo asignarDeclaracion:asignacion
                   {:
                     String[] a = asignacion.toString().split("\\.");
-                       RESULT=tipo+" "+a[1];           
-                  ci.add(tipo +" "+ a[1] +"\n");      
+
+                  if(a.length == 2){  
+                  if(tipo.toString().equals("entero")){
+                    RESULT="int "+a[1]+" = "+a[0]+";\n";  
+                    }
+                  if(tipo.toString().equals("nota")){
+                    RESULT="int "+a[1]+" = "+a[0]+";\n";  
+                    }  
+                  }
+                    
+                  if(a.length == 3){  
+                  if(tipo.toString().equals("entero")){
+                    RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2];  
+                    }
+                  if(tipo.toString().equals("nota")){
+                    RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2];  
+                    }  
+                  }  
+                  //ci.add(tipo +" "+ a[1] +"\n");
                   listavar.add(a[1]+"");
                   listavar.add("\n");  
                     //System.out.println(asignacion,tipo.toString(),asignacion,ls); 
@@ -353,7 +389,13 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                     }
                     //ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); 
                     //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
-                  :}
+                  :} 
+
+
+
+                  
+
+                  
                 | tipo ID:e {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:}  
                 | tipo ID:e cuerpo {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
 
@@ -364,18 +406,24 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
 
                 | ID:e {:this.parser.errores+="Error: 19 en la linea: "+(eright+1)+" - Se esperaba una tipo de dato \n";:} ;
 
-funcionesDo ::= declaraReproduce  |  declaraImprimir  |  declaraImportar  |  declaraContinuar  |  declaraSilencio  | 
-               declaraVolumen  |  declaraFrecuencia ;
-
+funcionesDo ::= declaraReproduce:id {: RESULT=id+""; :}  |
+                declaraImprimir:id {: RESULT=id+""; :}  |  
+                declaraImportar:id {: RESULT=id+""; :}  |  
+                declaraContinuar:id {: RESULT=id+""; :}  |  
+                declaraSilencio:id {: RESULT=id+""; :}  | 
+                declaraVolumen  |  
+                declaraFrecuencia ;
 
 declaraReproduce ::= REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA {:
-                     ci.add("ent "+ n + "\n tono("+n+")\n" ); 
+                     ci.add("ent "+ n + "\n tono("+n+")\n" );
+                     RESULT= "tone(8,"+n+");";
                      listavar.add(n+"");
                      :} |
-                     REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA cuerpo {:
+                     REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA cuerpo:c {:
                      ci.add("ent "+ n + "\n tono("+n+")\n" );
+                     RESULT= "tone(8,"+n+");\n"+c;
                      listavar.add(n+"");
-                    :}|
+                     :}|
                      PAROPEN:e notas PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";:} | 
                      NOTA:e PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n";:} |  
                      PAROPEN notas:e PUNTO_Y_COMA {:this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra   \n";:} |   
@@ -391,9 +439,11 @@ declaraReproduce ::= REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA {:
   
 declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA {:
                     ci.add("cad ="+ dato + "\n print("+dato+")\n" );
+                    RESULT= "Serial.println(" + dato+ ");\n";
                     :}|
-                    IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA cuerpo  {:
+                    IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
                     ci.add("cad ="+ dato + "\n print("+dato+")\n" );
+                    RESULT= "Serial.println(" + dato+ ");\n"+c;
                     :}|
                     IMPRIMIR PAROPEN dato PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";:} | 
                     IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";:} |          
@@ -407,15 +457,18 @@ declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA {:
 
 declaraImportar ::= IMPORTAR ID:id PUNTO_Y_COMA {:
                     ci.add("imp "+ id + "\n" );
+                    RESULT ="#include "+ id +" \n";
                     :} |
                     IMPORTAR ID:e {:this.parser.errores+="Linea: "+(eright+1)+" - Falta el ; \n";:}  | 
                     IMPORTAR PUNTO_Y_COMA:e {:this.parser.errores+="Linea: "+(eright+1)+" - Falta el argumento en importar \n"; :} ;
 
-declaraContinuar ::= CONTINUAR PAROPEN PARCLOSE PUNTO_Y_COMA  {:
+declaraContinuar ::= CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  {:
                     ci.add("cont() \n" );
+                    RESULT ="delay("+n +");\n";
                     :}| 
-                     CONTINUAR PAROPEN PARCLOSE PUNTO_Y_COMA cuerpo  {:
+                     CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
                     ci.add("cont() \n" );
+                    RESULT ="delay("+n +");\n"+c;
                     :} | 
                      PAROPEN:e PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n"; :} |
                      CONTINUAR PAROPEN PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n"; :} | 
@@ -428,15 +481,23 @@ declaraContinuar ::= CONTINUAR PAROPEN PARCLOSE PUNTO_Y_COMA  {:
 
 declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA {:
                     ci.add("notono()\n tono(0)\n tiempo( )\n" );
+                    RESULT ="noTone(8);\n";
+                    
                     :}| 
                      SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  {:
                     ci.add("notono()\n tono(0)\n tiempo("+n+")\n" );
+                    RESULT ="noTone(8);\n delay("+n+");\n";
+                    
                     :}| 
-                     SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA cuerpo  {:
+                     SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
                     ci.add("notono()\n tono(0)\n tiempo( )\n" );
+                    RESULT ="noTone(8);\n"+c;
+
                     :}| 
-                     SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo  {:
+                     SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
                     ci.add("notono()\n tono(0)\n tiempo("+n+")\n" );
+                    codop.add("noTone(8);\n delay("+n+");\n"+c );
+                    
                     :}| 
                      SILENCIO PAROPEN PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea:"+(eright+1)+" - Falta el ; \n";:} |
                      SILENCIO PAROPEN numEntero PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";:} | 
@@ -498,24 +559,22 @@ ari ::= opers ADD opers |
 
        
 incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA  {:
-                    RESULT=id+"++";
-                    
+                    RESULT=id+"++;\n";
                     ci.add(id+" + 1\n" );
                     :}| 
                     ID:id MINMIN PUNTO_Y_COMA {:
-                    RESULT=id+"--";
+                    RESULT=id+"--;\n";
                     ci.add(id+" - 1\n" );
-                    //this.parser.append("var "+id+"\n"+id+" - 1" );
+                    
+                    codop.add(id+"--");
                     :}  | 
-                    ID:id PLUSPLUS PUNTO_Y_COMA cuerpo {:
-                    RESULT=id+"++";
+                    ID:id PLUSPLUS PUNTO_Y_COMA cuerpo:c {:
+                    RESULT=id+"++;\n"+c;
                     ci.add(id+" + 1\n" );
-                    //this.parser.append("var "+id+"\n"+id+" + 1" );
                     :}| 
-                    ID:id MINMIN PUNTO_Y_COMA cuerpo {:
-                    RESULT=id+"--";
+                    ID:id MINMIN PUNTO_Y_COMA cuerpo:c {:
+                    RESULT=id+"--;\n"+c;
                     ci.add(id+" - 1\n" );
-                    //this.parser.append("var "+id+"\n"+id+" - 1" );
                     :}| 
                     ID ADD:e PUNTO_Y_COMA {:this.parser.errores+="Error: 39 en la linea:"+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";:}  | 
                     ID MIN:e PUNTO_Y_COMA {:this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";:}  | 
@@ -526,14 +585,17 @@ incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA  {:
                     ID PLUSPLUS:e cuerpo {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";:}  | 
                     ID MINMIN:e cuerpo {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";:};
 
-ciclos ::= sentencia_mientras | sentencia_por |sentencia_si; 
+ciclos ::= sentencia_mientras:id {: RESULT=id+""; :} |
+           sentencia_por:id {: RESULT=id+""; :} | 
+           sentencia_si:id {: RESULT=id+""; :}; 
 
 sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN KEYCLOSE  
-                      {: ci.add("while("+cond+")\n" );  :}|
-                      MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo KEYCLOSE
-                      {: ci.add("while("+cond+")\n" );  :} |  
-                      MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo 
-                      {: ci.add("while("+cond+")\n" );  :} | 
+                      {: ci.add("while("+cond+")\n" ); RESULT="while("+cond+"){}"; :}|
+                      MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE
+                      {: ci.add("while("+cond+")\n" ); RESULT="while("+cond+"){\n"+c+"\n}"; :} |  
+                      MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d 
+                      {: ci.add("while("+cond+")\n" ); RESULT="while("+cond+"){\n"+c+"\n}\n"+d; :} | 
+ 
 
                       MIENTRAS PAROPEN :e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";:} |
                       MIENTRAS condicion PARCLOSE:e KEYOPEN KEYCLOSE  {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";:} |
@@ -550,12 +612,15 @@ sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN KEYCLOSE
                       MIENTRAS PAROPEN condicion :e KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";:} |
                       MIENTRAS PAROPEN condicion PARCLOSE:e cuerpo  KEYCLOSE cuerpo {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";:};
 
-sentencia_si::=  SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo KEYCLOSE
-                 {: ci.add("if("+cond+")\n" );  :} |
-                 SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo
-                {: ci.add("if("+cond+")\n" );  :} |
-                 SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo 
-                {: ci.add("if("+cond+")\n" );  :} |
+
+sentencia_si::=  SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE
+                 {: ci.add("if("+cond+")\n" );  RESULT="if("+cond+"){\n"+c+"\n}"; :} |
+                 SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d
+                {: ci.add("if("+cond+")\n" );  RESULT="if("+cond+"){\n"+c+"\n}\n"+d; :} |
+                 SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE cuerpo:e 
+                {: ci.add("if("+cond+")\n" );  RESULT="if("+cond+"){\n"+c+"\n}\n else{\n"+d+"\n}\n"+e; :} |
+                SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE 
+                {: ci.add("if("+cond+")\n" );  RESULT="if("+cond+"){\n"+c+"\n}\n else{\n"+d+"\n}\n"; :} |
                  
                  SI PAROPEN PARCLOSE KEYOPEN:e cuerpo KEYCLOSE {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n";:}|
                  SI PAROPEN condicion  KEYOPEN :e cuerpo KEYCLOSE {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon' \n";:} |
@@ -573,11 +638,10 @@ sentencia_si::=  SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo KEYCLOSE
                  SI PAROPEN condicion PARCLOSE :e cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n";:} | 
                  SI PAROPEN condicion PARCLOSE KEYOPEN cuerpo KEYCLOSE SINO :e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de 'SINO' \n";:}; 
 
-
-sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo 
-                 {: ci.add("for("+dec+";"+cond+";"+asi+")\n" );  :}| 
-                 POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo KEYCLOSE 
-                {: ci.add("for("+dec+";"+cond+";"+asi+")\n" );  :}| 
+sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d 
+                 {: ci.add("for("+dec+";"+cond+";"+asi+")\n" ); RESULT="for("+dec+";"+cond+";"+asi+"){\n"+c+"\n}\n"+d;  :}| 
+                 POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE 
+                {: ci.add("for("+dec+";"+cond+";"+asi+")\n" );  RESULT="for("+dec+";"+cond+";"+asi+"){\n"+c+"\n}\n"; :}| 
                  
                  POR:e decvariables COMA condicion COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 47 en la linea: "+(eright+1)+" - Se esperaba '(' despues de del POR  \n";:} | 
                  POR PAROPEN :e COMA condicion COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 48 en la linea: "+(eright+1)+" - Se esperaba una declaracion de variables \n";:} | 
@@ -606,9 +670,14 @@ condicion::= log:id {: RESULT=id; :}
 
 
 rel::= op_rel:op sig_rel:sig op_rel:opp
-        {: RESULT=op+" "+sig+" "+opp; :} 
+        {: 
+           op_log.add(op+"="+ opp +"="+(opright+1));
+           RESULT=op+" "+sig+" "+opp;
+        :} 
         |  op_rel:op sig_rel:sig rel:res 
-        {: RESULT=op+" "+sig+" "+res; :};
+        {: RESULT=op+" "+sig+" "+res; 
+           op_log.add(op+"="+(opright+1));
+        :};
 
 op_rel::= ID:id {: RESULT=id; :}   
             |   VERDADERO:id {: RESULT=id; :}   
@@ -622,9 +691,15 @@ op_rel::= ID:id {: RESULT=id; :}
 cond::=  rel:id {: RESULT=id; :} ;
 
 log ::= ope_logico:op AND ope_logico:opp 
-        {: RESULT=op+" && "+opp; :} |
+        {: RESULT=op+" && "+opp; 
+            //op_log.add(op+"="+ opp +"="+(opright+1));
+            
+        :} |
         ope_logico:op OR ope_logico:opp 
-        {: RESULT=op+" || "+opp; :} |
+        {: RESULT=op+" || "+opp; 
+            //op_log.add(op+"="+ opp +"="+(opright+1));
+            
+        :} |
         NOT ope_logico:op 
         {: RESULT="NOT "+op; :} | 
         ope_logico:op AND log:log 

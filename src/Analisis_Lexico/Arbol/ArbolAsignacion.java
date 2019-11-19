@@ -26,7 +26,7 @@ public class ArbolAsignacion {
     private SimuladorArbolBinario simulador = new SimuladorArbolBinario();
     public int x=10,y=10;
     
-    public JPanel generarArbol(String cadena,JPanel panel,int n){
+    public JPanel generarArbol(String cadena,JPanel panel){
         simulador.limpiar();
         String[] raices={"=","+","-","*","/"};
         String dato[] = cadena.split("!");
@@ -61,33 +61,24 @@ public class ArbolAsignacion {
             }
         }
         for(datosNodo raiz:datosNodos){
-            System.out.println("Prioridad "+raiz.peso+"   Dato "+raiz.dato);
             if (this.simulador.insertar(raiz)) {
-                System.err.println("ENTRO A PANEL ");
+                continue;
             }
         }
-        return repintarArbol(panel,n);
+        return this.simulador.getDibujo();
     }
     
-    private JPanel repintarArbol(JPanel panel, int n) {
-
-        //panel.removeAll();
-        
-        if(n == 5){
-            y+=170;
-            x=10;
-        }
-        TitledBorder title = BorderFactory.createTitledBorder("YOUR_TITLE");
-        panel.setBorder(title);
-        Rectangle tamaño = new Rectangle(x, y, 160, 150);
+    private JPanel repintarArbol(JPanel panel) {
+        panel.removeAll();
+        Rectangle tamaño = new Rectangle(20, 20, 500, 500);
         JInternalFrame frame = new JInternalFrame("Representación gráfica", true);
         frame.setBounds(tamaño);
         panel.add(frame, JLayeredPane.DEFAULT_LAYER);
         panel.setBounds(tamaño);
+        frame.setSize(400,400);
         panel.repaint();
         frame.setVisible(true);
         frame.add(this.simulador.getDibujo(), BorderLayout.CENTER);
-        x+=160;
        return panel;
     }
     public class datosNodo{

@@ -9,6 +9,7 @@ import Analisis_Lexico.ASintactico;
 import Analisis_Lexico.Analisis_Lexico;
 import Analisis_Lexico.Token_;
 import Analisis_Lexico.AnalizadorLexico;
+import Analisis_Lexico.Arbol.AnalisisArbol;
 import Analisis_Lexico.Arbol.ArbolAsignacion;
 import Analisis_Lexico.Automata_finito.AutomataFinitoN;
 import Analisis_Lexico.PilaAutomata.ValidacionPila;
@@ -23,6 +24,7 @@ import BajoNivel.imprimirCI;
 import Manejador_errores.Manejador_Errores;
 import Miscelaneos.Miscelaneo;
 import Tabla_Simbolos.Tabla_Simbolos;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
@@ -558,6 +560,7 @@ public class Inicio extends javax.swing.JFrame {
             StringReader asa = new StringReader(archivo_seleccionado.contenido);
             AnalizadorLexico lexera = new AnalizadorLexico(asa);
             ASintactico as = new ASintactico(lexera);
+            AnalisisArbol analisisArbol = new AnalisisArbol();
             ASintactico.errores = "";
             as.setList(ls);
             as.setLex(lexera);
@@ -571,20 +574,13 @@ public class Inicio extends javax.swing.JFrame {
             as.errores += v.IncVar(as.inc_var, ls);
             this.cons.setText(as.errores);
             
+            
+              
             /***************Arboles***************/
-            int numero = 0;
-            arbolesAeignacion.x = 10;
-            arbolesAeignacion.y = 10;
+            Dimension tamaño = new Dimension(1920, 1080);
             mostrarAutomata.panelArbol.removeAll();
-            for(String arboles: as.arbolesAsignacion){
-                if(numero>5)
-                    numero=1;
-                Icon icon2 = new ImageIcon(getClass().getResource("/Imagenes/sitemap.png"));
-                mostrarAutomata.panelOptimizado.addTab("Arboles De Expresion",icon2, 
-                        arbolesAeignacion.generarArbol(arboles, mostrarAutomata.panelArbol,numero), "Exp");
-                numero ++;
-                
-            }            
+            mostrarAutomata.panelArbol.add("asd",analisisArbol.automataDeclaraciones(ls,mostrarAutomata.panelArbol,mostrarAutomata.panelOptimizado)); 
+            mostrarAutomata.panelArbol.getComponents()[0].setSize(tamaño);
             /***************Arboles***************/
             
             for(int i = 1; i< as.listavar.size();i++){
@@ -594,7 +590,7 @@ public class Inicio extends javax.swing.JFrame {
                      
                  }
             }
-            imprimirCI intermedio = new imprimirCI();
+            imprimirCI intermedio = new imprimirCI(archivo_seleccionado.nombre_archivo);
             intermedio.imprimir(as.ci);
             intermedio.imprimir2(as.codop);
             // de ls se optienen los lexemas y componentes lexicos
@@ -671,9 +667,11 @@ public class Inicio extends javax.swing.JFrame {
             }
             
             if (tabbedPane.getTabCount() > 0) {
-                Icon icon = new ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png"));
+                Dimension tamaño = new Dimension(1920, 1080);
                 Icon iconStack = new ImageIcon(getClass().getResource("/Imagenes/stack.png"));
-                mostrarAutomata.panelOptimizado.addTab("AFN - Declaraciones",icon, tabbedPane, "AFN- DEC");
+                mostrarAutomata.panelAutomata.removeAll();
+                mostrarAutomata.panelAutomata.add("as",tabbedPane);
+                mostrarAutomata.panelAutomata.getComponents()[0].setSize(tamaño);
                 vPila.tabPanel.addTab("Pila - Declaraciones",iconStack, tPilaA, "STACK- DEC");
             }
     }

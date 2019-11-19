@@ -17,8 +17,8 @@ public class ArbolExpresionGrafico extends JPanel
     private HashMap posicionNodos = null;
     private HashMap subtreeSizes = null;
     private boolean dirty = true;
-    private int parent2child = 20, child2child = 30;
-    private Dimension empty = new Dimension(0,0);
+    private int parent2child = 50, child2child = 30;
+    private Dimension empty = new Dimension(150,150);
     private FontMetrics fm = null;
     
     
@@ -165,7 +165,7 @@ public class ArbolExpresionGrafico extends JPanel
          }
          
          Graphics2D g2d = (Graphics2D) g;
-         g2d.translate(getWidth() / 2, parent2child);
+         g2d.translate(500 / 2, parent2child);
          dibujarArbol(g2d, this.miArbol.getRaiz(), Integer.MAX_VALUE, Integer.MAX_VALUE, 
                   fm.getLeading() + fm.getAscent());
          fm = null;
