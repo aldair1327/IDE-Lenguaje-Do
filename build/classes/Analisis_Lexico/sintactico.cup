@@ -120,7 +120,7 @@ start with inicio;
 ///////////////////////////////////////////////////////////////////------INICIO---------///////////////////////////////////////////////////////////////////
 ////////////////////////////////////{:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ( despu�s de inicio";:}////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE {:   codop.add( "void loop(){ \n" + c + "\n}"); :} | 
+inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE {:   codop.add( "void setup(){\n}\nvoid loop(){ \n" + c + "\n}"); :} | 
           INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE  | 
           
           INICIO PAROPEN PARCLOSE KEYOPEN cuerpo :e  {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";:}   |  
@@ -360,9 +360,7 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                     RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2];  
                     }  
                   }  
-                  //ci.add(tipo +" "+ a[1] +"\n");
-                  listavar.add(a[1]+"");
-                  listavar.add("\n");  
+                 
                     //System.out.println(asignacion,tipo.toString(),asignacion,ls); 
                     try { 
                         //System.out.println("asignacion:" + asignacion);
@@ -496,7 +494,7 @@ declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA {:
                     :}| 
                      SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
                     ci.add("notono()\n tono(0)\n tiempo("+n+")\n" );
-                    codop.add("noTone(8);\n delay("+n+");\n"+c );
+                    RESULT="noTone(8);\n delay("+n+");\n"+c;
                     
                     :}| 
                      SILENCIO PAROPEN PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea:"+(eright+1)+" - Falta el ; \n";:} |
