@@ -17,12 +17,13 @@ import javax.swing.JOptionPane;
  * @author aldai
  */
 public class imprimirCI {
-    public String nombre,nombreSolo;
+    public String nombre,nombreSolo,nombreSolo2;
 
     public imprimirCI(String nombre) {
         this.nombreSolo= nombre;
         int index = nombre.length();
-        this.nombre = nombre.substring(0, index-3)+".ino";
+        this.nombreSolo2 = nombre.substring(0, index-3);
+        this.nombre = nombreSolo2+".ino";
     }
     
     
@@ -32,7 +33,33 @@ public class imprimirCI {
         PrintWriter pw = null;
         try
         {
-            fichero = new FileWriter("c:/pruebas/"+this.nombre);
+            fichero = new FileWriter("c:/pruebas/"+nombreSolo2+".cod");
+            pw = new PrintWriter(fichero);
+
+            for (String elemento:ci)
+                fichero.write(elemento);
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // Nuevamente aprovechamos el finally para 
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+    }
+    
+    public void imprimir2(ArrayList<String> ci) throws InterruptedException{
+        Collections.reverse(ci);  
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try
+        {
+            fichero = new FileWriter("c:/pruebas/"+nombre);
             pw = new PrintWriter(fichero);
 
             for (String elemento:ci)
@@ -67,7 +94,7 @@ public class imprimirCI {
             e.printStackTrace();
         }
         try{
-            ProcessBuilder builder = new ProcessBuilder("arduino-cli upload -p COM3 --fqbn arduino:avr:uno "+this.nombreSolo);
+            ProcessBuilder builder = new ProcessBuilder("arduino-cli upload -p COM3 --fqbn arduino:avr:uno "+this.nombreSolo2);
             Process process = builder.start();
             InputStream inputstream = process.getInputStream();
             BufferedInputStream bufferedinputstream = new BufferedInputStream(inputstream);
@@ -81,32 +108,6 @@ public class imprimirCI {
             JOptionPane.showMessageDialog(null, resultado);
         }catch(IOException e){
             e.printStackTrace();
-        }
-    }
-    
-    public void imprimir2(ArrayList<String> ci){
-        Collections.reverse(ci);  
-        FileWriter fichero = null;
-        PrintWriter pw = null;
-        try
-        {
-            fichero = new FileWriter("c:/pruebas/optimizado.opt");
-            pw = new PrintWriter(fichero);
-
-            for (String elemento:ci)
-                fichero.write(elemento);
-           
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-           try {
-           // Nuevamente aprovechamos el finally para 
-           // asegurarnos que se cierra el fichero.
-           if (null != fichero)
-              fichero.close();
-           } catch (Exception e2) {
-              e2.printStackTrace();
-           }
         }
     }
     

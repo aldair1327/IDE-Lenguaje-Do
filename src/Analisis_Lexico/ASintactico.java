@@ -2088,7 +2088,7 @@ class CUP$ASintactico$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		   codop.add( "void loop(){ \n" + c + "\n}"); 
+		   codop.add( "void setup(){\n}\nvoid loop(){ \n" + c + "\n}"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3943,9 +3943,7 @@ class CUP$ASintactico$actions {
                     RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2];  
                     }  
                   }  
-                  //ci.add(tipo +" "+ a[1] +"\n");
-                  listavar.add(a[1]+"");
-                  listavar.add("\n");  
+                 
                     //System.out.println(asignacion,tipo.toString(),asignacion,ls); 
                     try { 
                         //System.out.println("asignacion:" + asignacion);
@@ -4648,7 +4646,7 @@ class CUP$ASintactico$actions {
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
                     ci.add("notono()\n tono(0)\n tiempo("+n+")\n" );
-                    codop.add("noTone(8);\n delay("+n+");\n"+c );
+                    RESULT="noTone(8);\n delay("+n+");\n"+c;
                     
                     
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
