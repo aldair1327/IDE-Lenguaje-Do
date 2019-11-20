@@ -24,6 +24,9 @@ public class imprimirCI {
         int index = nombre.length();
         this.nombreSolo2 = nombre.substring(0, index-3);
         this.nombre = nombreSolo2+".ino";
+        this.nombreSolo = this.nombreSolo.toLowerCase();
+        this.nombreSolo2 = this.nombreSolo2.toLowerCase();
+        this.nombre = this.nombre.toLowerCase();
     }
     
     
@@ -31,9 +34,13 @@ public class imprimirCI {
         Collections.reverse(ci);  
         FileWriter fichero = null;
         PrintWriter pw = null;
+        boolean success = (new File("c:/pruebas/"+nombreSolo2)).mkdirs();
+        if (!success) {
+            // Directory creation failed
+        }
         try
         {
-            fichero = new FileWriter("c:/pruebas/"+nombreSolo2+".cod");
+            fichero = new FileWriter("c:/pruebas/"+nombreSolo2+"/"+nombreSolo2+".cod");
             pw = new PrintWriter(fichero);
 
             for (String elemento:ci)
@@ -59,7 +66,7 @@ public class imprimirCI {
         PrintWriter pw = null;
         try
         {
-            fichero = new FileWriter("c:/pruebas/"+nombre);
+            fichero = new FileWriter("c:/pruebas/"+nombreSolo2+"/"+nombre);
             pw = new PrintWriter(fichero);
 
             for (String elemento:ci)
@@ -77,40 +84,19 @@ public class imprimirCI {
               e2.printStackTrace();
            }
         }
-        try{
-            ProcessBuilder builder = new ProcessBuilder("arduino-cli compile --fqbn adruino:avr:uno c:/pruebas/"+this.nombre);
-            Process process = builder.start();
-            InputStream inputstream = process.getInputStream();
-            BufferedInputStream bufferedinputstream = new BufferedInputStream(inputstream);
-            Thread.sleep(5000);
-            process.destroy();
-            int i;
-            String resultado="";
-            while((i=bufferedinputstream.read())!=-1){    
-                resultado+=((char)i);    
-            } 
-            JOptionPane.showMessageDialog(null, resultado);
-        }catch(IOException e){
-            e.printStackTrace();
+        try {
+            String cmd = "arduino-cli compile --fqbn arduino:avr:uno C:\\pruebas\\"+nombreSolo2; //Comando de apagado en linux
+            Runtime.getRuntime().exec(cmd); 
+        } catch (IOException ioe) {
+                System.out.println (ioe);
         }
-        try{
-            ProcessBuilder builder = new ProcessBuilder("arduino-cli upload -p COM3 --fqbn arduino:avr:uno "+this.nombreSolo2);
-            Process process = builder.start();
-            InputStream inputstream = process.getInputStream();
-            BufferedInputStream bufferedinputstream = new BufferedInputStream(inputstream);
-            Thread.sleep(30000);
-            process.destroy();
-            int i;
-            String resultado="";
-            while((i=bufferedinputstream.read())!=-1){    
-                resultado+=((char)i);    
-            } 
-            JOptionPane.showMessageDialog(null, resultado);
-        }catch(IOException e){
-            e.printStackTrace();
+        try {
+            String cmd = "arduino-cli upload -p COM5 --fqbn arduino:avr:uno C:\\pruebas\\"+nombreSolo2; //Comando de apagado en linux
+            Runtime.getRuntime().exec(cmd); 
+        } catch (IOException ioe) {
+                System.out.println (ioe);
         }
     }
-    
     public static void main(String[] args){
         /*imprimirCI a = new imprimirCI("nombre");
         ArrayList<String> prueba = new ArrayList<>();

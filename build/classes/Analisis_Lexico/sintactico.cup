@@ -412,14 +412,14 @@ funcionesDo ::= declaraReproduce:id {: RESULT=id+""; :}  |
                 declaraVolumen  |  
                 declaraFrecuencia ;
 
-declaraReproduce ::= REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA {:
-                     ci.add("ent "+ n + "\n tono("+n+")\n" );
-                     RESULT= "tone(8,"+n+");";
+declaraReproduce ::= REPRODUCE PAROPEN notas:n COMA numEntero:x PARCLOSE PUNTO_Y_COMA {:
+                     ci.add("ent "+ n + "\n tono("+n+","+x+")\n" );
+                     RESULT= "tone(8,"+n+","+x+");";
                      listavar.add(n+"");
                      :} |
-                     REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA cuerpo:c {:
-                     ci.add("ent "+ n + "\n tono("+n+")\n" );
-                     RESULT= "tone(8,"+n+");\n"+c;
+                     REPRODUCE PAROPEN notas:n COMA numEntero:x PARCLOSE PUNTO_Y_COMA cuerpo:c {:
+                     ci.add("ent "+ n + "\n tono("+n+","+x+")\n" );
+                     RESULT= "tone(8,"+n+","+x+");\n"+c;
                      listavar.add(n+"");
                      :}|
                      PAROPEN:e notas PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";:} | 
