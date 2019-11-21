@@ -43,6 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -82,6 +83,13 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
         analisis_lexico = new Analisis_Lexico();
+        Image i = null;
+        try {
+            i = ImageIO.read(getClass().getResource("/Imagenes/music.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setIconImage(i);
         //cons = new Consola();
         //btn_nuevo_archivo.doClick();
     }
@@ -105,6 +113,7 @@ public class Inicio extends javax.swing.JFrame {
         archivos = new javax.swing.JTree();
         btnGrabar = new javax.swing.JButton();
         btnCargar = new javax.swing.JButton();
+        jSeparator6 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         btn_nuevo = new javax.swing.JMenu();
         btn_nuevo_archivo = new javax.swing.JMenuItem();
@@ -159,7 +168,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panel_consola, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+                    .addComponent(panel_consola, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
                     .addComponent(tabs))
                 .addContainerGap())
         );
@@ -173,6 +182,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        analizar_lexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_send_black_18dp.png"))); // NOI18N
         analizar_lexico.setText("Compilar");
         analizar_lexico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,13 +211,15 @@ public class Inicio extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(archivos);
 
-        btnGrabar.setText("Grabar Cancion");
+        btnGrabar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rec_16.png"))); // NOI18N
+        btnGrabar.setText("Grabar Canción");
         btnGrabar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGrabarActionPerformed(evt);
             }
         });
 
+        btnCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_unarchive_black_18dp.png"))); // NOI18N
         btnCargar.setText("Cargar");
         btnCargar.setEnabled(false);
         btnCargar.addActionListener(new java.awt.event.ActionListener() {
@@ -216,9 +228,12 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         btn_nuevo.setText("Archivo");
 
         btn_nuevo_archivo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        btn_nuevo_archivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_add_black_18dp.png"))); // NOI18N
         btn_nuevo_archivo.setText("Nuevo Archivo");
         btn_nuevo_archivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,6 +243,7 @@ public class Inicio extends javax.swing.JFrame {
         btn_nuevo.add(btn_nuevo_archivo);
 
         btn_abrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        btn_abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_insert_drive_file_black_18dp.png"))); // NOI18N
         btn_abrir.setText("Abrir Archivo");
         btn_abrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,6 +253,7 @@ public class Inicio extends javax.swing.JFrame {
         btn_nuevo.add(btn_abrir);
 
         btn_abrir_carpeta.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        btn_abrir_carpeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_folder_black_18dp.png"))); // NOI18N
         btn_abrir_carpeta.setText("Abrir Carpeta");
         btn_abrir_carpeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,6 +264,7 @@ public class Inicio extends javax.swing.JFrame {
         btn_nuevo.add(jSeparator2);
 
         btn_guardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        btn_guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_save_black_18dp.png"))); // NOI18N
         btn_guardar.setText("Guardar Archivo");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,7 +317,8 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem1.setText("Tabla de simbolos");
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_font_download_black_18dp.png"))); // NOI18N
+        jMenuItem1.setText("Tabla de variables");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -307,6 +326,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_table_chart_black_18dp.png"))); // NOI18N
         jMenuItem2.setText("Tabla general");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,6 +336,7 @@ public class Inicio extends javax.swing.JFrame {
         jMenu2.add(jMenuItem2);
         jMenu2.add(jSeparator3);
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_account_tree_black_18dp.png"))); // NOI18N
         jMenuItem3.setText("Autómata Finito");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -357,15 +378,18 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                    .addComponent(btnGrabar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                        .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 197, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -373,13 +397,15 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnGrabar)
+                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -898,6 +924,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JScrollPane panel_consola;
     public javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables

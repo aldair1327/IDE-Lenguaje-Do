@@ -5,6 +5,12 @@
  */
 package Ventanas;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+
 /**
  *
  * @author willi
@@ -17,6 +23,13 @@ public class MostrarTablas extends javax.swing.JFrame {
     public MostrarTablas() {
         initComponents();
         this.setLocationRelativeTo(this);
+        Image i = null;
+        try {
+            i = ImageIO.read(getClass().getResource("/Imagenes/music.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setIconImage(i);
     }
 
     /**
