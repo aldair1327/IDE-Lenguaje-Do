@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
@@ -49,8 +50,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.text.Style;
 import javax.swing.text.StyledDocument;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -98,6 +103,8 @@ public class Inicio extends javax.swing.JFrame {
         analizar_lexico = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         archivos = new javax.swing.JTree();
+        btnGrabar = new javax.swing.JButton();
+        btnCargar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btn_nuevo = new javax.swing.JMenu();
         btn_nuevo_archivo = new javax.swing.JMenuItem();
@@ -193,6 +200,21 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(archivos);
+
+        btnGrabar.setText("Grabar Cancion");
+        btnGrabar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGrabarActionPerformed(evt);
+            }
+        });
+
+        btnCargar.setText("Cargar");
+        btnCargar.setEnabled(false);
+        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarActionPerformed(evt);
+            }
+        });
 
         btn_nuevo.setText("Archivo");
 
@@ -335,21 +357,26 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
@@ -620,7 +647,8 @@ public class Inicio extends javax.swing.JFrame {
             //TERMINA LO DE WILLY y Gaby
             
             if("".equals(as.errores)){
-                this.cons.setText("----------------------------**Analisis exitoso**----------------------------");
+               
+                this.cons.setText("*******************************COMPILACIÓN CON EXITO*******************************");
                 //Nodo raiz = as.padre;
                 //Graficar(recorrido(raiz), "AST_PROYECTO");
             }
@@ -712,6 +740,46 @@ public class Inicio extends javax.swing.JFrame {
     private void btnVPilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVPilaActionPerformed
         vPila.setVisible(true);
     }//GEN-LAST:event_btnVPilaActionPerformed
+
+    private void btnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrabarActionPerformed
+        try
+        {  
+         // We are running "dir" and "ping" command on cmd 
+         Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"python c:/pruebas/musicalNoteDetector.py\""); 
+        } 
+        catch (Exception e) 
+        { 
+            System.out.println("HEY Buddy ! U r Doing Something Wrong "); 
+            e.printStackTrace(); 
+        }
+        btnCargar.setEnabled(true);
+    }//GEN-LAST:event_btnGrabarActionPerformed
+
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+        String texto="";
+        try {
+            String ruta=ruta_cargar;
+            String cadena;
+            FileReader f = new FileReader(ruta);
+            BufferedReader b = new BufferedReader(f);
+            while((cadena = b.readLine())!=null) {
+                texto+=cadena+"\n";
+            }
+            b.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Archivos ar=new Archivos(ruta_default+"Nuevo Archivo "+id_archivo+".do","Nuevo Archivo "+id_archivo+".do");
+        archivos_abiertos.add(ar);
+        this.archivo_seleccionado=ar;
+        archivo_seleccionado.contenido=texto;
+        this.archivo_seleccionado.guardado=false;
+        Miscelaneo.actualizar_tab(tabs, archivos_abiertos,this);
+        Miscelaneo.seleccionar_tab(tabs, archivos_abiertos, ar);
+        id_archivo++;
+        
+        btnCargar.setEnabled(false);
+    }//GEN-LAST:event_btnCargarActionPerformed
     public void generarCup(){
        String[] asintactico = {"-parser", "ASintactico", "./src/Analisis_Lexico/sintactico.cup"};                   
                     try {
@@ -748,7 +816,8 @@ public class Inicio extends javax.swing.JFrame {
     }
      
      
-    private final String ruta_default="./src/Archivos_creados/"; 
+    private final String ruta_default="./src/Archivos_creados/";
+    private final String ruta_cargar="C:\\pruebas\\DoRec.txt";
     public Tabla_Simbolos tabla_simbolos=new Tabla_Simbolos();
     public ArrayList<Archivos> archivos_abiertos=new ArrayList<Archivos>();
     public  Archivos archivo_seleccionado;
@@ -799,6 +868,8 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton analizar_lexico;
     private javax.swing.JTree archivos;
+    private javax.swing.JButton btnCargar;
+    private javax.swing.JButton btnGrabar;
     private javax.swing.JMenuItem btnVPila;
     private javax.swing.JMenuItem btn_abrir;
     private javax.swing.JMenuItem btn_abrir_carpeta;
