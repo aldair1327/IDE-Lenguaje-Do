@@ -350,6 +350,10 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                   if(tipo.toString().equals("nota")){
                     RESULT="int "+a[1]+" = "+a[0]+";\n";  
                     }  
+                  if(tipo.toString().equals("cadena")){
+                    RESULT="String "+a[1]+" = "+a[0]+";\n";
+                    }
+                    //ci.add(tipo+" "+a[1]+"\n");
                   }
                     
                   if(a.length == 3){  
@@ -358,7 +362,11 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                     }
                   if(tipo.toString().equals("nota")){
                     RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2];  
-                    }  
+                    } 
+                  if(tipo.toString().equals("cadena")){
+                    RESULT="String "+a[1]+" = "+a[0]+";\n"+a[2]+";\n";
+                    }
+                    //ci.add(tipo+" "+a[1]+"\n");
                   }  
                  
                     //System.out.println(asignacion,tipo.toString(),asignacion,ls); 
@@ -409,17 +417,17 @@ funcionesDo ::= declaraReproduce:id {: RESULT=id+""; :}  |
                 declaraImportar:id {: RESULT=id+""; :}  |  
                 declaraContinuar:id {: RESULT=id+""; :}  |  
                 declaraSilencio:id {: RESULT=id+""; :}  | 
-                declaraVolumen  |  
-                declaraFrecuencia ;
+                declaraVolumen:id {: RESULT=id+""; :}  |  
+                declaraFrecuencia:id {: RESULT=id+""; :} ;
 
-declaraReproduce ::= REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA {:
-                     ci.add("ent "+ n + "\n tono("+n+")\n" );
-                     RESULT= "tone(8,"+n+");";
+declaraReproduce ::= REPRODUCE PAROPEN notas:n COMA numEntero:x PARCLOSE PUNTO_Y_COMA {:
+                     ci.add("ent "+ n + "\n tono("+n+","+x+")\n" );
+                     RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
                      listavar.add(n+"");
                      :} |
-                     REPRODUCE PAROPEN notas:n PARCLOSE PUNTO_Y_COMA cuerpo:c {:
-                     ci.add("ent "+ n + "\n tono("+n+")\n" );
-                     RESULT= "tone(8,"+n+");\n"+c;
+                     REPRODUCE PAROPEN notas:n COMA numEntero:x PARCLOSE PUNTO_Y_COMA cuerpo:c {:
+                     ci.add("ent "+ n + "\n tono("+n+","+x+")\n" );
+                     RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n"+c;
                      listavar.add(n+"");
                      :}|
                      PAROPEN:e notas PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";:} | 
@@ -512,10 +520,12 @@ declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA {:
 
 declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  {:
                     ci.add("ent v \n"+"v = "+ n +"\n vol( v )\n" );
+                    RESULT="int volume = "+n+";\n";
                     :}
                     | 
-                    VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo {:
+                    VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c {:
                     ci.add("ent v \n"+"v = "+ n +"\n vol( v )\n" );
+                    RESULT="int volume = "+n+";\n"+c;
                     :}| 
                     VOLUMEN PAROPEN numEntero PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";:}  | 
                     VOLUMEN PAROPEN PARCLOSE:e PUNTO_Y_COMA {:this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";:}  | 
@@ -528,10 +538,12 @@ declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  {:
 
 declaraFrecuencia ::= FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA {:
                     ci.add("ent f \n"+"f = "+ n +"\n frec( f )\n" );
+                    RESULT="int frequency = "+n+";\n";
                     :}
                     | 
                     FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo {:
                     ci.add("ent f \n"+"f = "+ n +"\n frec( f )\n" );
+                    RESULT="int frequency = "+n+";\n";
                     :}| 
                     FRECUENCIA PAROPEN numEntero PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";:}  | 
                     FRECUENCIA PAROPEN PARCLOSE:e PUNTO_Y_COMA {:this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";:}  | 
@@ -710,7 +722,7 @@ log ::= ope_logico:op AND ope_logico:opp
 log2 ::= AND |
          OR;
 
-pe_logico::= ID:id {: RESULT=id; :} | VERDADERO:id {: RESULT=id; :} | FALSO:id {: RESULT=id; :};
+ope_logico::= ID:id {: RESULT=id; :} | VERDADERO:id {: RESULT=id; :} | FALSO:id {: RESULT=id; :};
 
 sig_rel::=      MAYTHAN:id {: RESULT=id; :}  | 
 		MINTHAN:id {: RESULT=id; :}  | 

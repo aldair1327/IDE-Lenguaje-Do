@@ -636,13 +636,6 @@ public class Inicio extends javax.swing.JFrame {
             mostrarAutomata.panelArbol.getComponents()[0].setSize(tamaño);
             /***************Arboles***************/
             
-            for(int i = 1; i< as.listavar.size();i++){
-                 for(int j = 0; j<as.ci.size();j++){
-                   
-                     as.ci.set(j,as.ci.get(j).replaceAll("\\b"+as.listavar.get(i)+"\\b", "temp"+i));     
-                     
-                 }
-            }
             for(int j = 0; j<as.codop.size();j++){
                    
                      as.codop.set(j,as.codop.get(j).replaceAll("DO", "130.80"));     
@@ -651,14 +644,23 @@ public class Inicio extends javax.swing.JFrame {
                      as.codop.set(j,as.codop.get(j).replaceAll("FA", "174.60"));
                      as.codop.set(j,as.codop.get(j).replaceAll("SOL", "196.00"));
                      as.codop.set(j,as.codop.get(j).replaceAll("LA", "220.00"));
-                     as.codop.set(j,as.codop.get(j).replaceAll("SI", "246.90"));
+                     as.codop.set(j,as.codop.get(j).replaceAll("SII", "246.90"));
                  }
-            
-            
             imprimirCI intermedio = new imprimirCI(archivo_seleccionado.nombre_archivo);
-            intermedio.imprimir(as.ci);
             intermedio.imprimir2(as.codop);
-            // de ls se optienen los lexemas y componentes lexicos
+            
+            
+            
+            for(int i = 1; i< as.listavar.size();i++){
+                 for(int j = 0; j<as.codop.size();j++){
+                   
+                     as.codop.set(j,as.codop.get(j).replaceAll("\\b"+as.listavar.get(i)+"\\b", "temp"+i));     
+                     
+                 }
+            }
+            
+            
+            intermedio.imprimir(as.codop);// de ls se optienen los lexemas y componentes lexicos
             
 //           System.out.println("\n\n *********************** lista de inicio ************************");
 //           System.out.println(ls);
