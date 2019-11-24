@@ -625,6 +625,7 @@ public class Inicio extends javax.swing.JFrame {
             as.errores += v.InicializarVariable(as.asig_Ini, ls);
             as.errores += v.OpLogSimples(as.op_log,ls);
             as.errores += v.IncVar(as.inc_var, ls);
+            as.errores += v.parametros(as.param, ls);
             this.cons.setText(as.errores);
             
             
