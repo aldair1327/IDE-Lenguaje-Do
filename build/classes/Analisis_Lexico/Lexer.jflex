@@ -69,11 +69,12 @@ Pintar_Palabras pintar = new Pintar_Palabras();
 "++"  {lexeme=yytext(); comp="ARITMETICO"; return new Symbol(sym.PLUSPLUS, yychar,yyline,yytext());}
 "--"  {lexeme=yytext(); comp="ARITMETICO"; return new Symbol(sym.MINMIN, yychar,yyline,yytext());}
 
+
+"+="  {lexeme=yytext(); comp="MASIGUAL"; return new Symbol(sym.ADDASIG, yychar,yyline,yytext());}
+"-=" {lexeme=yytext(); comp="MINIGUAL"; return new Symbol(sym.MINASIG, yychar,yyline,yytext());}
+"/="  {lexeme=yytext(); comp="DIVIGUAL"; return new Symbol(sym.DIVASIG, yychar,yyline,yytext());}
+"*="  {lexeme=yytext(); comp="PORIGUAL"; return new Symbol(sym.MULASIG, yychar,yyline,yytext());}
 "="  {lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.ASIG, yychar,yyline,yytext());}
-"+="  {lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.ADDASIG, yychar,yyline,yytext());}
-"-=" {lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.MINASIG, yychar,yyline,yytext());}
-"/="  {lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.DIVASIG, yychar,yyline,yytext());}
-"*="  {lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.MULASIG, yychar,yyline,yytext());}
 
 ">"  {lexeme=yytext(); comp="RELACIONAL"; return new Symbol(sym.MAYTHAN, yychar,yyline,yytext());}
 "<"  {lexeme=yytext(); comp="RELACIONAL"; return new Symbol(sym.MINTHAN, yychar,yyline,yytext());}

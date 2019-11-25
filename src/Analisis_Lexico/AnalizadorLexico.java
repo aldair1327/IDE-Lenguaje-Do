@@ -951,12 +951,12 @@ Pintar_Palabras pintar = new Pintar_Palabras();
             // fall through
           case 89: break;
           case 26: 
-            { lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.DIVASIG, yychar,yyline,yytext());
+            { lexeme=yytext(); comp="DIVIGUAL"; return new Symbol(sym.DIVASIG, yychar,yyline,yytext());
             } 
             // fall through
           case 90: break;
           case 27: 
-            { lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.MULASIG, yychar,yyline,yytext());
+            { lexeme=yytext(); comp="PORIGUAL"; return new Symbol(sym.MULASIG, yychar,yyline,yytext());
             } 
             // fall through
           case 91: break;
@@ -976,7 +976,7 @@ Pintar_Palabras pintar = new Pintar_Palabras();
             // fall through
           case 94: break;
           case 31: 
-            { lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.ADDASIG, yychar,yyline,yytext());
+            { lexeme=yytext(); comp="MASIGUAL"; return new Symbol(sym.ADDASIG, yychar,yyline,yytext());
             } 
             // fall through
           case 95: break;
@@ -986,7 +986,7 @@ Pintar_Palabras pintar = new Pintar_Palabras();
             // fall through
           case 96: break;
           case 33: 
-            { lexeme=yytext(); comp="ASSIGNACION"; return new Symbol(sym.MINASIG, yychar,yyline,yytext());
+            { lexeme=yytext(); comp="MINIGUAL"; return new Symbol(sym.MINASIG, yychar,yyline,yytext());
             } 
             // fall through
           case 97: break;

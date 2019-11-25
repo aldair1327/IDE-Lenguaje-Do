@@ -181,7 +181,7 @@ public class Validaciones {
         return cad;
     }
     
-    public String OpLogSimples(ArrayList<String> ini, ArrayList<Token_> ls){
+public String OpLogSimples(ArrayList<String> ini, ArrayList<Token_> ls){
         cad ="";
         Collections.reverse(ini);
         //JOptionPane.showMessageDialog(null,ini.get(0));
@@ -194,7 +194,10 @@ public class Validaciones {
                         //JOptionPane.showMessageDialog(null,"PARTE IZQUIERDA ES NUMERO");
                         try{
                             //JOptionPane.showMessageDialog(null,.equals("entero"));
-                             tipo_aAsig =optab.validar_tipoDato(aux[1], ls);
+                            Integer.parseInt(aux[1]);
+                             
+                        }catch(Exception e){
+                           tipo_aAsig =optab.validar_tipoDato(aux[1], ls);
                              
                         if(tipo_aAsig != null && optab.validar_tipoDato(aux[1], ls).equals("entero")){
                             //JOptionPane.showMessageDialog(null,"ES ENTERA LA PARTE IZQUIERDA");
@@ -209,11 +212,6 @@ public class Validaciones {
                             }else{
                                 
                                 cad += "Error semántico en la linea: - "+aux[2]+ " La variable: " + aux[1] + " no ha sido incializada  \n";
-                            }
-                        }catch(Exception e){
-                            String o ="";
-                            for(int i =0;i < aux.length;i++){
-                                o += aux[i];
                             }
                              
                            //JOptionPane.showMessageDialog(null,o);
@@ -290,7 +288,6 @@ public class Validaciones {
         }
         return cad;
     }
-    
     public String IncVar(ArrayList<String> ini, ArrayList<Token_> ls){
         cad ="";
         Collections.reverse(ini);
@@ -356,7 +353,7 @@ public class Validaciones {
                                 
                 }catch(NumberFormatException e){
                     idAComp = optab.buscarIDCup(aux[0],ls);
-                    JOptionPane.showMessageDialog(null,idAComp);
+                    //JOptionPane.showMessageDialog(null,idAComp);
                     if(valorPredefinido(aux[0])){
                         
                     }else if(idAComp == null){
@@ -366,12 +363,12 @@ public class Validaciones {
 
                             }else{
                                 tipo_aComp = optab.validar_tipoDato(aux[0],ls);
-                                JOptionPane.showMessageDialog(null,tipo_aComp);
+                                //JOptionPane.showMessageDialog(null,tipo_aComp);
                                 if( !(tipo_aComp.equals("entero"))){
                                     cad += "Error semántico en la linea: - "+aux[1]+ " el tipo de dato del parámetro: " + aux[0] + " debe ser del tipo entero. Se esperaba un valor del tipo: entero \n";
                                 }else {
                                     tipo_aComp = optab.ObtenerValor(aux[0],ls);
-                                    JOptionPane.showMessageDialog(null,tipo_aComp);
+                                  //  JOptionPane.showMessageDialog(null,tipo_aComp);
                                     if( tipo_aComp == null)
                                         cad += "Error semántico en la linea: - "+aux[1]+ " el dato del parámetro: " + aux[0] + " no ha sido inicializado \n";
                                 }

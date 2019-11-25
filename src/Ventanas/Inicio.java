@@ -650,6 +650,16 @@ public class Inicio extends javax.swing.JFrame {
             imprimirCI intermedio = new imprimirCI(archivo_seleccionado.nombre_archivo);
             intermedio.imprimir2(as.codop);
             
+            for(int j = 0; j<as.ci.size();j++){
+                   
+                     as.ci.set(j,as.ci.get(j).replaceAll("tone", "reproduce"));     
+                     as.ci.set(j,as.ci.get(j).replaceAll("delay", "continuar"));
+                     as.ci.set(j,as.ci.get(j).replaceAll("for", "por"));
+                     as.ci.set(j,as.ci.get(j).replaceAll("if", "si"));
+                     as.ci.set(j,as.ci.get(j).replaceAll("while", "mientras"));
+                 }            
+    
+            intermedio.imprimir3(as.ci);
             
             
             for(int i = 1; i< as.listavar.size();i++){

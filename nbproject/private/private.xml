@@ -3,17 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/AnalisisArbol.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Analisis_Lexico/sintactico.cup</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/ArbolAsignacion.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/ArbolExpresionGrafico.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Analisis_Lexico/ASintactico.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/SimuladorArbolBinario.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Analisis_Lexico/Arbol/ArbolBB.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/BajoNivel/imprimirCI.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Analisis_Lexico/Automata_finito/AutomataFinitoN.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
-            <file>file:/C:/Users/EricPc/Documents/Automatas%202%20nuevo/IDE-Lenguaje-Do/src/Ventanas/MostrarTablas.java</file>
+            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
+            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/Analisis_Lexico/sintactico.cup</file>
+            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/Analisis_Lexico/Lexer.jflex</file>
+            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/BajoNivel/imprimirCI.java</file>
+            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/Analisis_Lexico/ASintactico.java</file>
         </group>
     </open-files>
 </project-private>

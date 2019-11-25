@@ -60,6 +60,36 @@ public class imprimirCI {
         }
     }
     
+    public void imprimir3(ArrayList<String> ci) throws InterruptedException{
+        Collections.reverse(ci);  
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        boolean success = (new File("c:/pruebas/"+nombreSolo2)).mkdirs();
+        if (!success) {
+            // Directory creation failed
+        }
+        try
+        {
+            fichero = new FileWriter("c:/pruebas/"+nombreSolo2+"/"+nombreSolo2+".int");
+            pw = new PrintWriter(fichero);
+
+            for (String elemento:ci)
+                fichero.write(elemento);
+           
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           // Nuevamente aprovechamos el finally para 
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+    }
+    
     public void imprimir2(ArrayList<String> ci) throws InterruptedException{
         Collections.reverse(ci);  
         FileWriter fichero = null;
