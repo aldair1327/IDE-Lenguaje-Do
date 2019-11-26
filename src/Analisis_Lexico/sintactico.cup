@@ -514,98 +514,89 @@ dato::= ID:id {: RESULT=id; producciones += "dato ::= ID:id  \n"; :} |  numEnter
         SOL:id {: RESULT=id; producciones += "dato ::= SOL:id \n";  :} | LA:id {:  RESULT=id; producciones += "dato ::= LA:id \n";  :} | 
         SII:id {: RESULT=id; producciones += "dato ::= SII:id \n"; :} ;
 
-notas ::= RE:id {: RESULT=id; :} 
-| MI:id {: RESULT=id; :} 
-| FA:id {: RESULT=id; :} 
-| SOL:id {: RESULT=id; :} 
-| LA:id {: RESULT=id; :} 
-| SII:id {: RESULT=id; :}  
-| DO:id {: RESULT=id; :} 
-| NOTA:id {: RESULT=id; :} ;
+notas ::= RE:id   {: RESULT=id; producciones += "notas ::= RE:id \n"; :} 
+        | MI:id   {: RESULT=id; producciones += "notas ::= RE:id \n"; :} 
+        | FA:id   {: RESULT=id; producciones += "notas ::= RE:id \n"; :} 
+        | SOL:id  {: RESULT=id; producciones += "notas ::= RE:id \n"; :} 
+        | LA:id   {: RESULT=id; producciones += "notas ::= RE:id \n"; :} 
+        | SII:id  {: RESULT=id; producciones += "notas ::= RE:id \n"; :}  
+        | DO:id   {: RESULT=id; producciones += "notas ::= RE:id \n"; :} 
+        | NOTA:id {: RESULT=id; producciones += "notas ::= RE:id \n"; :} ;
+
 notapuras ::= RE | MI | FA | SOL | LA | SII | DO | DOS | RES | MIS | FAS | SOLS | LAS | SIS ;
 
 
-decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toString()+ " TIPO: " + tipo.toString()  + "\n"; 
-                    
-                    if(tipo.toString().equals("entero")){
-                    RESULT="int"+" "+id+";\n";  
-                    }
-                    ci.add(tipo+" "+id+" ");
-                    listavar.add(id+"");
-                    listavar.add("\n");
-                 :}
+decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA 
+                    {:  
+                      producciones += "decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA  \n";
+                      if(tipo.toString().equals("entero")){
+                      RESULT="int"+" "+id+";\n";  
+                      }
+                      ci.add(tipo+" "+id+" ");
+                      listavar.add(id+"");
+                      listavar.add("\n");
+                    :}
 
-
-                | tipo:tipo ID:id PUNTO_Y_COMA cuerpo:c {:
-                    if(tipo.toString().equals("entero")){
-                    RESULT="int"+" "+id+";\n"+c;  
-                    }
-                    ci.add(tipo+" "+id+" "); 
-                    listavar.add(id+"");
-                    listavar.add("\n");
-                         //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
-                        ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
-                :} 
-
+                | tipo:tipo ID:id PUNTO_Y_COMA cuerpo:c 
+                    {:
+                      producciones += "decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA cuerpo:c   \n";
+                      if(tipo.toString().equals("entero")){
+                        RESULT="int"+" "+id+";\n"+c;  
+                      }
+                      ci.add(tipo+" "+id+" "); 
+                      listavar.add(id+"");
+                      listavar.add("\n");
+                      ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
+                    :} 
 
                 | tipo:tipo asignarDeclaracion:asignacion
                   {:
+                    producciones += "decvariables ::= tipo:tipo asignarDeclaracion:asignacion   \n";
                     String[] a = asignacion.toString().split("\\.");
 
-                  if(a.length == 2){  
-                  if(tipo.toString().equals("entero")){
-                    RESULT="int "+a[1]+" = "+a[0]+";\n";
-                    ci.add(tipo+" "+a[1]+" ");
+                    if(a.length == 2){  
+                      if(tipo.toString().equals("entero")){
+                        RESULT="int "+a[1]+" = "+a[0]+";\n";
+                        ci.add(tipo+" "+a[1]+" ");
+                      }
+                      if(tipo.toString().equals("nota")){
+                        RESULT="int "+a[1]+" = "+a[0]+";\n";  
+                        ci.add(tipo+" "+a[1]+" ");
+                      }  
+                      if(tipo.toString().equals("cadena")){
+                        RESULT="String "+a[1]+" = "+a[0]+";\n";
+                        ci.add(tipo+" "+a[1]+" ");
+                      }
                     }
-                  if(tipo.toString().equals("nota")){
-                    RESULT="int "+a[1]+" = "+a[0]+";\n";  
-                    ci.add(tipo+" "+a[1]+" ");
+                      
+                    if(a.length == 3){  
+                      if(tipo.toString().equals("entero")){
+                        RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2]; 
+                        ci.add(tipo+" "+a[1]+" ");
+                      }
+                      if(tipo.toString().equals("nota")){
+                        RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2];
+                        ci.add(tipo+" "+a[1]+" ");
+                      } 
+                      if(tipo.toString().equals("cadena")){
+                        RESULT="String "+a[1]+" = "+a[0]+";\n"+a[2]+";\n";
+                        ci.add(tipo+" "+a[1]+" ");
+                      }
                     }  
-                  if(tipo.toString().equals("cadena")){
-                    RESULT="String "+a[1]+" = "+a[0]+";\n";
-                    ci.add(tipo+" "+a[1]+" ");
-                    }
-                    //ci.add(tipo+" "+a[1]+" ");
-                  }
-                    
-                  if(a.length == 3){  
-                  if(tipo.toString().equals("entero")){
-                    RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2]; 
-                    ci.add(tipo+" "+a[1]+" ");
-                    }
-                  if(tipo.toString().equals("nota")){
-                    RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2];
-                    ci.add(tipo+" "+a[1]+" ");
-                    } 
-                  if(tipo.toString().equals("cadena")){
-                    RESULT="String "+a[1]+" = "+a[0]+";\n"+a[2]+";\n";
-                    ci.add(tipo+" "+a[1]+" ");
-                    }
-                    //ci.add(tipo+" "+a[1]+"\n");
-                  }  
                  
-                    //System.out.println(asignacion,tipo.toString(),asignacion,ls); 
                     try { 
-                        //System.out.println("asignacion:" + asignacion);
-                        //System.out.println("tipo: " + tipo.toString());
-                        //System.out.println("ls: " + ls);
-                        String asigTemp = asignacion.toString();
-                        String[] temp = asigTemp.split("\\.");
-                        //System.out.println("asigTemp: " + asigTemp);
-                        //System.out.println("temp : " + temp.toString());
-                        try { 
-                            //System.out.println("ASDASJHKGFASHJDFGASDJHFGJASDHFDSF ----------------- "Integer.parseInt(temp[0]));
-                            if(tipo.toString() == "entero" && ((Integer.parseInt(temp[0]) == 0 || (Integer.parseInt(temp[0])/Integer.parseInt(temp[0]))==1) ) )
-                                System.out.println("Es entero");
+                      String asigTemp = asignacion.toString();
+                      String[] temp = asigTemp.split("\\.");
+                      try { 
+                          if(tipo.toString() == "entero" && ((Integer.parseInt(temp[0]) == 0 || (Integer.parseInt(temp[0])/Integer.parseInt(temp[0]))==1) ) )
+                              System.out.println("Es entero");
 
-                        } catch ( Exception d) {
-                            System.err.println("Exception :" + d.getMessage());
-                            this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
-                        }
-                        //Aqui si tiene los tipo de datos
-                        ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
-                        
-                        //System.out.println("Tabla de eric:" + ls.toString());
+                      } catch ( Exception d) {
+                          System.err.println("Exception :" + d.getMessage());
+                          this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
+                      }
+                      //Aqui si tiene los tipo de datos
+                      ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
                     } catch ( Exception d) {
                       System.out.println(d.getMessage());
                     }
@@ -613,49 +604,114 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA {: //this.parser.errores+= id.toSt
                     //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
                   :} 
 
+                | tipo ID:e 
+                    {:
+                      this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";
+                      producciones += "<<ERROR>> : Linea: "+(eright+1)+" -  falta el ';' \n";
+                    :}  
+                | tipo ID:e cuerpo 
+                    {:
+                      this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";
+                      producciones += "<<ERROR>> : Linea: "+(eright+1)+" -  falta el ';' \n";
+                    :} 
 
+                | numEntero ID PUNTO_Y_COMA:e 
+                    {:
+                      this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";
+                      producciones += "<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";
+                    :}  
+                | numEntero ID PUNTO_Y_COMA:e cuerpo 
+                    {:
+                      this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";
+                      producciones += "<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";
+                    :} 
 
-                  
+                | ID:e 
+                    {:
+                      this.parser.errores+="Error: 19 en la linea: "+(eright+1)+" - Se esperaba una tipo de dato \n";
+                      producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una tipo de dato \n";
+                    :} ;
 
-                  
-                | tipo ID:e {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:}  
-                | tipo ID:e cuerpo {:this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";:} 
+funcionesDo ::= declaraReproduce:id   {: RESULT=id+""; producciones += "funcionesDo ::= declaraReproduce:id \n"; :}  |
+                declaraImprimir:id    {: RESULT=id+""; producciones += "funcionesDo ::= declaraImprimir:id \n"; :}  |  
+                declaraImportar:id    {: RESULT=id+""; producciones += "funcionesDo ::= declaraImportar:id \n"; :}  |  
+                declaraContinuar:id   {: RESULT=id+""; producciones += "funcionesDo ::= declaraContinuar:id \n"; :}  |  
+                declaraSilencio:id    {: RESULT=id+""; producciones += "funcionesDo ::= declaraSilencio:id \n"; :}  | 
+                declaraVolumen:id     {: RESULT=id+""; producciones += "funcionesDo ::= declaraVolumen:id \n"; :}  |  
+                declaraFrecuencia:id  {: RESULT=id+""; producciones += "funcionesDo ::= declaraFrecuencia:id \n"; :} ;
 
-                | numEntero ID PUNTO_Y_COMA:e {:this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";:}  
-                | numEntero ID PUNTO_Y_COMA:e cuerpo {:this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";:} 
-
-
-
-                | ID:e {:this.parser.errores+="Error: 19 en la linea: "+(eright+1)+" - Se esperaba una tipo de dato \n";:} ;
-
-funcionesDo ::= declaraReproduce:id {: RESULT=id+""; :}  |
-                declaraImprimir:id {: RESULT=id+""; :}  |  
-                declaraImportar:id {: RESULT=id+""; :}  |  
-                declaraContinuar:id {: RESULT=id+""; :}  |  
-                declaraSilencio:id {: RESULT=id+""; :}  | 
-                declaraVolumen:id {: RESULT=id+""; :}  |  
-                declaraFrecuencia:id {: RESULT=id+""; :} ;
-
-declaraReproduce ::= REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA {:
-                     RESULT= p+"\n";
-                     ci.add(p+"");
-                     :} |
-                     REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA cuerpo:c {:
-                     RESULT= p+"\n"+c;
-                    ci.add(p+""); 
-                    :}|
-                     PAROPEN:e paramRero PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";:} | 
-                     NOTA:e PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n";:} |  
-                     PAROPEN paramRero:e PUNTO_Y_COMA {:this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra   \n";:} |   
-                     REPRODUCE:e paramRero PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 23 en la linea:"+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";:} | 
-                     REPRODUCE PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";:} | 
-                     REPRODUCE PAROPEN paramRero :e PUNTO_Y_COMA {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  ";:} |
-                     PAROPEN:e paramRero PARCLOSE PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";:} | 
-                     NOTA:e PARCLOSE PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre  \n";:} |  
-                     PAROPEN paramRero:e PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'   \n";:} |   
-                     REPRODUCE:e paramRero PARCLOSE PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 23 en la linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";:} | 
-                     REPRODUCE PARCLOSE:e cuerpo{:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";:} | 
-                     REPRODUCE PAROPEN paramRero :e PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el 2)  ";:}; 
+declaraReproduce ::= REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA 
+                          {:
+                            producciones += "declaraReproduce ::= REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA \n";
+                            RESULT= p+"\n";
+                            ci.add(p+"");
+                          :} |
+                     REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA cuerpo:c 
+                          {:
+                            producciones += "declaraReproduce ::= REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA cuerpo:c  \n";
+                            RESULT= p+"\n"+c;
+                            ci.add(p+""); 
+                          :}|
+                     PAROPEN:e paramRero PARCLOSE PUNTO_Y_COMA 
+                          {:
+                            this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";
+                          :} | 
+                     NOTA:e PARCLOSE PUNTO_Y_COMA 
+                          {:
+                            this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n";
+                          :} |  
+                     PAROPEN paramRero:e PUNTO_Y_COMA 
+                          {:
+                            this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra   \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra  \n";
+                          :} |   
+                     REPRODUCE:e paramRero PARCLOSE PUNTO_Y_COMA 
+                          {:
+                            this.parser.errores+="Error: 23 en la linea:"+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";
+                          :} | 
+                     REPRODUCE PARCLOSE:e 
+                          {:
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el (   \n";
+                          :} | 
+                     REPRODUCE PAROPEN paramRero :e PUNTO_Y_COMA 
+                          {:
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  ";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el )   \n";
+                          :} |
+                     PAROPEN:e paramRero PARCLOSE PUNTO_Y_COMA cuerpo
+                          {:
+                            this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' \n";
+                          :} | 
+                     NOTA:e PARCLOSE PUNTO_Y_COMA cuerpo
+                          {:
+                            this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre  \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre \n";
+                          :} |  
+                     PAROPEN paramRero:e PUNTO_Y_COMA cuerpo
+                          {:
+                            this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'   \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' \n";
+                          :} |   
+                     REPRODUCE:e paramRero PARCLOSE PUNTO_Y_COMA cuerpo
+                          {:
+                            this.parser.errores+="Error: 23 en la linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce' \n";
+                          :} | 
+                     REPRODUCE PARCLOSE:e cuerpo
+                          {:
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el (  \n";
+                          :} | 
+                     REPRODUCE PAROPEN paramRero :e PUNTO_Y_COMA cuerpo
+                          {:
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  ";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+"- Hace falta el )  \n";
+                          :}; 
 
 paramRero::= notas:n COMA numEntero:x{:
                 //ci.add("ent "+ n + "\n tono("+n+","+x+")" );
