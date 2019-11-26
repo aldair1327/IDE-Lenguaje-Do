@@ -741,22 +741,58 @@ paramRero::=  notas:n COMA numEntero:x
                       this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el segundo parámetro debe ser un número entero \n  "; 
                     :} ;
   
-declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA {:
-                    ci.add("cad ="+ dato + "\n print("+dato+")" );
-                    RESULT= "Serial.println(" + dato+ ");\n";
-                    :}|
-                    IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
-                    ci.add("cad ="+ dato + "\n print("+dato+")" );
-                    RESULT= "Serial.println(" + dato+ ");\n"+c;
-                    :}|
-                    IMPRIMIR PAROPEN dato PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";:} | 
-                    IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";:} |          
-                    IMPRIMIR PAROPEN dato PUNTO_Y_COMA:e {:this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";:} | 
-                    IMPRIMIR dato PARCLOSE PUNTO_Y_COMA:e {:this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";:} |
-                    IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";:} |
-                    IMPRIMIR PAROPEN dato PARCLOSE:e cuerpo{:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";:} | 
-                    IMPRIMIR PAROPEN:e dato PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";:} | 
-                    IMPRIMIR dato:e PARCLOSE PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";:} ;
+declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA 
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA  \n";
+                                ci.add("cad ="+ dato + "\n print("+dato+")" );
+                                RESULT= "Serial.println(" + dato+ ");\n";
+                              :}|
+                    IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA cuerpo:c  
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA cuerpo:c   \n";
+                                ci.add("cad ="+ dato + "\n print("+dato+")" );
+                                RESULT= "Serial.println(" + dato+ ");\n"+c;
+                              :}|
+                    IMPRIMIR PAROPEN dato PARCLOSE:e 
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN dato PARCLOSE:e    \n";
+                                this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";
+                              :} | 
+                    IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA 
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA    \n";
+                                this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";
+                              :} |          
+                    IMPRIMIR PAROPEN dato PUNTO_Y_COMA:e 
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN dato PUNTO_Y_COMA:e     \n";
+                                this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";
+                              :} | 
+                    IMPRIMIR dato PARCLOSE PUNTO_Y_COMA:e 
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR dato PARCLOSE PUNTO_Y_COMA:e      \n";
+                                this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";
+                              :} |
+                    IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA cuerpo
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA cuerpo      \n";
+                                this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";
+                              :} |
+                    IMPRIMIR PAROPEN dato PARCLOSE:e cuerpo
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN dato PARCLOSE:e cuerpo      \n";
+                                this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";
+                              :} | 
+                    IMPRIMIR PAROPEN:e dato PUNTO_Y_COMA cuerpo 
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN:e dato PUNTO_Y_COMA cuerpo       \n";
+                                this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";
+                              :} | 
+                    IMPRIMIR dato:e PARCLOSE PUNTO_Y_COMA cuerpo
+                              {:
+                                producciones += "declaraImprimir ::= IMPRIMIR dato:e PARCLOSE PUNTO_Y_COMA cuerpo       \n";
+                                this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";
+                              :} ;
 
 
 declaraImportar ::= IMPORTAR ID:id PUNTO_Y_COMA {:
