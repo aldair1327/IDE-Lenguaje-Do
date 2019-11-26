@@ -45,10 +45,17 @@ public class MostrarTablas extends javax.swing.JFrame {
         panelAutomata = new javax.swing.JPanel();
         panelArbol = new javax.swing.JPanel();
         panelGramatica = new javax.swing.JPanel();
+        jScrollPane_Gramatica = new javax.swing.JScrollPane();
+        jTextPane_Gramatica = new javax.swing.JTextPane();
         panelIntermedio = new javax.swing.JPanel();
+        jScrollPane_intermedio = new javax.swing.JScrollPane();
+        textPane_Intermedio = new javax.swing.JTextPane();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane_optimizado = new javax.swing.JScrollPane();
+        textPane_Optimizado = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Miscelaneos");
 
         javax.swing.GroupLayout panelAutomataLayout = new javax.swing.GroupLayout(panelAutomata);
         panelAutomata.setLayout(panelAutomataLayout);
@@ -77,41 +84,65 @@ public class MostrarTablas extends javax.swing.JFrame {
         panelOptimizado.addTab("Arbol de expresiones", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/sitemap.png")), panelArbol); // NOI18N
         panelArbol.getAccessibleContext().setAccessibleName("");
 
+        jScrollPane_Gramatica.setViewportView(jTextPane_Gramatica);
+
         javax.swing.GroupLayout panelGramaticaLayout = new javax.swing.GroupLayout(panelGramatica);
         panelGramatica.setLayout(panelGramaticaLayout);
         panelGramaticaLayout.setHorizontalGroup(
             panelGramaticaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 864, Short.MAX_VALUE)
+            .addGroup(panelGramaticaLayout.createSequentialGroup()
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPane_Gramatica, javax.swing.GroupLayout.PREFERRED_SIZE, 842, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
         );
         panelGramaticaLayout.setVerticalGroup(
             panelGramaticaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGroup(panelGramaticaLayout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(jScrollPane_Gramatica, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         panelOptimizado.addTab("Gramática", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bold-text-option.png")), panelGramatica); // NOI18N
+
+        jScrollPane_intermedio.setViewportView(textPane_Intermedio);
 
         javax.swing.GroupLayout panelIntermedioLayout = new javax.swing.GroupLayout(panelIntermedio);
         panelIntermedio.setLayout(panelIntermedioLayout);
         panelIntermedioLayout.setHorizontalGroup(
             panelIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 864, Short.MAX_VALUE)
+            .addGroup(panelIntermedioLayout.createSequentialGroup()
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPane_intermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 842, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
         );
         panelIntermedioLayout.setVerticalGroup(
             panelIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGroup(panelIntermedioLayout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(jScrollPane_intermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         panelOptimizado.addTab("Código Intermedio", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/align-to-left.png")), panelIntermedio); // NOI18N
+
+        jScrollPane_optimizado.setViewportView(textPane_Optimizado);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 864, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPane_optimizado, javax.swing.GroupLayout.PREFERRED_SIZE, 842, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(jScrollPane_optimizado, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         panelOptimizado.addTab("Código Optimizado", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/settings.png")), jPanel3); // NOI18N
@@ -178,10 +209,16 @@ public class MostrarTablas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane_Gramatica;
+    public javax.swing.JScrollPane jScrollPane_intermedio;
+    public javax.swing.JScrollPane jScrollPane_optimizado;
+    public javax.swing.JTextPane jTextPane_Gramatica;
     public javax.swing.JPanel panelArbol;
     public javax.swing.JPanel panelAutomata;
     public javax.swing.JPanel panelGramatica;
     public javax.swing.JPanel panelIntermedio;
     public javax.swing.JTabbedPane panelOptimizado;
+    public javax.swing.JTextPane textPane_Intermedio;
+    public javax.swing.JTextPane textPane_Optimizado;
     // End of variables declaration//GEN-END:variables
 }

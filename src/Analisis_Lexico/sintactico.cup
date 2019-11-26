@@ -30,6 +30,7 @@ parser code
 {:
     public AnalizadorLexico  les;
     public ArrayList<Token_> ls;
+    public ArrayList<String> producciones = new ArrayList<String>();
     public OpeTabla optab = new OpeTabla();
     public ArrayList<String> arbolesAsignacion = new ArrayList<String> ();
     public ArrayList<String> ci = new ArrayList<String> ();
@@ -120,29 +121,102 @@ start with inicio;
 ///////////////////////////////////////////////////////////////////------INICIO---------///////////////////////////////////////////////////////////////////
 ////////////////////////////////////{:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ( despu�s de inicio";:}////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE {:   codop.add( "void setup(){\n}\nvoid loop(){ \n" + c + "\n}"); :} | 
-          INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE  | 
-          
-          INICIO PAROPEN PARCLOSE KEYOPEN cuerpo :e  {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";:}   |  
-          INICIO PAROPEN PARCLOSE KEYOPEN :e   {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";:}   | 
-
-          errores PAROPEN PARCLOSE:e KEYOPEN cuerpo KEYCLOSE   {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n";:}   |  
-          errores PAROPEN PARCLOSE:e KEYOPEN KEYCLOSE   {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n";:}   |  
-
-          PARCLOSE :e {:this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";:}   |
-          PAROPEN :e {:this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";:}  |
-          KEYOPEN :e {:this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";:}   |
-          cuerpo :e KEYCLOSE  {:this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";:}   |
-          KEYOPEN :e cuerpo {:this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";:}  |
-          KEYCLOSE :e {:this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";:}   |
-          PAROPEN:e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 2 en la linea: "+(eright+1)+" - se esperaba la palabra inicio \n";:}  | 
-          PAROPEN:e PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";:}| 
-          INICIO:e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";:} | 
-          INICIO:e PARCLOSE KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";:} | 
-          INICIO PAROPEN:e KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";:}  | 
-          INICIO PAROPEN:e KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";:}  | 
-          INICIO PAROPEN PARCLOSE:e cuerpo KEYCLOSE {:this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n";:}  |
-          INICIO PAROPEN PARCLOSE:e KEYCLOSE {:this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n";:} ;
+inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE 
+                {: 
+                  codop.add( "void setup(){\n}\nvoid loop(){ \n" + c + "\n}"); 
+                  producciones += "inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE\n";
+                :} | 
+          INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE {: producciones += "inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE\n" :}  | 
+          INICIO PAROPEN PARCLOSE KEYOPEN cuerpo :e  
+                {:
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un } en el final del programa\n ";
+                :} | 
+          INICIO PAROPEN PARCLOSE KEYOPEN :e 
+                {:
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+"- Se esperaba un } en el final del programa  \n ";
+                :} | 
+          errores PAROPEN PARCLOSE:e KEYOPEN cuerpo KEYCLOSE 
+                {:
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio \n ";
+                :} | 
+          errores PAROPEN PARCLOSE:e KEYOPEN KEYCLOSE 
+                {:
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n ";
+                :} | 
+          PARCLOSE :e 
+                {:
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n ";
+                :} |
+          PAROPEN :e 
+                {:
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n ";
+                :} |
+          KEYOPEN :e 
+                {:
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                :} |
+          cuerpo :e KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                :} |
+          KEYOPEN :e cuerpo 
+                {:
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                :} |
+          KEYCLOSE :e 
+                {:
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+                :} |
+          PAROPEN:e PARCLOSE KEYOPEN KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 2 en la linea: "+(eright+1)+" - se esperaba la palabra inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la palabra inicio \n";
+                :} | 
+          PAROPEN:e PARCLOSE KEYOPEN cuerpo KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+                :} | 
+          INICIO:e PARCLOSE KEYOPEN KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+                :} | 
+          INICIO:e PARCLOSE KEYOPEN cuerpo KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+                :} | 
+          INICIO PAROPEN:e KEYOPEN cuerpo KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";
+                :} | 
+          INICIO PAROPEN:e KEYOPEN KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";
+                :} | 
+          INICIO PAROPEN PARCLOSE:e cuerpo KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n";
+                :} |
+          INICIO PAROPEN PARCLOSE:e KEYCLOSE 
+                {:
+                  this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n";
+                  producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n";
+                :} ;
   
 errores ::= ID | NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;
 errores1 ::= NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;

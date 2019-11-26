@@ -19,11 +19,14 @@ import Analisis_Lexico.InterfazTablaSimbolos;
 import Analisis_Lexico.Nodo;
 import Analisis_Lexico.OpeTabla;
 import Analisis_Lexico.Semantico.Validaciones;
+import Analisis_Lexico.TextLineNumber;
 import Archivos.Archivos;
+import BajoNivel.convertirListaATexto;
 import BajoNivel.imprimirCI;
 import Manejador_errores.Manejador_Errores;
 import Miscelaneos.Miscelaneo;
 import Tabla_Simbolos.Tabla_Simbolos;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -90,8 +93,21 @@ public class Inicio extends javax.swing.JFrame {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
         setIconImage(i);
-        //cons = new Consola();
-        //btn_nuevo_archivo.doClick();
+        //LineNumber del codigo intermedio
+        TextLineNumber tln = new TextLineNumber(mostrarAutomata.textPane_Intermedio);
+        
+        tln.setBackground(new Color(38,50,56));
+        tln.setForeground(new Color(238,255,255));
+        tln.setFont(mostrarAutomata.textPane_Intermedio.getFont());
+        mostrarAutomata.jScrollPane_intermedio.setRowHeaderView( tln );
+        
+        //LineNumber del codigo optimizado
+        TextLineNumber tln2 = new TextLineNumber(mostrarAutomata.textPane_Optimizado);
+        
+        tln2.setBackground(new Color(38,50,56));
+        tln2.setForeground(new Color(238,255,255));
+        tln2.setFont(mostrarAutomata.textPane_Optimizado.getFont());
+        mostrarAutomata.jScrollPane_optimizado.setRowHeaderView( tln2 );
     }
 
     /**
@@ -648,6 +664,7 @@ public class Inicio extends javax.swing.JFrame {
                      as.codop.set(j,as.codop.get(j).replaceAll("SII", "246.90"));
                  }
             imprimirCI intermedio = new imprimirCI(archivo_seleccionado.nombre_archivo);
+            //Codigo maquina
             intermedio.imprimir2(as.codop);
             
             for(int j = 0; j<as.ci.size();j++){
@@ -658,7 +675,13 @@ public class Inicio extends javax.swing.JFrame {
                      as.ci.set(j,as.ci.get(j).replaceAll("if", "si"));
                      as.ci.set(j,as.ci.get(j).replaceAll("while", "mientras"));
                  }            
-    
+            
+            /*Lo de willy para mandarlo a la ventana de codigo intermedio*/
+            convertirListaATexto imprimir_sinOptimizar = new convertirListaATexto(as.ci);
+            mostrarAutomata.textPane_Intermedio.setText(imprimir_sinOptimizar.getTexto());
+            /*Fin lo de willy*/
+            
+            //Intermedio sin optimizar
             intermedio.imprimir3(as.ci);
             
             
@@ -670,13 +693,33 @@ public class Inicio extends javax.swing.JFrame {
                  }
             }
             
+            /*Lo de willy para mandarlo a la ventana de codigo optimizado*/
             
+            /*Fin lo de willy*/
+            convertirListaATexto imprimir_Optimizado = new convertirListaATexto(as.codop);
+            mostrarAutomata.textPane_Optimizado.setText(imprimir_Optimizado.getTexto());
+            //Codigo optimizado
             intermedio.imprimir(as.codop);// de ls se optienen los lexemas y componentes lexicos
             
-//           System.out.println("\n\n *********************** lista de inicio ************************");
-//           System.out.println(ls);
-//           System.out.println("\n\n *********************** lista de fin ************************");
+            /*IMPRIMIR LA GRAMATICA*/
+            String gramatica_impresa = "terminal AND, OR , NOT, ADD, MUL, MIN, DIV,PLUSPLUS,MINMIN, ASIG,ADDASIG,MINASIG,DIVASIG,MULASIG,MAYTHAN,\n"
+                    + "MINTHAN,MAYEQUAL,MINEQUAL,EQUAL,NOTEQUAL,COMILLA,\n" +
+                "COMA,PAROPEN,PARCLOSE,COROPEN,CORCLOSE,KEYOPEN,KEYCLOSE,PUNTO_Y_COMA,MIENTRAS,REPRODUCE,SI,SINO,IMPORTAR,ROMPER,CONTINUAR,VOLUMEN,FRECUENCIA,SILENCIO,VERDADERO,\n" +
+                "FALSO,NULO,IMPRIMIR,NOTA,VACIO,CADENA,INICIO,idNoVal,ENTERO,ID,ERROR,numEntero, POR , VV,DO,RE,MI,FA,SOL,LA,SII, DOS,RES,MIS,FAS,SOLS,LAS,SIS, BOOLEANO  ;\n" +
+                "\n\n" +
+                "non terminal inicio, cuerpo, inicializarVariable,\n" +
+                "decvariables, dato, sentencia_si, condicion, cond, log, ope_relacional, op_rel, sig_rel, acciones, asignar, llamarFuncion,\n"
+                    + "valoresCamion, cuerpoFuncion, cuerpo_sentencia_si1, sentencia_mientras,\n" +
+                "incrementar_var,  funcionesDo,declaraReproduce , declaraImprimir , declaraImportar , declaraContinuar , declaraSilencio ,\n" +
+                "declaraVolumen , declaraFrecuencia ,opasig , datoasig, tipo, ciclos, operacion, ari, rel, opers, sentencia_por, ope_logico,\n "
+                    + "arreglo, asig_arreglo, datos, log2,errores,errores1,ciclos_errores, notas,notapuras, asignarDeclaracion,paramRero;\n" +
+                "   \n" +
+                "start with inicio;\n\n";
+            
+            mostrarAutomata.jTextPane_Gramatica.setText(gramatica_impresa);
+
             vPila.tabPanel.removeAll();
+            
             
             
             //AHI VIENE LO DE WILLY y Gaby
