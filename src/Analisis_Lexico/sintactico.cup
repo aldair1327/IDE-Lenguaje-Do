@@ -755,69 +755,123 @@ declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA
                               :}|
                     IMPRIMIR PAROPEN dato PARCLOSE:e 
                               {:
-                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN dato PARCLOSE:e    \n";
+                                
                                 this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";
+                                producciones += "<<ERROR>> : Linea: "+(eright+1)+"  - Falta ';'     \n";
                               :} | 
                     IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA 
                               {:
-                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA    \n";
+                                
                                 this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";
+                                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta un parametro para imprimir  \n";
                               :} |          
                     IMPRIMIR PAROPEN dato PUNTO_Y_COMA:e 
                               {:
-                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN dato PUNTO_Y_COMA:e     \n";
+                                
                                 this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";
+                                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el )     \n";
                               :} | 
                     IMPRIMIR dato PARCLOSE PUNTO_Y_COMA:e 
                               {:
-                                producciones += "declaraImprimir ::= IMPRIMIR dato PARCLOSE PUNTO_Y_COMA:e      \n";
+                                
                                 this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";
+                                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el (      \n";
                               :} |
                     IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA cuerpo
                               {:
-                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA cuerpo      \n";
+                                
                                 this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";
+                                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta un parametro para imprimir        \n";
                               :} |
                     IMPRIMIR PAROPEN dato PARCLOSE:e cuerpo
                               {:
-                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN dato PARCLOSE:e cuerpo      \n";
+                                
                                 this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";
+                                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta ';'        \n";
                               :} | 
                     IMPRIMIR PAROPEN:e dato PUNTO_Y_COMA cuerpo 
                               {:
-                                producciones += "declaraImprimir ::= IMPRIMIR PAROPEN:e dato PUNTO_Y_COMA cuerpo       \n";
+                                
                                 this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";
+                                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el )       \n";
                               :} | 
                     IMPRIMIR dato:e PARCLOSE PUNTO_Y_COMA cuerpo
                               {:
-                                producciones += "declaraImprimir ::= IMPRIMIR dato:e PARCLOSE PUNTO_Y_COMA cuerpo       \n";
+                                
                                 this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";
+                                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el (       \n";
                               :} ;
 
 
-declaraImportar ::= IMPORTAR ID:id PUNTO_Y_COMA {:
-                    ci.add("imp "+ id  );
-                    RESULT ="#include "+ id +" \n";
-                    :} |
-                    IMPORTAR ID:e {:this.parser.errores+="Linea: "+(eright+1)+" - Falta el ; \n";:}  | 
-                    IMPORTAR PUNTO_Y_COMA:e {:this.parser.errores+="Linea: "+(eright+1)+" - Falta el argumento en importar \n"; :} ;
+declaraImportar ::= IMPORTAR ID:id PUNTO_Y_COMA 
+                            {:
+                              producciones += "declaraImportar ::= IMPORTAR ID:id PUNTO_Y_COMA       \n";
+                              ci.add("imp "+ id  );
+                              RESULT ="#include "+ id +" \n";
+                            :} |
+                    IMPORTAR ID:e 
+                            {:
+                              this.parser.errores+="Linea: "+(eright+1)+" - Falta el ; \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ;  \n";
+                            :}  | 
+                    IMPORTAR PUNTO_Y_COMA:e 
+                            {:
+                              this.parser.errores+="Linea: "+(eright+1)+" - Falta el argumento en importar \n"; 
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el argumento en importar  \n";
+                            :} ;
 
-declaraContinuar ::= CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  {:
-                    ci.add("cont("+n+")" );
-                    RESULT ="delay("+n +");\n";
-                    :}| 
-                     CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
-                    ci.add("cont("+n+")" );
-                    RESULT ="delay("+n +");\n"+c;
-                    :} | 
-                     PAROPEN:e PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n"; :} |
-                     CONTINUAR PAROPEN PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n"; :} | 
-                     CONTINUAR PAROPEN:e PUNTO_Y_COMA {:this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar( \n"; :} | 
-                     CONTINUAR PARCLOSE:e PUNTO_Y_COMA {:this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n"; :} | 
-                     PAROPEN:e PARCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n"; :} |
-                     CONTINUAR PAROPEN PARCLOSE:e cuerpo {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n"; :} | 
-                     CONTINUAR PAROPEN:e PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar( \n"; :} | 
-                     CONTINUAR PARCLOSE:e PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n"; :}  ;
+declaraContinuar ::=  CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  
+                            {:
+                              producciones += "declaraContinuar ::=  CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA \n";
+                              ci.add("cont("+n+")" );
+                              RESULT ="delay("+n +");\n";
+                            :}| 
+                      CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c 
+                            {:
+                              producciones += "declaraContinuar ::=  CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c    \n";
+                              ci.add("cont("+n+")" );
+                              RESULT ="delay("+n +");\n"+c;
+                            :} | 
+                      PAROPEN:e PARCLOSE PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n"; 
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n";
+                            :} |
+                      CONTINUAR PAROPEN PARCLOSE:e 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n"; 
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; \n";
+                            :} | 
+                      CONTINUAR PAROPEN:e PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar( \n"; 
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de continuar( \n";
+                            :} | 
+                      CONTINUAR PARCLOSE:e PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n"; 
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";
+                            :} | 
+                      PAROPEN:e PARCLOSE PUNTO_Y_COMA cuerpo 
+                            {:
+                              this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la palabra reservada 'continuar' \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta la palabra reservada 'continuar' \n";
+                            :} |
+                      CONTINUAR PAROPEN PARCLOSE:e cuerpo 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ;  \n";
+                            :} | 
+                      CONTINUAR PAROPEN:e PUNTO_Y_COMA cuerpo 
+                            {:
+                              this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar ( \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de continuar (  \n";
+                            :} | 
+                      CONTINUAR PARCLOSE:e PUNTO_Y_COMA cuerpo 
+                            {:
+                              this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n"; 
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar(   \n";
+                            :}  ;
 
 declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA {:
                     ci.add("notono()\n tono(0)\n tiempo( )" );
