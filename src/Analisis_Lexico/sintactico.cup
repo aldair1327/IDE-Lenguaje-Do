@@ -973,23 +973,58 @@ declaraSilencio::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA
                               producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar(  \n";
                             :} ;                        
 
-declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  {:
-                    ci.add("ent v \n"+"v = "+ n +"\n vol( v )" );
-                    RESULT="int volume = "+n+";\n";
-                    :}
-                    | 
-                    VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c {:
-                    ci.add("ent v \n"+"v = "+ n +"\n vol( v )" );
-                    RESULT="int volume = "+n+";\n"+c;
-                    :}| 
-                    VOLUMEN PAROPEN numEntero PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";:}  | 
-                    VOLUMEN PAROPEN PARCLOSE:e PUNTO_Y_COMA {:this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";:}  | 
-                    VOLUMEN PAROPEN numEntero PUNTO_Y_COMA:e {:this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";:}  | 
-                    VOLUMEN numEntero PARCLOSE PUNTO_Y_COMA:e {:this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";:} | 
-                    VOLUMEN PAROPEN numEntero PARCLOSE:e cuerpo {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";:}  | 
-                    VOLUMEN PAROPEN PARCLOSE:e PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 35 en la linea:: "+(eright+1)+" - Falta el parametro entero \n";:}  | 
-                    VOLUMEN PAROPEN numEntero PUNTO_Y_COMA:e cuerpo{:this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";:}  | 
-                    VOLUMEN numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";:} ;
+declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  
+                            {:
+                              producciones += "declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA   \n";
+                              ci.add("ent v \n"+"v = "+ n +"\n vol( v )" );
+                              RESULT="int volume = "+n+";\n";
+                            :} | 
+                    VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c 
+                            {:
+                              producciones += "declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c    \n";
+                              ci.add("ent v \n"+"v = "+ n +"\n vol( v )" );
+                              RESULT="int volume = "+n+";\n"+c;
+                            :}| 
+                    VOLUMEN PAROPEN numEntero PARCLOSE:e 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de )  \n";
+                            :}  | 
+                    VOLUMEN PAROPEN PARCLOSE:e PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n";
+                            :}  | 
+                    VOLUMEN PAROPEN numEntero PUNTO_Y_COMA:e 
+                            {:
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+                            :}  | 
+                    VOLUMEN numEntero PARCLOSE PUNTO_Y_COMA:e 
+                            {:
+                              this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
+                            :} | 
+                    VOLUMEN PAROPEN numEntero PARCLOSE:e cuerpo 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+                            :}  | 
+                    VOLUMEN PAROPEN PARCLOSE:e PUNTO_Y_COMA cuerpo
+                            {:
+                              this.parser.errores+="Error: 35 en la linea:: "+(eright+1)+" - Falta el parametro entero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n";
+                            :}  | 
+                    VOLUMEN PAROPEN numEntero PUNTO_Y_COMA:e cuerpo
+                            {:
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+                            :}  | 
+                    VOLUMEN numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo
+                            {:
+                              this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
+                            :} ;
 
 declaraFrecuencia ::= FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA {:
                     ci.add("ent f \n"+"f = "+ n +"\n frec( f )" );
