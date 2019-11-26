@@ -1026,23 +1026,58 @@ declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA
                               producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
                             :} ;
 
-declaraFrecuencia ::= FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA {:
-                    ci.add("ent f \n"+"f = "+ n +"\n frec( f )" );
-                    RESULT="int frequency = "+n+";\n";
-                    :}
-                    | 
-                    FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo {:
-                    ci.add("ent f \n"+"f = "+ n +"\n frec( f )" );
-                    RESULT="int frequency = "+n+";\n";
-                    :}| 
-                    FRECUENCIA PAROPEN numEntero PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";:}  | 
-                    FRECUENCIA PAROPEN PARCLOSE:e PUNTO_Y_COMA {:this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";:}  | 
-                    FRECUENCIA PAROPEN numEntero PUNTO_Y_COMA:e {:this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";:}  | 
-                    FRECUENCIA numEntero PARCLOSE PUNTO_Y_COMA:e {:this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n";:} | 
-                    FRECUENCIA PAROPEN numEntero PARCLOSE:e cuerpo {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";:}  | 
-                    FRECUENCIA PAROPEN PARCLOSE:e PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";:}  | 
-                    FRECUENCIA PAROPEN numEntero PUNTO_Y_COMA:e cuerpo{:this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";:}  | 
-                    FRECUENCIA numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n";:} ;
+declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA 
+                            {:
+                              producciones += "declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  \n";
+                              ci.add("ent f \n"+"f = "+ n +"\n frec( f )" );
+                              RESULT="int frequency = "+n+";\n";
+                            :} | 
+                    FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo 
+                            {:
+                              producciones += "declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo  \n";
+                              ci.add("ent f \n"+"f = "+ n +"\n frec( f )" );
+                              RESULT="int frequency = "+n+";\n";
+                            :}| 
+                    FRECUENCIA PAROPEN numEntero PARCLOSE:e 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+                            :}  | 
+                    FRECUENCIA PAROPEN PARCLOSE:e PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n";
+                            :}  | 
+                    FRECUENCIA PAROPEN numEntero PUNTO_Y_COMA:e 
+                            {:
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+                            :}  | 
+                    FRECUENCIA numEntero PARCLOSE PUNTO_Y_COMA:e 
+                            {:
+                              this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia  \n";
+                            :} | 
+                    FRECUENCIA PAROPEN numEntero PARCLOSE:e cuerpo 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de )  \n";
+                            :}  | 
+                    FRECUENCIA PAROPEN PARCLOSE:e PUNTO_Y_COMA cuerpo
+                            {:
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero  \n";
+                            :}  | 
+                    FRECUENCIA PAROPEN numEntero PUNTO_Y_COMA:e cuerpo
+                            {:
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero  \n";
+                            :}  | 
+                    FRECUENCIA numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo
+                            {:
+                              this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia  \n";
+                            :} ;
 
 operacion ::= ari | log | rel;
 
