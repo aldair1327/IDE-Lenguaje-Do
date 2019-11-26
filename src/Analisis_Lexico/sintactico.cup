@@ -873,50 +873,105 @@ declaraContinuar ::=  CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA
                               producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar(   \n";
                             :}  ;
 
-declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA {:
-                    ci.add("notono()\n tono(0)\n tiempo( )" );
-                    RESULT ="noTone(8);\n";
-                    
-                    :}| 
-                     SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  {:
-                    ci.add("notono()\n tono(0)\n tiempo("+n+")" );
-                    RESULT ="noTone(8);\n delay("+n+");\n";
-                    
-                    :}| 
-                     SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
-                    ci.add("notono()\n tono(0)\n tiempo( )" );
-                    RESULT ="noTone(8);\n"+c;
+declaraSilencio::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA 
+                            {:
+                              producciones += "declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA   \n";
+                              ci.add("notono()\n tono(0)\n tiempo( )" );
+                              RESULT ="noTone(8);\n";
+                            :}| 
+                    SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  
+                            {:
+                              producciones += "declaraSilencio ::=  SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA    \n";
+                              ci.add("notono()\n tono(0)\n tiempo("+n+")" );
+                              RESULT ="noTone(8);\n delay("+n+");\n";
+                            :}| 
+                    SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA cuerpo:c  
+                            {:
+                              producciones += "declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA cuerpo:c      \n";
+                              ci.add("notono()\n tono(0)\n tiempo( )" );
+                              RESULT ="noTone(8);\n"+c;
+                            :}| 
+                    SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c  
+                            {:
+                              producciones += "declaraSilencio ::=  SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c     \n";
+                              ci.add("notono()\n tono(0)\n tiempo("+n+")" );
+                              RESULT="noTone(8);\n delay("+n+");\n"+c;
+                            :}| 
+                    SILENCIO PAROPEN ID:n PARCLOSE PUNTO_Y_COMA  
+                            {:
+                              producciones += "declaraSilencio ::=  SILENCIO PAROPEN ID:n PARCLOSE PUNTO_Y_COMA   \n";
+                              ci.add("notono()\n tono(0)\n tiempo("+n+")" );
+                              param.add(n+"="+(nright+1)); 
+                              RESULT ="noTone(8);\n delay("+n+");\n";
+                            :}|
+                    SILENCIO PAROPEN ID:n PARCLOSE PUNTO_Y_COMA cuerpo:c  
+                            {:
+                              producciones += "declaraSilencio ::=  SILENCIO PAROPEN ID:n PARCLOSE PUNTO_Y_COMA cuerpo:c   \n";
+                              ci.add("notono()\n tono(0)\n tiempo("+n+")" );
+                              param.add(n+"="+(nright+1)); 
+                              RESULT="noTone(8);\n delay("+n+");\n"+c;
+                            :}|
 
-                    :}| 
-                     SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
-                    ci.add("notono()\n tono(0)\n tiempo("+n+")" );
-                    RESULT="noTone(8);\n delay("+n+");\n"+c;
-                    
-                    :}| 
-                     SILENCIO PAROPEN ID:n PARCLOSE PUNTO_Y_COMA  {:
-                    ci.add("notono()\n tono(0)\n tiempo("+n+")" );
-                    param.add(n+"="+(nright+1)); 
-                    RESULT ="noTone(8);\n delay("+n+");\n";
-                    
-                    :}|
-                     SILENCIO PAROPEN ID:n PARCLOSE PUNTO_Y_COMA cuerpo:c  {:
-                    ci.add("notono()\n tono(0)\n tiempo("+n+")" );
-                    param.add(n+"="+(nright+1)); 
-                    RESULT="noTone(8);\n delay("+n+");\n"+c;
-                    
-                    :}|
-                     SILENCIO PAROPEN PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea:"+(eright+1)+" - Falta el ; \n";:} |
-                     SILENCIO PAROPEN numEntero PARCLOSE:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";:} | 
-                     SILENCIO PAROPEN PUNTO_Y_COMA:e{:this.parser.errores+="Error: 31 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n";:} |
-                     SILENCIO PAROPEN numEntero:e PUNTO_Y_COMA {:this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n";:} | 
-                     SILENCIO PARCLOSE:e PUNTO_Y_COMA {:this.parser.errores+="Error: 33 en la linea: "+(eright+1)+" - Falta el ( despues de silencio \n";:} | 
-                     SILENCIO numEntero:e PARCLOSE PUNTO_Y_COMA {:this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";:} | 
-                     SILENCIO PAROPEN PARCLOSE:e cuerpo{:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n";:} |
-                     SILENCIO PAROPEN numEntero PARCLOSE:e cuerpo{:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";:} | 
-                     SILENCIO PAROPEN PUNTO_Y_COMA:e cuerpo{:this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n";:} |
-                     SILENCIO PAROPEN numEntero:e PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n";:} | 
-                     SILENCIO PARCLOSE:e PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 33 en la linea:"+(eright+1)+" - Falta el ( despues de silencio \n";:} | 
-                     SILENCIO numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo{:this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";:} ;                        
+                     SILENCIO PAROPEN PARCLOSE:e 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea:"+(eright+1)+" - Falta el ; \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; \n";
+                            :} |
+                     SILENCIO PAROPEN numEntero PARCLOSE:e 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta ';' despues de ')' \n";
+                            :} | 
+                     SILENCIO PAROPEN PUNTO_Y_COMA:e
+                            {:
+                              this.parser.errores+="Error: 31 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de ( \n";
+                            :} |
+                     SILENCIO PAROPEN numEntero:e PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de numero  \n";
+                            :} | 
+                     SILENCIO PARCLOSE:e PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 33 en la linea: "+(eright+1)+" - Falta el ( despues de silencio \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de silencio \n";
+                            :} | 
+                     SILENCIO numEntero:e PARCLOSE PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";
+                            :} | 
+                     SILENCIO PAROPEN PARCLOSE:e cuerpo
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+"- Falta el ; \n";
+                            :} |
+                     SILENCIO PAROPEN numEntero PARCLOSE:e cuerpo
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+"- Falta ';' despues de ')' \n";
+                            :} | 
+                     SILENCIO PAROPEN PUNTO_Y_COMA:e cuerpo
+                            {:
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+"- Falta el ) despues de ( \n";
+                            :} |
+                     SILENCIO PAROPEN numEntero:e PUNTO_Y_COMA cuerpo
+                            {:
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+"- Falta el ) despues de numero \n";
+                            :} | 
+                     SILENCIO PARCLOSE:e PUNTO_Y_COMA cuerpo
+                            {:
+                              this.parser.errores+="Error: 33 en la linea:"+(eright+1)+" - Falta el ( despues de silencio \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de silencio  \n";
+                            :} | 
+                     SILENCIO numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo
+                            {:
+                              this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar(  \n";
+                            :} ;                        
 
 declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  {:
                     ci.add("ent v \n"+"v = "+ n +"\n vol( v )" );
