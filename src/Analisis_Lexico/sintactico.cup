@@ -713,25 +713,33 @@ declaraReproduce ::= REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA
                             producciones += "<<ERROR>> : Linea: "+(eright+1)+"- Hace falta el )  \n";
                           :}; 
 
-paramRero::= notas:n COMA numEntero:x{:
-                //ci.add("ent "+ n + "\n tono("+n+","+x+")" );
-                param.add(n+"="+(nright+1)); 
-                RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
-                listavar.add(n+"");
-            :} |
-            notas:n COMA ID:x{:
-                //ci.add("ent "+ n + "\n tono("+n+","+x+")" );
-                param.add(n+"="+(nright+1)); 
-                RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
-                listavar.add(n+"");
-            :} |
-            ID:n COMA numEntero:x{:
-                ci.add("ent "+ n + "\n tono("+n+","+x+")" );
-                param.add(n+"="+(nright+1)); 
-                RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
-                listavar.add(n+"");
-            :} |
-            notas COMA notas :e {: this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el segundo parámetro debe ser un número entero \n  "; :} ;
+paramRero::=  notas:n COMA numEntero:x
+                    {:
+                      producciones += "paramRero::= notas:n COMA numEntero:x  \n";
+                      param.add(n+"="+(nright+1)); 
+                      RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
+                      listavar.add(n+"");
+                    :} |
+              notas:n COMA ID:x
+                    {:
+                      producciones += "paramRero::= notas:n COMA ID:x  \n";
+                      param.add(n+"="+(nright+1)); 
+                      RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
+                      listavar.add(n+"");
+                    :} |
+              ID:n COMA numEntero:x
+                    {:
+                      producciones += "paramRero::= ID:n COMA numEntero:x  \n";
+                      ci.add("ent "+ n + "\n tono("+n+","+x+")" );
+                      param.add(n+"="+(nright+1)); 
+                      RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
+                      listavar.add(n+"");
+                    :} |
+            notas COMA notas :e 
+                    {: 
+                      producciones += "paramRero::= notas COMA notas :e   \n";
+                      this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el segundo parámetro debe ser un número entero \n  "; 
+                    :} ;
   
 declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA {:
                     ci.add("cad ="+ dato + "\n print("+dato+")" );
