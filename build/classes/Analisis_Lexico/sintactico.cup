@@ -495,19 +495,24 @@ asignarDeclaracion ::=  ID:id ASIG dato:dato PUNTO_Y_COMA
                               :} |
             error:e cuerpo ;
 
-opasig::= ADDASIG:id {: RESULT="+="; :} |  MINASIG:id {: RESULT=id; :}|  DIVASIG:id {: RESULT=id; :} |  MULASIG:id {: RESULT=id; :} ;
+opasig::= ADDASIG:id {: RESULT="+="; producciones += "opasig::= ADDASIG:id \n"; :} |  MINASIG:id {: RESULT=id; producciones += "opasig::= MINASIG:id \n"; :}| 
+          DIVASIG:id {: RESULT=id; producciones += "opasig::= DIVASIG:id \n";  :} |  MULASIG:id {: RESULT=id; producciones += "opasig::= MULASIG:id \n"; :} ;
 
-datoasig::= ID:id {: RESULT=id; :}  |  numEntero:id {: RESULT=id; :}  |  NOTA:id {: RESULT=id; :} ;
+datoasig::= ID:id {: RESULT=id; producciones += "datoasig::= ID:id \n"; :}  |  numEntero:id {: RESULT=id; producciones += "datoasig::= numEntero:id \n"; :}  |  NOTA:id {: RESULT=id; producciones += "datoasig::= NOTA:id \n"; :} ;
 
 
-tipo ::= ENTERO:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); :} 
-    | NOTA:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); :}
-    | CADENA:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); :} ;
+tipo ::=  ENTERO:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); producciones += "tipo ::=  ENTERO:entero \n"; :} | 
+          NOTA:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); producciones += "tipo ::=  NOTA:entero \n"; :} | 
+          CADENA:entero {: RESULT= entero; System.out.println("El tipo es: " + entero.toString()); producciones += "tipo ::=  CADENA:entero \n"; :} ;
 
-dato::= ID:id {: RESULT=id; :} |  numEntero:id {: RESULT=id; :} |  VERDADERO:id {: RESULT=id; :} |  FALSO:id {: RESULT=id; :}  
-            |  CADENA:id {: RESULT=id; :}  |  NOTA:id {: RESULT=id; :}  |  VACIO:id {: RESULT=id; :}  |  NULO:id {: RESULT=id; :} 
-            | DO:id {: RESULT=id; :} | RE:id {: RESULT=id; :} | MI:id {: RESULT=id; :} | FA:id {: RESULT=id; :} 
-            | SOL:id {: RESULT=id; :} | LA:id {: RESULT=id; :} | SII:id {: RESULT=id; :} ;
+dato::= ID:id {: RESULT=id; producciones += "dato ::= ID:id  \n"; :} |  numEntero:id {: RESULT=id; producciones += "dato ::= numEntero:id \n"; :} |  
+        VERDADERO:id {: RESULT=id; producciones += "dato ::= VERDADERO:id \n"; :} |  FALSO:id {: RESULT=id; producciones += "dato ::= FALSO:id \n"; :} | 
+        CADENA:id {: RESULT=id; producciones += "dato ::= CADENA:id \n"; :}  |  NOTA:id {: RESULT=id; producciones += "dato ::= NOTA:id \n"; :}  |  
+        VACIO:id {: RESULT=id; producciones += "dato ::= VACIO:id \n"; :}  |  NULO:id {: RESULT=id; producciones += "dato ::= NULO:id \n"; :} | 
+        DO:id {: RESULT=id; producciones += "dato ::= DO:id \n";  :} | RE:id {: RESULT=id; producciones += "dato ::= RE:id \n";  :} | 
+        MI:id {: RESULT=id; producciones += "dato ::= MI:id \n";  :} | FA:id {: RESULT=id; producciones += "dato ::= FA:id \n";  :} | 
+        SOL:id {: RESULT=id; producciones += "dato ::= SOL:id \n";  :} | LA:id {:  RESULT=id; producciones += "dato ::= LA:id \n";  :} | 
+        SII:id {: RESULT=id; producciones += "dato ::= SII:id \n"; :} ;
 
 notas ::= RE:id {: RESULT=id; :} 
 | MI:id {: RESULT=id; :} 
