@@ -223,22 +223,41 @@ errores1 ::= NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;
 ciclos_errores ::= MIENTRAS | SI;
 
     
-cuerpo ::= decvariables:id {: RESULT= id+""; :} |  
-           asignar:id {: 
-           String[] a = id.toString().split("\\.");
-           if(a.length == 2){
-           RESULT= a[1]+" = "+a[0]+";\n";  
-           }else if(a.length == 3){
-            RESULT= a[1]+" = "+a[0]+";\n"+a[2]; 
-           }else if(a.length == 4){
-            RESULT= a[1]+" "+a[2]+" "+a[0]+";\n"+a[3]; 
-           }
-            :} 
-             | 
-           funcionesDo:id {: RESULT= id+""; :} | ciclos:id {: RESULT= id+""; :} | 
-           incrementar_var:id {: RESULT= id+""; :} | arreglo  ;
+cuerpo ::= decvariables:id 
+                {: 
+                  RESULT= id+""; 
+                  producciones += "cuerpo ::= decvariables:id \n";
+                :} |  
+           asignar:id 
+                {: 
+                  producciones += "cuerpo ::= asignar:id  \n";
+                  String[] a = id.toString().split("\\.");
+                  if(a.length == 2){
+                  RESULT= a[1]+" = "+a[0]+";\n";  
+                  }else if(a.length == 3){
+                    RESULT= a[1]+" = "+a[0]+";\n"+a[2]; 
+                  }else if(a.length == 4){
+                    RESULT= a[1]+" "+a[2]+" "+a[0]+";\n"+a[3]; 
+                  }
+                :} | 
+           funcionesDo:id 
+                {: 
+                  producciones += "cuerpo ::= funcionesDo:id  \n";
+                  RESULT= id+""; 
+                :} | 
+            ciclos:id 
+                {: 
+                  producciones += "cuerpo ::= ciclos:id  \n";
+                  RESULT= id+""; 
+                :} | 
+           incrementar_var:id 
+                {: 
+                  producciones += "cuerpo ::= incrementar_var:id  \n";
+                  RESULT= id+""; 
+                :} | 
+            arreglo  ;
 
-            arreglo::= tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo |
+arreglo::= tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo |
             tipo COROPEN CORCLOSE ID PUNTO_Y_COMA cuerpo |
             COROPEN :e CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un tipo de dato antes de '[' \n";:}|
             tipo :e CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un '[' despues de el tipo de dato' \n";:}|
@@ -252,71 +271,123 @@ cuerpo ::= decvariables:id {: RESULT= id+""; :} |
 
 
 
-datos::= ID  |  numEntero  |  VERDADERO  |  FALSO  |  CADENA  |  NOTA  | notapuras | 
-ID COMA datos|  numEntero COMA datos |  VERDADERO COMA datos |  FALSO COMA datos |  CADENA COMA datos |  NOTA COMA datos | notapuras COMA datos |
-notapuras :e datos {:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";:} ;
+ 
+datos ::= ID  |  numEntero  |  VERDADERO  |  FALSO  |  CADENA  |  NOTA  | notapuras | 
+          ID COMA datos|  numEntero COMA datos |  VERDADERO COMA datos |  FALSO COMA datos |  CADENA COMA datos |  NOTA COMA datos | notapuras COMA datos |
+          notapuras :e datos 
+              {:
+                this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";
+              :} ;
 
-asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA {:
-
-               ci.add(id+" = " + dato );
-               listavar.add(id+"");
-               listavar.add("\n");
-             RESULT= dato+"."+id; :}  |  
-            ID:id opasig:opa datoasig:dato PUNTO_Y_COMA {: 
-               ci.add(id+" "+ opa +" " + dato + " " );
-               listavar.add(id+"");
-               listavar.add("\n");
-                RESULT= dato+"."+id+"."+opa+". "; :}|
-            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo:c {:
+asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA 
+              {:
+                producciones += "asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA \n";
+                ci.add(id+" = " + dato );
                 listavar.add(id+"");
-               listavar.add("\n");
+                listavar.add("\n");
+                RESULT= dato+"."+id; 
+              :}  |  
+            ID:id opasig:opa datoasig:dato PUNTO_Y_COMA 
+              {: 
+                producciones += "asignar ::= ID:id opasig:opa datoasig:dato PUNTO_Y_COMA \n";
+                ci.add(id+" "+ opa +" " + dato + " " );
+                listavar.add(id+"");
+                listavar.add("\n");
+                RESULT= dato+"."+id+"."+opa+". "; 
+              :} |
+            ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo:c 
+              {:
+                producciones += "asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo:c \n";
+                listavar.add(id+"");
+                listavar.add("\n");
                 ci.add(id+" = " + dato + " " );      
-                        arbolesAsignacion.add(id.toString()+"!=!"+dato.toString()+"!;");
-                        System.out.println("Lista que no entra: \n"+dato.toString());
-                        for(int i = 0; i<ls.size(); i++){
-                            if (ls.get(i).numero_linea == 7) {
-                                System.out.println(ls.get(i).toString());
-                            }
-                        }
-                        /*Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
-                        Token_ idAComp = optab.buscarIDCup(dato.toString(),ls);
-                        if(idAAsig == null)
-                            System.out.println(idAAsig);
-                            //System.out.println(idAComp);
-                            this.parser.append("Error idAAsig: en la linea: "+(idright+1)+" El dato  no ha sido declarado. \n");
-                        if(idAComp == null)
-                            this.parser.append("Error idAComp: en la linea: "+(datoright+1)+" El dato  no ha sido declarado. \n");
-                        if(idAAsig != null && idAComp != null){
-                            String tipo = optab.verificarTipo(dato.toString() , ls);
-                        }*/
-                        
-                        asig_simples.add(id+"="+dato+"="+(idright+1));
+                arbolesAsignacion.add(id.toString()+"!=!"+dato.toString()+"!;");
+                System.out.println("Lista que no entra: \n"+dato.toString());
 
-                    RESULT= dato+"."+id+"."+c; 
-                    :} | 
-            ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo:c {:
-            ci.add(id+" "+ opa +" " + dato + " " );  
-              listavar.add(id+"");
-              listavar.add("\n");
-              RESULT= dato+"."+id+"."+opa+"."+c; :}|
-            ID:id ASIG ari PUNTO_Y_COMA {: RESULT=0; :}| 
+                for(int i = 0; i<ls.size(); i++){
+                    if (ls.get(i).numero_linea == 7) {
+                        System.out.println(ls.get(i).toString());
+                    }
+                }
 
-            ID ASIG :e PUNTO_Y_COMA cuerpo{: RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");:} |
-            ID ASIG :e PUNTO_Y_COMA {: RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");:} |
+                asig_simples.add(id+"="+dato+"="+(idright+1));
+                RESULT= dato+"."+id+"."+c; 
+              :} | 
+            ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo:c 
+              {:
+                producciones += "asignar ::= ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo:c  \n";
+                ci.add(id+" "+ opa +" " + dato + " " );  
+                listavar.add(id+"");
+                listavar.add("\n");
+                RESULT= dato+"."+id+"."+opa+"."+c; 
+              :}|
+            ID:id ASIG ari PUNTO_Y_COMA 
+              {: 
+                producciones += "asignar ::= ID:id ASIG ari PUNTO_Y_COMA  \n";
+                RESULT=0; 
+              :} | 
 
-            errores1 ASIG dato PUNTO_Y_COMA:e cuerpo{: RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 ASIG dato PUNTO_Y_COMA:e {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
+            ID ASIG :e PUNTO_Y_COMA cuerpo
+              {: 
+                RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n";
+              :} |
+            ID ASIG :e PUNTO_Y_COMA 
+              {: 
+                RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n";
+              :} |
 
-            errores1 opasig dato PUNTO_Y_COMA:e cuerpo{: RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");:} |
-            errores1 opasig dato PUNTO_Y_COMA:e {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");:} |
+            errores1 ASIG dato PUNTO_Y_COMA:e cuerpo
+              {: 
+                RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n";
+              :} |
+            errores1 ASIG dato PUNTO_Y_COMA:e 
+              {: 
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n";
+              :} |
 
-            ID dato:e PUNTO_Y_COMA cuerpo{: RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");:} |
-            ID dato:e PUNTO_Y_COMA {: RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");:} |
+            errores1 opasig dato PUNTO_Y_COMA:e cuerpo
+              {: 
+                RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n";
+              :} |
+            errores1 opasig dato PUNTO_Y_COMA:e 
+              {: 
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n";
+              :} |
 
-            ID ASIG dato:e cuerpo{: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
-            ID ASIG dato:e {: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+            ID dato:e PUNTO_Y_COMA cuerpo
+              {: 
+                RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n";
+              :} |
+            ID dato:e PUNTO_Y_COMA 
+              {: 
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n";
+              :} |
 
-            ID opasig dato:e {: RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");:} |
+            ID ASIG dato:e cuerpo
+              {: 
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n";
+              :} |
+            ID ASIG dato:e 
+              {: 
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n";
+              :} |
+
+            ID opasig dato:e 
+              {: 
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+                producciones += "<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n";
+              :} |
             error:e cuerpo ;
 
 asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA {: RESULT= dato+"."+id;
