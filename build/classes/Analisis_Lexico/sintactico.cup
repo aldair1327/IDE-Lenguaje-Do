@@ -1093,72 +1093,179 @@ ari ::= opers ADD opers |
         opers DIV ari ;
 
        
-incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA  {:
-                    RESULT=id+"++;\n";
-                    ci.add(id+" + 1" );
-                    :}| 
-                    ID:id MINMIN PUNTO_Y_COMA {:
-                    RESULT=id+"--;\n";
-                    ci.add(id+" - 1" );
-                    
-                    codop.add(id+"--");
-                    :}  | 
-                    ID:id PLUSPLUS PUNTO_Y_COMA cuerpo:c {:
-                    RESULT=id+"++;\n"+c;
-                    ci.add(id+" + 1" );
-                    :}| 
-                    ID:id MINMIN PUNTO_Y_COMA cuerpo:c {:
-                    RESULT=id+"--;\n"+c;
-                    ci.add(id+" - 1" );
-                    :}| 
-                    ID ADD:e PUNTO_Y_COMA {:this.parser.errores+="Error: 39 en la linea:"+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";:}  | 
-                    ID MIN:e PUNTO_Y_COMA {:this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";:}  | 
-                    ID ADD:e PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 39 en la linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";:}  | 
-                    ID MIN:e PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";:}  | 
-                    ID PLUSPLUS:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";:}  | 
-                    ID MINMIN:e {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";:}| 
-                    ID PLUSPLUS:e cuerpo {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";:}  | 
-                    ID MINMIN:e cuerpo {:this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";:};
+incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA  
+                            {:
+                              producciones += "incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA    \n";
+                              RESULT=id+"++;\n";
+                              ci.add(id+" + 1" );
+                              :}| 
+                    ID:id MINMIN PUNTO_Y_COMA 
+                            {:
+                              producciones += "incrementar_var::=  ID:id MINMIN PUNTO_Y_COMA     \n";
+                              RESULT=id+"--;\n";
+                              ci.add(id+" - 1" );
+                              codop.add(id+"--");
+                            :}  | 
+                    ID:id PLUSPLUS PUNTO_Y_COMA cuerpo:c 
+                            {:
+                              producciones += "incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA cuerpo:c   \n";
+                              RESULT=id+"++;\n"+c;
+                              ci.add(id+" + 1" );
+                            :}| 
+                    ID:id MINMIN PUNTO_Y_COMA cuerpo:c 
+                            {:
+                              producciones += "incrementar_var::=  ID:id MINMIN PUNTO_Y_COMA cuerpo:c   \n";
+                              RESULT=id+"--;\n"+c;
+                              ci.add(id+" - 1" );
+                            :}| 
+                    ID ADD:e PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 39 en la linea:"+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable  \n";
+                            :}  | 
+                    ID MIN:e PUNTO_Y_COMA 
+                            {:
+                              this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable  \n";
+                            :}  | 
+                    ID ADD:e PUNTO_Y_COMA cuerpo 
+                            {:
+                              this.parser.errores+="Error: 39 en la linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable  \n";
+                            :}  | 
+                    ID MIN:e PUNTO_Y_COMA cuerpo 
+                            {:
+                              this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable  \n";
+                            :}  | 
+                    ID PLUSPLUS:e 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n";
+                            :}  | 
+                    ID MINMIN:e 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n";
+                            :}| 
+                    ID PLUSPLUS:e cuerpo 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n";
+                            :}  | 
+                    ID MINMIN:e cuerpo 
+                            {:
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";
+                              producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n";
+                            :};
 
-ciclos ::= sentencia_mientras:id {: RESULT=id+""; :} |
-           sentencia_por:id {: RESULT=id+""; :} | 
-           sentencia_si:id {: RESULT=id+""; :}; 
+ciclos ::= sentencia_mientras:id  {: RESULT=id+""; producciones += "ciclos ::= sentencia_mientras:id \n"; :} |
+           sentencia_por:id       {: RESULT=id+""; producciones += "ciclos ::= sentencia_por:id \n";      :} | 
+           sentencia_si:id        {: RESULT=id+""; producciones += "ciclos ::= sentencia_si:id \n";       :} ; 
 
 sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN KEYCLOSE  
-                      {: ci.add("while("+cond+")" ); RESULT="while("+cond+"){}"; :}|
+                      {: 
+                        producciones += "sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN KEYCLOSE  \n";
+                        ci.add("while("+cond+")" ); RESULT="while("+cond+"){}"; 
+                      :}|
                       MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE
-                      {: ci.add("while("+cond+")" ); RESULT="while("+cond+"){\n"+c+"\n}"; :} |  
+                      {: 
+                        producciones += "sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE \n";
+                        ci.add("while("+cond+")" ); RESULT="while("+cond+"){\n"+c+"\n}"; 
+                      :} |  
                       MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d 
-                      {: ci.add("while("+cond+")" ); RESULT="while("+cond+"){\n"+c+"\n}\n"+d; :} | 
+                      {:
+                        producciones += "sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d \n";
+                        ci.add("while("+cond+")" ); RESULT="while("+cond+"){\n"+c+"\n}\n"+d; 
+                      :} | 
  
 
-                      MIENTRAS PAROPEN :e PARCLOSE KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";:} |
-                      MIENTRAS condicion PARCLOSE:e KEYOPEN KEYCLOSE  {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";:} |
-                      MIENTRAS PAROPEN condicion :e KEYOPEN KEYCLOSE {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";:} |
-                      MIENTRAS PAROPEN condicion PARCLOSE:e KEYCLOSE {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";:} |
+                      MIENTRAS PAROPEN :e PARCLOSE KEYOPEN KEYCLOSE 
+                        {:
+                          this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condici�n \n";
+                        :} |
+                      MIENTRAS condicion PARCLOSE:e KEYOPEN KEYCLOSE  
+                        {:
+                          this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";
+                        :} |
+                      MIENTRAS PAROPEN condicion :e KEYOPEN KEYCLOSE 
+                        {:
+                          this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";
+                        :} |
+                      MIENTRAS PAROPEN condicion PARCLOSE:e KEYCLOSE 
+                        {:
+                          this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";
+                        :} |
 
-                      errores PAROPEN condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";:} |  
-                      errores PAROPEN condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";:} |
+                      errores PAROPEN condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE 
+                        {:
+                          this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";
+                        :} |  
+                      errores PAROPEN condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo 
+                        {:
+                          this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";
+                        :} |
 
-                     
+                      MIENTRAS PAROPEN :e PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo 
+                        {:
+                          this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condici�n  \n";
+                        :} |
+                      MIENTRAS condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo 
+                        {:
+                          this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras  \n";
+                        :} |
+                      MIENTRAS PAROPEN condicion :e KEYOPEN cuerpo KEYCLOSE cuerpo 
+                        {:
+                          this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion  \n";
+                          
+                        :} |
+                      MIENTRAS PAROPEN condicion PARCLOSE:e cuerpo  KEYCLOSE cuerpo 
+                        {:
+                          this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '{' despues del ')'  \n";
+                        :};
 
-                      MIENTRAS PAROPEN :e PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";:} |
-                      MIENTRAS condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";:} |
-                      MIENTRAS PAROPEN condicion :e KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";:} |
-                      MIENTRAS PAROPEN condicion PARCLOSE:e cuerpo  KEYCLOSE cuerpo {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";:};
 
-
-sentencia_si::=  SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE
-                 {: ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}"; :} |
-                 SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d
-                {: ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n"+d; :} |
-                 SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE cuerpo:e 
-                {: ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n else{\n"+d+"\n}\n"+e; :} |
-                SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE 
-                {: ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n else{\n"+d+"\n}\n"; :} |
+sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE
+                          {: 
+                            ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}"; 
+                            producciones += "sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE  \n";
+                          :} |
+                  SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d
+                          {: 
+                            ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n"+d;
+                            producciones += "sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d \n";
+                          :} |
+                  SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE cuerpo:e 
+                          {: 
+                            ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n else{\n"+d+"\n}\n"+e; 
+                            producciones += "sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE cuerpo:e \n";
+                          :} |
+                  SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE 
+                          {: 
+                            ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n else{\n"+d+"\n}\n"; 
+                            producciones += "sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE \n";
+                          :} |
                  
-                 SI PAROPEN PARCLOSE KEYOPEN:e cuerpo KEYCLOSE {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n";:}|
-                 SI PAROPEN condicion  KEYOPEN :e cuerpo KEYCLOSE {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon' \n";:} |
+                 SI PAROPEN PARCLOSE KEYOPEN:e cuerpo KEYCLOSE 
+                          {:
+                            this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n"; 
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condicion despues de '('  \n";
+                          :}|
+                 SI PAROPEN condicion  KEYOPEN :e cuerpo KEYCLOSE 
+                          {:
+                            this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon' \n";
+                            producciones += "<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon'  \n";
+                          :} |
                  SI condicion PARCLOSE :e KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n";:} |
                  SI PAROPEN condicion PARCLOSE :e cuerpo KEYCLOSE {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba '{' despues de ')' \n";:} |
 
@@ -1174,15 +1281,19 @@ sentencia_si::=  SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE
                  SI PAROPEN condicion PARCLOSE KEYOPEN cuerpo KEYCLOSE SINO :e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de 'SINO' \n";:}; 
 
 sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d 
-                 {: 
-                 String inc = asi.toString().substring(0,asi.toString().length()-2);
-                ci.add("for("+dec+cond+";"+inc+")" );
-                RESULT="for("+dec+cond+";"+inc+"){\n"+c+"\n}\n"+d;  :}| 
+                      {: 
+                        producciones += "sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d   \n";
+                        String inc = asi.toString().substring(0,asi.toString().length()-2);
+                        ci.add("for("+dec+cond+";"+inc+")" );
+                        RESULT="for("+dec+cond+";"+inc+"){\n"+c+"\n}\n"+d;  
+                      :}| 
                  POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE 
-                {:   
-                String inc = asi.toString().substring(0,asi.toString().length()-2);
-                ci.add("for("+dec+cond+";"+inc+")" );
-                RESULT="for("+dec+cond+";"+inc+"){\n"+c+"\n}\n"; :}| 
+                      {:   
+                        producciones += "sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE   \n";
+                        String inc = asi.toString().substring(0,asi.toString().length()-2);
+                        ci.add("for("+dec+cond+";"+inc+")" );
+                        RESULT="for("+dec+cond+";"+inc+"){\n"+c+"\n}\n"; 
+                      :}| 
                  POR:e decvariables COMA condicion COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 47 en la linea: "+(eright+1)+" - Se esperaba '(' despues de del POR  \n";:} | 
                  POR PAROPEN :e COMA condicion COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 48 en la linea: "+(eright+1)+" - Se esperaba una declaracion de variables \n";:} | 
                  POR PAROPEN decvariables COMA :e COMA asignar PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 49 en la linea: "+(eright+1)+" - Se esperaba una condicion  \n";:} | 
@@ -1199,66 +1310,91 @@ sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA increment
                  
 
 
-condicion::= log:id {: RESULT=id; :}
+condicion::=  log:id {: RESULT=id; producciones += "condicion::=  log:id  \n"; :}
  
-                | cond:id {: RESULT=id;:} 
-                | rel:re  log2:log rel:rel {: RESULT=re+" "+log+" "+rel; :}   
-                | ope_logico:op {: RESULT=op; :} |  
-             ID:e log ENTERO cuerpo {:this.parser.errores+="Error: 53 en la linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales \n";:}  | 
-             NOT PAROPEN rel PARCLOSE ;
+              | cond:id {: RESULT=id; producciones += "condicion::=  cond:id   \n"; :} 
+              | rel:re  log2:log rel:rel {: RESULT=re+" "+log+" "+rel; producciones += "condicion::=  rel:re  \n"; :}   
+              | ope_logico:op {: RESULT=op; producciones += "condicion::=  ope_logico:op   \n"; :} 
+              | ID:e log ENTERO cuerpo {:this.parser.errores+="Error: 53 en la linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales \n"; producciones += "<<ERROR>> : Linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales  \n";:} 
+              | NOT PAROPEN rel PARCLOSE ;
 
 
 
 rel::= op_rel:op sig_rel:sig op_rel:opp
         {: 
-           op_log.add(op+"="+ opp +"="+(opright+1));
-           RESULT=op+" "+sig+" "+opp;
+          producciones += "rel::= op_rel:op sig_rel:sig op_rel:opp \n";
+          op_log.add(op+"="+ opp +"="+(opright+1));
+          RESULT=op+" "+sig+" "+opp;
         :} 
-        |  op_rel:op sig_rel:sig rel:res 
-        {: RESULT=op+" "+sig+" "+res; 
-           op_log.add(op+"="+(opright+1));
-        :};
+        | op_rel:op sig_rel:sig rel:res 
+          {:
+            producciones += "op_rel:op sig_rel:sig rel:res  \n"; 
+            RESULT=op+" "+sig+" "+res; 
+            op_log.add(op+"="+(opright+1));
+          :};
 
-op_rel::= ID:id {: RESULT=id; :}   
-            |   VERDADERO:id {: RESULT=id; :}   
-            |   FALSO:id {: RESULT=id; :}   |   numEntero:id {: RESULT=id; :}   |  
-                 CADENA:id {: RESULT=id; :}   |   NOTA:id {: RESULT=id; :}   |
-                 NULO:id {: RESULT=id; :}   |   VACIO:id {: RESULT=id; :}; 
+op_rel::=   ID:id {: RESULT=id; producciones += "op_rel::=   ID:id \n";  :}   
+            |  VERDADERO:id {: RESULT=id; producciones += "op_rel::=   VERDADERO:id \n";  :}   
+            |   FALSO:id {: RESULT=id; producciones += "op_rel::=   FALSO:id  \n";  :}   |   numEntero:id {: RESULT=id; producciones += "op_rel::=   numEntero:id  \n";  :}   |  
+                 CADENA:id {: RESULT=id; producciones += "op_rel::=   CADENA:id  \n";  :}   |   NOTA:id {: RESULT=id; producciones += "op_rel::=   NOTA:id  \n";  :}   |
+                 NULO:id {: RESULT=id; producciones += "op_rel::=   NULO:id  \n";  :}   |   VACIO:id {: RESULT=id; producciones += "op_rel::=   VACIO:id  \n";  :}; 
 
 
 
 
-cond::=  rel:id {: RESULT=id; :} ;
+cond::=  rel:id {: RESULT=id; producciones += "cond::=  rel:id \n"; :} ;
 
 log ::= ope_logico:op AND ope_logico:opp 
-        {: RESULT=op+" && "+opp; 
-            //op_log.add(op+"="+ opp +"="+(opright+1));
-            
-        :} |
+          {: 
+            RESULT=op+" && "+opp; 
+            producciones += "log ::= ope_logico:op AND ope_logico:opp  \n";
+          :} |
         ope_logico:op OR ope_logico:opp 
-        {: RESULT=op+" || "+opp; 
-            //op_log.add(op+"="+ opp +"="+(opright+1));
-            
-        :} |
+          {: 
+            RESULT=op+" || "+opp; 
+            producciones += "log ::= ope_logico:op OR ope_logico:opp  \n";
+          :} |
         NOT ope_logico:op 
-        {: RESULT="NOT "+op; :} | 
+          {: 
+            RESULT="NOT "+op; 
+            producciones += "log ::= NOT ope_logico:op   \n";
+          :} | 
         ope_logico:op AND log:log 
-        {: RESULT=op+" && "+log; :} | 
+          {: 
+            RESULT=op+" && "+log; 
+            producciones += "log ::= ope_logico:op AND log:log   \n";
+          :} | 
         ope_logico:op OR log:log 
-        {: RESULT=op+" || "+log; :} |
-        NOT PAROPEN log:log PARCLOSE {: RESULT="NOT("+log+")"; :} |
-        NOT PAROPEN ID:id PARCLOSE{: RESULT="NOT("+id+")"; :} ;
+          {: 
+            RESULT=op+" || "+log; 
+            producciones += "log ::= ope_logico:op OR log:log  \n";
+          :} |
+        NOT PAROPEN log:log PARCLOSE 
+          {: 
+            RESULT="NOT("+log+")"; 
+            producciones += "log ::= NOT PAROPEN log:log PARCLOSE   \n";
+          :} |
+        NOT PAROPEN ID:id PARCLOSE
+          {: 
+            RESULT="NOT("+id+")"; 
+            producciones += "log ::= NOT PAROPEN ID:id PARCLOSE \n";
+          :} ;
 
 log2 ::= AND |
          OR;
 
-ope_logico::= ID:id {: RESULT=id; :} | VERDADERO:id {: RESULT=id; :} | FALSO:id {: RESULT=id; :};
+ope_logico::= ID:id {: RESULT=id; producciones += "log ::= ope_logico::= ID:id \n"; :} | 
+VERDADERO:id {: RESULT=id; producciones += "log ::= ope_logico::= VERDADERO:id \n"; :} | 
+FALSO:id {: RESULT=id; producciones += "log ::= ope_logico::= FALSO:id \n"; :};
 
-sig_rel::=      MAYTHAN:id {: RESULT=id; :}  | 
-		MINTHAN:id {: RESULT=id; :}  | 
-		MINEQUAL:id {: RESULT=id; :}  | 
-		MAYEQUAL:id {: RESULT=id; :}  | 
-                EQUAL:id {: RESULT=id; :}  | 
-                NOTEQUAL:id {: RESULT=id; :}  | 
-                ASIG:e {:this.parser.errores+="Error: 54 en la linea: "+(eright+1)+" - No se puede hacer una asignaci�n en una condici�n";:}; 
+sig_rel::=      MAYTHAN:id {: RESULT=id; producciones += "sig_rel::=      MAYTHAN:id  \n";:}  | 
+		MINTHAN:id {: RESULT=id; producciones += "sig_rel::=      MINTHAN:id  \n"; :}  | 
+		MINEQUAL:id {: RESULT=id; producciones += "sig_rel::=      MINEQUAL:id  \n"; :}  | 
+		MAYEQUAL:id {: RESULT=id; producciones += "sig_rel::=      MAYEQUAL:id  \n"; :}  | 
+                EQUAL:id {: RESULT=id; producciones += "sig_rel::=      EQUAL:id  \n"; :}  | 
+                NOTEQUAL:id {: RESULT=id; producciones += "sig_rel::=      MAYTHAN:NOTEQUAL  \n";:}  | 
+                ASIG:e {:this.parser.errores+="Error: 54 en la linea: "+(eright+1)+" - No se puede hacer una asignaci�n en una condici�n";
+                        
+                          producciones += "<<ERROR>> : Linea: "+(eright+1)+" - No se puede hacer una asignaci�n en una condici�n  \n";
+                          :}; 
 
