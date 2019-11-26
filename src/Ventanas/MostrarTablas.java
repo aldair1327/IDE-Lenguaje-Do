@@ -209,7 +209,7 @@ public class MostrarTablas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane_Gramatica;
+    public javax.swing.JScrollPane jScrollPane_Gramatica;
     public javax.swing.JScrollPane jScrollPane_intermedio;
     public javax.swing.JScrollPane jScrollPane_optimizado;
     public javax.swing.JTextPane jTextPane_Gramatica;

@@ -2006,6 +2006,7 @@ public class ASintactico extends java_cup.runtime.lr_parser {
 
     public AnalizadorLexico  les;
     public ArrayList<Token_> ls;
+    public ArrayList<String> producciones = new ArrayList<String>();
     public OpeTabla optab = new OpeTabla();
     public ArrayList<String> arbolesAsignacion = new ArrayList<String> ();
     public ArrayList<String> ci = new ArrayList<String> ();
@@ -2033,12 +2034,12 @@ StringBuilder m = new StringBuilder("");
                 java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
                 m=new StringBuilder("Error Critico "+s+" : ");
                 if (s.left >= 0) {m.append(" Linea: "+(s.left+1));
-                    if (s.right >= 0)m.append(" Columna: "+(s.right+1)+"\nRepare antes de Continuar");}
+                    if (s.right >= 0)m.append(" Columna: "+(s.right+1)+"\n\nRepare antes de Continuar");}
                 if(m.length()!=0)
-                    errores+=m+"\n";
+                    errores+=m+"\n\n";
         }
         
-        errores += m.append("    antes de    " + les.lexeme  + "  \n");
+        errores += m.append("    antes de    " + les.lexeme  + "  \n\n");
         System.err.println(m+info.toString());
     }
     
@@ -2061,7 +2062,7 @@ StringBuilder me;
     me = new StringBuilder("Error sintactico: "+" ");
     me.append(mensaje);
     
-    errores+=mensaje+"\n";
+    errores+=mensaje+"\n\n";
     System.out.println(me);
 }
 
@@ -2124,7 +2125,10 @@ class CUP$ASintactico$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		   codop.add( "void setup(){\n}\nvoid loop(){ \n" + c + "\n}"); 
+		 
+                  codop.add( "void setup(){\n\n}\n\nvoid loop(){ \n\n" + c + "\n\n}"); 
+                  producciones.add( "inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE\n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2133,7 +2137,7 @@ class CUP$ASintactico$actions {
           case 2: // inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE 
             {
               Object RESULT =null;
-
+		 producciones.add( "inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE\n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2145,7 +2149,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";
+		
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un } en el final del programa\n\n ");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2157,7 +2164,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";
+		
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Se esperaba un } en el final del programa  \n\n ");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2169,7 +2179,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n";
+		
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio \n\n ");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2181,7 +2194,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n";
+		
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n\n ");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2193,7 +2209,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+		
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n ");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2205,7 +2224,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+		
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n ");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2217,7 +2239,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+		
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2229,7 +2254,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+		
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2241,7 +2269,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+		
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2253,7 +2284,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
+		
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2265,7 +2299,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 2 en la linea: "+(eright+1)+" - se esperaba la palabra inicio \n";
+		
+                  this.parser.errores+="Error: 2 en la linea: "+(eright+1)+" - se esperaba la palabra inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la palabra inicio \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2277,7 +2314,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+		
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2289,7 +2329,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+		
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2301,7 +2344,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n";
+		
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2313,7 +2359,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";
+		
+                  this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2325,7 +2374,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n";
+		
+                  this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2337,7 +2389,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n";
+		
+                  this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2349,7 +2404,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n";
+		
+                  this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n\n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2514,7 +2572,10 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= id+""; 
+		 
+                  RESULT= id+""; 
+                  producciones.add( "cuerpo ::= decvariables:id \n\n");
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("cuerpo",1, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2527,15 +2588,16 @@ class CUP$ASintactico$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		 
-           String[] a = id.toString().split("\\.");
-           if(a.length == 2){
-           RESULT= a[1]+" = "+a[0]+";\n";  
-           }else if(a.length == 3){
-            RESULT= a[1]+" = "+a[0]+";\n"+a[2]; 
-           }else if(a.length == 4){
-            RESULT= a[1]+" "+a[2]+" "+a[0]+";\n"+a[3]; 
-           }
-            
+                  producciones.add( "cuerpo ::= asignar:id  \n\n");
+                  String[] a = id.toString().split("\\.");
+                  if(a.length == 2){
+                  RESULT= a[1]+" = "+a[0]+";\n\n";  
+                  }else if(a.length == 3){
+                    RESULT= a[1]+" = "+a[0]+";\n\n"+a[2]; 
+                  }else if(a.length == 4){
+                    RESULT= a[1]+" "+a[2]+" "+a[0]+";\n\n"+a[3]; 
+                  }
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("cuerpo",1, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2547,7 +2609,10 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= id+""; 
+		 
+                  producciones.add( "cuerpo ::= funcionesDo:id  \n\n");
+                  RESULT= id+""; 
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("cuerpo",1, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2559,7 +2624,10 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= id+""; 
+		 
+                  producciones.add( "cuerpo ::= ciclos:id  \n\n");
+                  RESULT= id+""; 
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("cuerpo",1, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2571,7 +2639,10 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= id+""; 
+		 
+                  producciones.add( "cuerpo ::= incrementar_var:id  \n\n");
+                  RESULT= id+""; 
+                
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("cuerpo",1, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2610,7 +2681,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).value;
-		this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un tipo de dato antes de '[' \n";
+		this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un tipo de dato antes de '[' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2622,7 +2693,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).value;
-		this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un '[' despues de el tipo de dato' \n";
+		this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un '[' despues de el tipo de dato' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2634,7 +2705,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).value;
-		this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" - Se esperaba un ']' despues de '[' \n";
+		this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" - Se esperaba un ']' despues de '[' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2646,7 +2717,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)).value;
-		this.parser.errores+="Error: 10 en la linea:"+(eright+1)+" - Se esperaba un 'identificador' despues de ']' \n";
+		this.parser.errores+="Error: 10 en la linea:"+(eright+1)+" - Se esperaba un 'identificador' despues de ']' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2658,7 +2729,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).value;
-		this.parser.errores+="Error: 11 en la linea: "+(eright+1)+" - Se esperaba un ' = ' despues de el 'identificador' \n";
+		this.parser.errores+="Error: 11 en la linea: "+(eright+1)+" - Se esperaba un ' = ' despues de el 'identificador' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2670,7 +2741,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 12 en la linea: "+(eright+1)+" - Se esperaba un ' [ ' despues de el ' = ' \n";
+		this.parser.errores+="Error: 12 en la linea: "+(eright+1)+" - Se esperaba un ' [ ' despues de el ' = ' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2682,7 +2753,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 13 en la linea: "+(eright+1)+" - Se esperaban datos dentro de '[' ']' \n";
+		this.parser.errores+="Error: 13 en la linea: "+(eright+1)+" - Se esperaban datos dentro de '[' ']' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2694,7 +2765,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 14 en la linea: "+(eright+1)+" - Se esperaba un ']' \n";
+		this.parser.errores+="Error: 14 en la linea: "+(eright+1)+" - Se esperaba un ']' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2706,7 +2777,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 15 en la linea: "+(eright+1)+" - Se esperaba un ';' \n";
+		this.parser.errores+="Error: 15 en la linea: "+(eright+1)+" - Se esperaba un ';' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("arreglo",38, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2844,7 +2915,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";
+		
+                this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n\n";
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("datos",40, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2860,11 +2934,12 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		
-
-               ci.add(id+" = " + dato );
-               listavar.add(id+"");
-               listavar.add("\n");
-             RESULT= dato+"."+id; 
+                producciones.add( "asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA \n\n");
+                ci.add(id+" = " + dato );
+                listavar.add(id+"");
+                listavar.add("\n\n");
+                RESULT= dato+"."+id; 
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2883,10 +2958,12 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		 
-               ci.add(id+" "+ opa +" " + dato + " " );
-               listavar.add(id+"");
-               listavar.add("\n");
+                producciones.add( "asignar ::= ID:id opasig:opa datoasig:dato PUNTO_Y_COMA \n\n");
+                ci.add(id+" "+ opa +" " + dato + " " );
+                listavar.add(id+"");
+                listavar.add("\n\n");
                 RESULT= dato+"."+id+"."+opa+". "; 
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2905,32 +2982,22 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
+                producciones.add( "asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo:c \n\n");
                 listavar.add(id+"");
-               listavar.add("\n");
+                listavar.add("\n\n");
                 ci.add(id+" = " + dato + " " );      
-                        arbolesAsignacion.add(id.toString()+"!=!"+dato.toString()+"!;");
-                        System.out.println("Lista que no entra: \n"+dato.toString());
-                        for(int i = 0; i<ls.size(); i++){
-                            if (ls.get(i).numero_linea == 7) {
-                                System.out.println(ls.get(i).toString());
-                            }
-                        }
-                        /*Token_ idAAsig = optab.buscarIDCup(id.toString(),ls);
-                        Token_ idAComp = optab.buscarIDCup(dato.toString(),ls);
-                        if(idAAsig == null)
-                            System.out.println(idAAsig);
-                            //System.out.println(idAComp);
-                            this.parser.append("Error idAAsig: en la linea: "+(idright+1)+" El dato  no ha sido declarado. \n");
-                        if(idAComp == null)
-                            this.parser.append("Error idAComp: en la linea: "+(datoright+1)+" El dato  no ha sido declarado. \n");
-                        if(idAAsig != null && idAComp != null){
-                            String tipo = optab.verificarTipo(dato.toString() , ls);
-                        }*/
-                        
-                        asig_simples.add(id+"="+dato+"="+(idright+1));
+                arbolesAsignacion.add(id.toString()+"!=!"+dato.toString()+"!;");
+                System.out.println("Lista que no entra: \n\n"+dato.toString());
 
-                    RESULT= dato+"."+id+"."+c; 
-                    
+                for(int i = 0; i<ls.size(); i++){
+                    if (ls.get(i).numero_linea == 7) {
+                        System.out.println(ls.get(i).toString());
+                    }
+                }
+
+                asig_simples.add(id+"="+dato+"="+(idright+1));
+                RESULT= dato+"."+id+"."+c; 
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2952,10 +3019,12 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-            ci.add(id+" "+ opa +" " + dato + " " );  
-              listavar.add(id+"");
-              listavar.add("\n");
-              RESULT= dato+"."+id+"."+opa+"."+c; 
+                producciones.add( "asignar ::= ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo:c  \n\n");
+                ci.add(id+" "+ opa +" " + dato + " " );  
+                listavar.add(id+"");
+                listavar.add("\n\n");
+                RESULT= dato+"."+id+"."+opa+"."+c; 
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2967,7 +3036,10 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		 RESULT=0; 
+		 
+                producciones.add( "asignar ::= ID:id ASIG ari PUNTO_Y_COMA  \n\n");
+                RESULT=0; 
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2979,7 +3051,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		 RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");
+		 
+                RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -2991,7 +3066,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");
+		 
+                RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3003,7 +3081,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
+		 
+                RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3015,7 +3096,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+		 
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3027,7 +3111,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
+		 
+                RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3039,7 +3126,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+		 
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3051,7 +3141,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		 RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");
+		 
+                RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3063,7 +3156,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");
+		 
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3075,7 +3171,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3087,7 +3186,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3099,7 +3201,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignar",13, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3126,13 +3231,14 @@ class CUP$ASintactico$actions {
 		int datoleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT= dato+"."+id;
-
-                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
-                ci.add(id +" = "+dato+ " " );
-                listavar.add(id+"");
-                 listavar.add("\n");
-             
+		 
+                                producciones.add( "asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA  \n\n");
+                                RESULT= dato+"."+id;
+                                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+                                ci.add(id +" = "+dato+ " " );
+                                listavar.add(id+"");
+                                listavar.add("\n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3150,14 +3256,14 @@ class CUP$ASintactico$actions {
 		int datoleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT= dato+"."+id;
-                
-                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
-
-                ci.add(id+" "+ opa +" " + dato + " " ); 
-                listavar.add(id+"");
-                 listavar.add("\n");
-             
+		 
+                                producciones.add( "asignarDeclaracion ::= ID:id opasig:opa datoasig:dato PUNTO_Y_COMA  \n\n");
+                                RESULT= dato+"."+id;
+                                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+                                ci.add(id+" "+ opa +" " + dato + " " ); 
+                                listavar.add(id+"");
+                                listavar.add("\n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3175,14 +3281,16 @@ class CUP$ASintactico$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= dato+"."+id+"."+c; 
+		 
+                                producciones.add( "asignarDeclaracion ::= ID:id ASIG dato:dato PUNTO_Y_COMA cuerpo:c  \n\n");
+                                RESULT= dato+"."+id+"."+c; 
 
-                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
+                                asig_Ini.add(id+ "=" + dato +"="+ (idright+1));
 
-                ci.add(id +" = "+dato +" " ); 
-                listavar.add(id+"");
-                 listavar.add("\n");
-            
+                                ci.add(id +" = "+dato +" " ); 
+                                listavar.add(id+"");
+                                listavar.add("\n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3204,10 +3312,12 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                ci.add(id+" "+ opa +" " + dato + " " ); 
-                listavar.add(id+"");
-                 listavar.add("\n");
-             RESULT= dato+"."+id+"."+c; 
+                                producciones.add( "asignarDeclaracion ::= ID:id opasig:opa datoasig:dato PUNTO_Y_COMA cuerpo:c  \n\n");
+                                ci.add(id+" "+ opa +" " + dato + " " ); 
+                                listavar.add(id+"");
+                                listavar.add("\n\n");
+                                RESULT= dato+"."+id+"."+c; 
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3219,7 +3329,10 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		 RESULT=0; 
+		 
+                                producciones.add( "asignarDeclaracion ::= ID:id ASIG ari PUNTO_Y_COMA  \n\n");
+                                RESULT=0; 
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3231,7 +3344,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		 RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");
+		 
+                                RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3243,7 +3359,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");
+		 
+                                RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3255,7 +3374,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
+		 
+                                RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3267,7 +3389,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+		 
+                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3279,7 +3404,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
+		 
+                                RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3291,7 +3419,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+		 
+                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3303,7 +3434,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		 RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");
+		 
+                                RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3315,7 +3449,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");
+		 
+                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3327,7 +3464,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 
+                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3339,7 +3479,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 
+                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3351,7 +3494,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n");
+		 
+                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("asignarDeclaracion",47, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3375,7 +3521,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="+="; 
+		 RESULT="+="; producciones.add( "opasig::= ADDASIG:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("opasig",28, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3387,7 +3533,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "opasig::= MINASIG:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("opasig",28, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3399,7 +3545,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "opasig::= DIVASIG:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("opasig",28, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3411,7 +3557,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "opasig::= MULASIG:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("opasig",28, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3423,7 +3569,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "datoasig::= ID:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("datoasig",29, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3435,7 +3581,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "datoasig::= numEntero:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("datoasig",29, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3447,7 +3593,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "datoasig::= NOTA:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("datoasig",29, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3459,7 +3605,7 @@ class CUP$ASintactico$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object entero = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); 
+		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); producciones.add( "tipo ::=  ENTERO:entero \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("tipo",30, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3471,7 +3617,7 @@ class CUP$ASintactico$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object entero = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); 
+		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); producciones.add( "tipo ::=  NOTA:entero \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("tipo",30, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3483,7 +3629,7 @@ class CUP$ASintactico$actions {
 		int enteroleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int enteroright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object entero = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); 
+		 RESULT= entero; System.out.println("El tipo es: " + entero.toString()); producciones.add( "tipo ::=  CADENA:entero \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("tipo",30, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3495,7 +3641,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= ID:id  \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3507,7 +3653,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= numEntero:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3519,7 +3665,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= VERDADERO:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3531,7 +3677,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= FALSO:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3543,7 +3689,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= CADENA:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3555,7 +3701,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= NOTA:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3567,7 +3713,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= VACIO:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3579,7 +3725,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= NULO:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3591,7 +3737,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= DO:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3603,7 +3749,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= RE:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3615,7 +3761,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= MI:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3627,7 +3773,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= FA:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3639,7 +3785,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= SOL:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3651,7 +3797,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		  RESULT=id; producciones.add( "dato ::= LA:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3663,7 +3809,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "dato ::= SII:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("dato",4, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3675,7 +3821,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "notas ::= RE:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("notas",45, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3687,7 +3833,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "notas ::= RE:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("notas",45, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3699,7 +3845,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "notas ::= RE:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("notas",45, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3711,7 +3857,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "notas ::= RE:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("notas",45, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3723,7 +3869,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "notas ::= RE:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("notas",45, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3735,7 +3881,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "notas ::= RE:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("notas",45, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3747,7 +3893,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "notas ::= RE:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("notas",45, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3759,7 +3905,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "notas ::= RE:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("notas",45, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3900,15 +4046,15 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 //this.parser.errores+= id.toString()+ " TIPO: " + tipo.toString()  + "\n"; 
+		  
+                      producciones.add( "decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA  \n\n");
+                      if(tipo.toString().equals("entero")){
+                      RESULT="int"+" "+id+";\n\n";  
+                      }
+                      ci.add(tipo+" "+id+" ");
+                      listavar.add(id+"");
+                      listavar.add("\n\n");
                     
-                    if(tipo.toString().equals("entero")){
-                    RESULT="int"+" "+id+";\n";  
-                    }
-                    ci.add(tipo+" "+id+" ");
-                    listavar.add(id+"");
-                    listavar.add("\n");
-                 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3927,15 +4073,15 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    if(tipo.toString().equals("entero")){
-                    RESULT="int"+" "+id+";\n"+c;  
-                    }
-                    ci.add(tipo+" "+id+" "); 
-                    listavar.add(id+"");
-                    listavar.add("\n");
-                         //this.parser.errores += id.toString()+ " TIPO: " + tipo.toString()  +"\n"; 
-                        ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
-                
+                      producciones.add( "decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA cuerpo:c   \n\n");
+                      if(tipo.toString().equals("entero")){
+                        RESULT="int"+" "+id+";\n\n"+c;  
+                      }
+                      ci.add(tipo+" "+id+" "); 
+                      listavar.add(id+"");
+                      listavar.add("\n\n");
+                      ls = optab.buscarID(id.toString(),tipo.toString(),null,ls);
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -3951,67 +4097,57 @@ class CUP$ASintactico$actions {
 		int asignacionright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object asignacion = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
+                    producciones.add( "decvariables ::= tipo:tipo asignarDeclaracion:asignacion   \n\n");
                     String[] a = asignacion.toString().split("\\.");
 
-                  if(a.length == 2){  
-                  if(tipo.toString().equals("entero")){
-                    RESULT="int "+a[1]+" = "+a[0]+";\n";
-                    ci.add(tipo+" "+a[1]+" ");
+                    if(a.length == 2){  
+                      if(tipo.toString().equals("entero")){
+                        RESULT="int "+a[1]+" = "+a[0]+";\n\n";
+                        ci.add(tipo+" "+a[1]+" ");
+                      }
+                      if(tipo.toString().equals("nota")){
+                        RESULT="int "+a[1]+" = "+a[0]+";\n\n";  
+                        ci.add(tipo+" "+a[1]+" ");
+                      }  
+                      if(tipo.toString().equals("cadena")){
+                        RESULT="String "+a[1]+" = "+a[0]+";\n\n";
+                        ci.add(tipo+" "+a[1]+" ");
+                      }
                     }
-                  if(tipo.toString().equals("nota")){
-                    RESULT="int "+a[1]+" = "+a[0]+";\n";  
-                    ci.add(tipo+" "+a[1]+" ");
+                      
+                    if(a.length == 3){  
+                      if(tipo.toString().equals("entero")){
+                        RESULT="int "+a[1]+" = "+a[0]+";\n\n"+a[2]; 
+                        ci.add(tipo+" "+a[1]+" ");
+                      }
+                      if(tipo.toString().equals("nota")){
+                        RESULT="int "+a[1]+" = "+a[0]+";\n\n"+a[2];
+                        ci.add(tipo+" "+a[1]+" ");
+                      } 
+                      if(tipo.toString().equals("cadena")){
+                        RESULT="String "+a[1]+" = "+a[0]+";\n\n"+a[2]+";\n\n";
+                        ci.add(tipo+" "+a[1]+" ");
+                      }
                     }  
-                  if(tipo.toString().equals("cadena")){
-                    RESULT="String "+a[1]+" = "+a[0]+";\n";
-                    ci.add(tipo+" "+a[1]+" ");
-                    }
-                    //ci.add(tipo+" "+a[1]+" ");
-                  }
-                    
-                  if(a.length == 3){  
-                  if(tipo.toString().equals("entero")){
-                    RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2]; 
-                    ci.add(tipo+" "+a[1]+" ");
-                    }
-                  if(tipo.toString().equals("nota")){
-                    RESULT="int "+a[1]+" = "+a[0]+";\n"+a[2];
-                    ci.add(tipo+" "+a[1]+" ");
-                    } 
-                  if(tipo.toString().equals("cadena")){
-                    RESULT="String "+a[1]+" = "+a[0]+";\n"+a[2]+";\n";
-                    ci.add(tipo+" "+a[1]+" ");
-                    }
-                    //ci.add(tipo+" "+a[1]+"\n");
-                  }  
                  
-                    //System.out.println(asignacion,tipo.toString(),asignacion,ls); 
                     try { 
-                        //System.out.println("asignacion:" + asignacion);
-                        //System.out.println("tipo: " + tipo.toString());
-                        //System.out.println("ls: " + ls);
-                        String asigTemp = asignacion.toString();
-                        String[] temp = asigTemp.split("\\.");
-                        //System.out.println("asigTemp: " + asigTemp);
-                        //System.out.println("temp : " + temp.toString());
-                        try { 
-                            //System.out.println("ASDASJHKGFASHJDFGASDJHFGJASDHFDSF ----------------- "Integer.parseInt(temp[0]));
-                            if(tipo.toString() == "entero" && ((Integer.parseInt(temp[0]) == 0 || (Integer.parseInt(temp[0])/Integer.parseInt(temp[0]))==1) ) )
-                                System.out.println("Es entero");
+                      String asigTemp = asignacion.toString();
+                      String[] temp = asigTemp.split("\\.");
+                      try { 
+                          if(tipo.toString() == "entero" && ((Integer.parseInt(temp[0]) == 0 || (Integer.parseInt(temp[0])/Integer.parseInt(temp[0]))==1) ) )
+                              System.out.println("Es entero");
 
-                        } catch ( Exception d) {
-                            System.err.println("Exception :" + d.getMessage());
-                            this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n");
-                        }
-                        //Aqui si tiene los tipo de datos
-                        ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
-                        
-                        //System.out.println("Tabla de eric:" + ls.toString());
+                      } catch ( Exception d) {
+                          System.err.println("Exception :" + d.getMessage());
+                          this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n\n");
+                      }
+                      //Aqui si tiene los tipo de datos
+                      ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
                     } catch ( Exception d) {
                       System.out.println(d.getMessage());
                     }
                     //ls = optab.buscarID(sep[1],tipo.toString(),sep[0],ls); 
-                    //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n"; 
+                    //this.parser.errores+= tipo.toString()+ " asignacion: " + asignacion.toString()  + "\n\n"; 
                   
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -4024,7 +4160,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";
+		
+                      this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n\n";
+                      producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  falta el ';' \n\n");
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4036,7 +4175,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";
+		
+                      this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n\n";
+                      producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  falta el ';' \n\n");
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4048,7 +4190,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";
+		
+                      this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n\n";
+                      producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n\n");
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4060,7 +4205,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";
+		
+                      this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n\n";
+                      producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n\n");
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4072,7 +4220,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 19 en la linea: "+(eright+1)+" - Se esperaba una tipo de dato \n";
+		
+                      this.parser.errores+="Error: 19 en la linea: "+(eright+1)+" - Se esperaba una tipo de dato \n\n";
+                      producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una tipo de dato \n\n");
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("decvariables",3, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4084,7 +4235,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "funcionesDo ::= declaraReproduce:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("funcionesDo",20, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4096,7 +4247,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "funcionesDo ::= declaraImprimir:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("funcionesDo",20, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4108,7 +4259,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "funcionesDo ::= declaraImportar:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("funcionesDo",20, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4120,7 +4271,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "funcionesDo ::= declaraContinuar:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("funcionesDo",20, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4132,7 +4283,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "funcionesDo ::= declaraSilencio:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("funcionesDo",20, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4144,7 +4295,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "funcionesDo ::= declaraVolumen:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("funcionesDo",20, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4156,7 +4307,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "funcionesDo ::= declaraFrecuencia:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("funcionesDo",20, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4169,9 +4320,10 @@ class CUP$ASintactico$actions {
 		int pright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object p = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                     RESULT= p+"\n";
-                     ci.add(p+"");
-                     
+                            producciones.add( "declaraReproduce ::= REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA \n\n");
+                            RESULT= p+"\n\n";
+                            ci.add(p+"");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4187,9 +4339,10 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                     RESULT= p+"\n"+c;
-                    ci.add(p+""); 
-                    
+                            producciones.add( "declaraReproduce ::= REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA cuerpo:c  \n\n");
+                            RESULT= p+"\n\n"+c;
+                            ci.add(p+""); 
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4201,7 +4354,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";
+		
+                            this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4213,7 +4369,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n";
+		
+                            this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4225,7 +4384,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra   \n";
+		
+                            this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra   \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4237,7 +4399,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 23 en la linea:"+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";
+		
+                            this.parser.errores+="Error: 23 en la linea:"+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4249,7 +4414,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";
+		
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el (   \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4261,7 +4429,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  ";
+		
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  ";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el )   \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4273,7 +4444,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";
+		
+                            this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4285,7 +4459,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre  \n";
+		
+                            this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre  \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4297,7 +4474,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'   \n";
+		
+                            this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'   \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4309,7 +4489,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 23 en la linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";
+		
+                            this.parser.errores+="Error: 23 en la linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce' \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4321,7 +4504,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";
+		
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el (  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4333,7 +4519,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el 2)  ";
+		
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  ";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Hace falta el )  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraReproduce",21, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4349,11 +4538,11 @@ class CUP$ASintactico$actions {
 		int xright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object x = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                //ci.add("ent "+ n + "\n tono("+n+","+x+")" );
-                param.add(n+"="+(nright+1)); 
-                RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
-                listavar.add(n+"");
-            
+                      producciones.add( "paramRero::= notas:n COMA numEntero:x  \n\n");
+                      param.add(n+"="+(nright+1)); 
+                      RESULT= "tone(8,"+n+","+x+");\n\n delay("+x+");\n\n";
+                      listavar.add(n+"");
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("paramRero",48, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4369,11 +4558,11 @@ class CUP$ASintactico$actions {
 		int xright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object x = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                //ci.add("ent "+ n + "\n tono("+n+","+x+")" );
-                param.add(n+"="+(nright+1)); 
-                RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
-                listavar.add(n+"");
-            
+                      producciones.add( "paramRero::= notas:n COMA ID:x  \n\n");
+                      param.add(n+"="+(nright+1)); 
+                      RESULT= "tone(8,"+n+","+x+");\n\n delay("+x+");\n\n";
+                      listavar.add(n+"");
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("paramRero",48, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4389,11 +4578,12 @@ class CUP$ASintactico$actions {
 		int xright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object x = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                ci.add("ent "+ n + "\n tono("+n+","+x+")" );
-                param.add(n+"="+(nright+1)); 
-                RESULT= "tone(8,"+n+","+x+");\n delay("+x+");\n";
-                listavar.add(n+"");
-            
+                      producciones.add( "paramRero::= ID:n COMA numEntero:x  \n\n");
+                      ci.add("ent "+ n + "\n\n tono("+n+","+x+")" );
+                      param.add(n+"="+(nright+1)); 
+                      RESULT= "tone(8,"+n+","+x+");\n\n delay("+x+");\n\n";
+                      listavar.add(n+"");
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("paramRero",48, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4405,7 +4595,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el segundo parámetro debe ser un número entero \n  "; 
+		 
+                      producciones.add( "paramRero::= notas COMA notas :e   \n\n");
+                      this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el segundo parámetro debe ser un número entero \n\n  "; 
+                    
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("paramRero",48, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4418,9 +4611,10 @@ class CUP$ASintactico$actions {
 		int datoright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object dato = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                    ci.add("cad ="+ dato + "\n print("+dato+")" );
-                    RESULT= "Serial.println(" + dato+ ");\n";
-                    
+                                producciones.add( "declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA  \n\n");
+                                ci.add("cad ="+ dato + "\n\n print("+dato+")" );
+                                RESULT= "Serial.println(" + dato+ ");\n\n";
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4436,9 +4630,10 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    ci.add("cad ="+ dato + "\n print("+dato+")" );
-                    RESULT= "Serial.println(" + dato+ ");\n"+c;
-                    
+                                producciones.add( "declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA cuerpo:c   \n\n");
+                                ci.add("cad ="+ dato + "\n\n print("+dato+")" );
+                                RESULT= "Serial.println(" + dato+ ");\n\n"+c;
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4450,7 +4645,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";
+		
+                                
+                                this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n\n";
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"  - Falta ';'     \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4462,7 +4661,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";
+		
+                                
+                                this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n\n";
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta un parametro para imprimir  \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4474,7 +4677,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";
+		
+                                
+                                this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n\n";
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el )     \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4486,7 +4693,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";
+		
+                                
+                                this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n\n";
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el (      \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4498,7 +4709,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";
+		
+                                
+                                this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n\n";
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta un parametro para imprimir        \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4510,7 +4725,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";
+		
+                                
+                                this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n\n";
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ';'        \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4522,7 +4741,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";
+		
+                                
+                                this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n\n";
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el )       \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4534,7 +4757,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";
+		
+                                
+                                this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n\n";
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el (       \n\n");
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImprimir",22, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4547,9 +4774,10 @@ class CUP$ASintactico$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		
-                    ci.add("imp "+ id  );
-                    RESULT ="#include "+ id +" \n";
-                    
+                              producciones.add( "declaraImportar ::= IMPORTAR ID:id PUNTO_Y_COMA       \n\n");
+                              ci.add("imp "+ id  );
+                              RESULT ="#include "+ id +" \n\n";
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImportar",23, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4561,7 +4789,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Linea: "+(eright+1)+" - Falta el ; \n";
+		
+                              this.parser.errores+="Linea: "+(eright+1)+" - Falta el ; \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ;  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImportar",23, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4573,7 +4804,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Linea: "+(eright+1)+" - Falta el argumento en importar \n"; 
+		
+                              this.parser.errores+="Linea: "+(eright+1)+" - Falta el argumento en importar \n\n"; 
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el argumento en importar  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraImportar",23, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4586,9 +4820,10 @@ class CUP$ASintactico$actions {
 		int nright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                    ci.add("cont("+n+")" );
-                    RESULT ="delay("+n +");\n";
-                    
+                              producciones.add( "declaraContinuar ::=  CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA \n\n");
+                              ci.add("cont("+n+")" );
+                              RESULT ="delay("+n +");\n\n";
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4604,9 +4839,10 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    ci.add("cont("+n+")" );
-                    RESULT ="delay("+n +");\n"+c;
-                    
+                              producciones.add( "declaraContinuar ::=  CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c    \n\n");
+                              ci.add("cont("+n+")" );
+                              RESULT ="delay("+n +");\n\n"+c;
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4618,7 +4854,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n"; 
+		
+                              this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n\n"; 
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4630,7 +4869,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n"; 
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n\n"; 
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4642,7 +4884,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar( \n"; 
+		
+                              this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar( \n\n"; 
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de continuar( \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4654,7 +4899,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n"; 
+		
+                              this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n"; 
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4666,7 +4914,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n"; 
+		
+                              this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la palabra reservada 'continuar' \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta la palabra reservada 'continuar' \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4678,7 +4929,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n"; 
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ;  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4690,7 +4944,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar( \n"; 
+		
+                              this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar ( \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de continuar (  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4702,7 +4959,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n"; 
+		
+                              this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n"; 
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar(   \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraContinuar",24, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4712,10 +4972,10 @@ class CUP$ASintactico$actions {
             {
               Object RESULT =null;
 		
-                    ci.add("notono()\n tono(0)\n tiempo( )" );
-                    RESULT ="noTone(8);\n";
-                    
-                    
+                              producciones.add( "declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA   \n\n");
+                              ci.add("notono()\n\n tono(0)\n\n tiempo( )" );
+                              RESULT ="noTone(8);\n\n";
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4728,10 +4988,10 @@ class CUP$ASintactico$actions {
 		int nright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                    ci.add("notono()\n tono(0)\n tiempo("+n+")" );
-                    RESULT ="noTone(8);\n delay("+n+");\n";
-                    
-                    
+                              producciones.add( "declaraSilencio ::=  SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA    \n\n");
+                              ci.add("notono()\n\n tono(0)\n\n tiempo("+n+")" );
+                              RESULT ="noTone(8);\n\n delay("+n+");\n\n";
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4744,10 +5004,10 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    ci.add("notono()\n tono(0)\n tiempo( )" );
-                    RESULT ="noTone(8);\n"+c;
-
-                    
+                              producciones.add( "declaraSilencio ::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA cuerpo:c      \n\n");
+                              ci.add("notono()\n\n tono(0)\n\n tiempo( )" );
+                              RESULT ="noTone(8);\n\n"+c;
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4763,10 +5023,10 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    ci.add("notono()\n tono(0)\n tiempo("+n+")" );
-                    RESULT="noTone(8);\n delay("+n+");\n"+c;
-                    
-                    
+                              producciones.add( "declaraSilencio ::=  SILENCIO PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c     \n\n");
+                              ci.add("notono()\n\n tono(0)\n\n tiempo("+n+")" );
+                              RESULT="noTone(8);\n\n delay("+n+");\n\n"+c;
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4779,11 +5039,11 @@ class CUP$ASintactico$actions {
 		int nright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                    ci.add("notono()\n tono(0)\n tiempo("+n+")" );
-                    param.add(n+"="+(nright+1)); 
-                    RESULT ="noTone(8);\n delay("+n+");\n";
-                    
-                    
+                              producciones.add( "declaraSilencio ::=  SILENCIO PAROPEN ID:n PARCLOSE PUNTO_Y_COMA   \n\n");
+                              ci.add("notono()\n\n tono(0)\n\n tiempo("+n+")" );
+                              param.add(n+"="+(nright+1)); 
+                              RESULT ="noTone(8);\n\n delay("+n+");\n\n";
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4799,11 +5059,11 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    ci.add("notono()\n tono(0)\n tiempo("+n+")" );
-                    param.add(n+"="+(nright+1)); 
-                    RESULT="noTone(8);\n delay("+n+");\n"+c;
-                    
-                    
+                              producciones.add( "declaraSilencio ::=  SILENCIO PAROPEN ID:n PARCLOSE PUNTO_Y_COMA cuerpo:c   \n\n");
+                              ci.add("notono()\n\n tono(0)\n\n tiempo("+n+")" );
+                              param.add(n+"="+(nright+1)); 
+                              RESULT="noTone(8);\n\n delay("+n+");\n\n"+c;
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4815,7 +5075,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea:"+(eright+1)+" - Falta el ; \n";
+		
+                              this.parser.errores+="Error: 24 en la linea:"+(eright+1)+" - Falta el ; \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4827,7 +5090,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ';' despues de ')' \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4839,7 +5105,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 31 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n";
+		
+                              this.parser.errores+="Error: 31 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de ( \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4851,7 +5120,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n";
+		
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de numero  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4863,7 +5135,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 33 en la linea: "+(eright+1)+" - Falta el ( despues de silencio \n";
+		
+                              this.parser.errores+="Error: 33 en la linea: "+(eright+1)+" - Falta el ( despues de silencio \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de silencio \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4875,7 +5150,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";
+		
+                              this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4887,7 +5165,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Falta el ; \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4899,7 +5180,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Falta ';' despues de ')' \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4911,7 +5195,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n";
+		
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Falta el ) despues de ( \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4923,7 +5210,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n";
+		
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Falta el ) despues de numero \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4935,7 +5225,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 33 en la linea:"+(eright+1)+" - Falta el ( despues de silencio \n";
+		
+                              this.parser.errores+="Error: 33 en la linea:"+(eright+1)+" - Falta el ( despues de silencio \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de silencio  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4947,7 +5240,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";
+		
+                              this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar(  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraSilencio",25, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4960,9 +5256,10 @@ class CUP$ASintactico$actions {
 		int nright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                    ci.add("ent v \n"+"v = "+ n +"\n vol( v )" );
-                    RESULT="int volume = "+n+";\n";
-                    
+                              producciones.add( "declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA   \n\n");
+                              ci.add("ent v \n\n"+"v = "+ n +"\n\n vol( v )" );
+                              RESULT="int volume = "+n+";\n\n";
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4978,9 +5275,10 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    ci.add("ent v \n"+"v = "+ n +"\n vol( v )" );
-                    RESULT="int volume = "+n+";\n"+c;
-                    
+                              producciones.add( "declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo:c    \n\n");
+                              ci.add("ent v \n\n"+"v = "+ n +"\n\n vol( v )" );
+                              RESULT="int volume = "+n+";\n\n"+c;
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -4992,7 +5290,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de )  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5004,7 +5305,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
+		
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5016,7 +5320,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+		
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5028,7 +5335,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
+		
+                              this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5040,7 +5350,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de ) \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5052,7 +5365,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 35 en la linea:: "+(eright+1)+" - Falta el parametro entero \n";
+		
+                              this.parser.errores+="Error: 35 en la linea:: "+(eright+1)+" - Falta el parametro entero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5064,7 +5380,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+		
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5076,7 +5395,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
+		
+                              this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraVolumen",26, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5089,9 +5411,10 @@ class CUP$ASintactico$actions {
 		int nright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                    ci.add("ent f \n"+"f = "+ n +"\n frec( f )" );
-                    RESULT="int frequency = "+n+";\n";
-                    
+                              producciones.add( "declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  \n\n");
+                              ci.add("ent f \n\n"+"f = "+ n +"\n\n frec( f )" );
+                              RESULT="int frequency = "+n+";\n\n";
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5104,9 +5427,10 @@ class CUP$ASintactico$actions {
 		int nright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
 		
-                    ci.add("ent f \n"+"f = "+ n +"\n frec( f )" );
-                    RESULT="int frequency = "+n+";\n";
-                    
+                              producciones.add( "declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo  \n\n");
+                              ci.add("ent f \n\n"+"f = "+ n +"\n\n frec( f )" );
+                              RESULT="int frequency = "+n+";\n\n";
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5118,7 +5442,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de ) \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5130,7 +5457,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
+		
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5142,7 +5472,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+		
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5154,7 +5487,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n";
+		
+                              this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5166,7 +5502,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de )  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5178,7 +5517,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
+		
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5190,7 +5532,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
+		
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5202,7 +5547,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n";
+		
+                              this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("declaraFrecuencia",27, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5332,9 +5680,10 @@ class CUP$ASintactico$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                    RESULT=id+"++;\n";
-                    ci.add(id+" + 1" );
-                    
+                              producciones.add( "incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA    \n\n");
+                              RESULT=id+"++;\n\n";
+                              ci.add(id+" + 1" );
+                              
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5347,11 +5696,11 @@ class CUP$ASintactico$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
 		
-                    RESULT=id+"--;\n";
-                    ci.add(id+" - 1" );
-                    
-                    codop.add(id+"--");
-                    
+                              producciones.add( "incrementar_var::=  ID:id MINMIN PUNTO_Y_COMA     \n\n");
+                              RESULT=id+"--;\n\n";
+                              ci.add(id+" - 1" );
+                              codop.add(id+"--");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5367,9 +5716,10 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    RESULT=id+"++;\n"+c;
-                    ci.add(id+" + 1" );
-                    
+                              producciones.add( "incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA cuerpo:c   \n\n");
+                              RESULT=id+"++;\n\n"+c;
+                              ci.add(id+" + 1" );
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5385,9 +5735,10 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		
-                    RESULT=id+"--;\n"+c;
-                    ci.add(id+" - 1" );
-                    
+                              producciones.add( "incrementar_var::=  ID:id MINMIN PUNTO_Y_COMA cuerpo:c   \n\n");
+                              RESULT=id+"--;\n\n"+c;
+                              ci.add(id+" - 1" );
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5399,7 +5750,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 39 en la linea:"+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";
+		
+                              this.parser.errores+="Error: 39 en la linea:"+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5411,7 +5765,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";
+		
+                              this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5423,7 +5780,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 39 en la linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";
+		
+                              this.parser.errores+="Error: 39 en la linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5435,7 +5795,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";
+		
+                              this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable  \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5447,7 +5810,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5459,7 +5825,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5471,7 +5840,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5483,7 +5855,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";
+		
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n\n";
+                              producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n\n");
+                            
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("incrementar_var",19, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5495,7 +5870,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "ciclos ::= sentencia_mientras:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("ciclos",31, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5507,7 +5882,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "ciclos ::= sentencia_por:id \n\n");      
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("ciclos",31, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5519,7 +5894,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id+""; 
+		 RESULT=id+""; producciones.add( "ciclos ::= sentencia_si:id \n\n");       
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("ciclos",31, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5531,7 +5906,10 @@ class CUP$ASintactico$actions {
 		int condleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int condright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object cond = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		 ci.add("while("+cond+")" ); RESULT="while("+cond+"){}"; 
+		 
+                        producciones.add( "sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN KEYCLOSE  \n\n");
+                        ci.add("while("+cond+")" ); RESULT="while("+cond+"){}"; 
+                      
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5546,7 +5924,10 @@ class CUP$ASintactico$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 ci.add("while("+cond+")" ); RESULT="while("+cond+"){\n"+c+"\n}"; 
+		 
+                        producciones.add( "sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE \n\n");
+                        ci.add("while("+cond+")" ); RESULT="while("+cond+"){\n\n"+c+"\n\n}"; 
+                      
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5564,7 +5945,10 @@ class CUP$ASintactico$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object d = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 ci.add("while("+cond+")" ); RESULT="while("+cond+"){\n"+c+"\n}\n"+d; 
+		
+                        producciones.add( "sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d \n\n");
+                        ci.add("while("+cond+")" ); RESULT="while("+cond+"){\n\n"+c+"\n\n}\n\n"+d; 
+                      
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5576,7 +5960,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";
+		
+                          this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condici�n \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5588,7 +5975,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";
+		
+                          this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5600,7 +5990,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";
+		
+                          this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5612,7 +6005,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";
+		
+                          this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5624,7 +6020,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";
+		
+                          this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5636,7 +6035,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";
+		
+                          this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5648,7 +6050,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).value;
-		this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n";
+		
+                          this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condici�n  \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5660,7 +6065,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";
+		
+                          this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras  \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5672,7 +6080,11 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";
+		
+                          this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion  \n\n");
+                          
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5684,7 +6096,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";
+		
+                          this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n\n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '{' despues del ')'  \n\n");
+                        
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_mientras",18, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5699,7 +6114,10 @@ class CUP$ASintactico$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}"; 
+		 
+                            ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n\n"+c+"\n\n}"; 
+                            producciones.add( "sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5717,7 +6135,10 @@ class CUP$ASintactico$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object d = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n"+d; 
+		 
+                            ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n\n"+c+"\n\n}\n\n"+d;
+                            producciones.add( "sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5738,7 +6159,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n else{\n"+d+"\n}\n"+e; 
+		 
+                            ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n\n"+c+"\n\n}\n\n else{\n\n"+d+"\n\n}\n\n"+e; 
+                            producciones.add( "sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE cuerpo:e \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-11)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5756,7 +6180,10 @@ class CUP$ASintactico$actions {
 		int dleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object d = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n"+c+"\n}\n else{\n"+d+"\n}\n"; 
+		 
+                            ci.add("if("+cond+")" );  RESULT="if("+cond+"){\n\n"+c+"\n\n}\n\n else{\n\n"+d+"\n\n}\n\n"; 
+                            producciones.add( "sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE SINO KEYOPEN cuerpo:d KEYCLOSE \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5768,7 +6195,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n";
+		
+                            this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n\n"; 
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condicion despues de '('  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5780,7 +6210,10 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon' \n";
+		
+                            this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon' \n\n";
+                            producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon'  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5792,7 +6225,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n";
+		this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5804,7 +6237,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba '{' despues de ')' \n";
+		this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba '{' despues de ')' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5816,7 +6249,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n";
+		this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5828,7 +6261,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de la 'condicion' \n";
+		this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de la 'condicion' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5840,7 +6273,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n";
+		this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5852,7 +6285,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n";
+		this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5864,7 +6297,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).value;
-		this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n";
+		this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5876,7 +6309,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).value;
-		this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de una  'condicion' \n";
+		this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de una  'condicion' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5909,7 +6342,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)).value;
-		this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n";
+		this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5921,7 +6354,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).value;
-		this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n";
+		this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5933,7 +6366,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de 'SINO' \n";
+		this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de 'SINO' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_si",5, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5958,9 +6391,11 @@ class CUP$ASintactico$actions {
 		int dright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object d = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		 
-                 String inc = asi.toString().substring(0,asi.toString().length()-2);
-                ci.add("for("+dec+cond+";"+inc+")" );
-                RESULT="for("+dec+cond+";"+inc+"){\n"+c+"\n}\n"+d;  
+                        producciones.add( "sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d   \n\n");
+                        String inc = asi.toString().substring(0,asi.toString().length()-2);
+                        ci.add("for("+dec+cond+";"+inc+")" );
+                        RESULT="for("+dec+cond+";"+inc+"){\n\n"+c+"\n\n}\n\n"+d;  
+                      
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-11)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5982,9 +6417,11 @@ class CUP$ASintactico$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
 		   
-                String inc = asi.toString().substring(0,asi.toString().length()-2);
-                ci.add("for("+dec+cond+";"+inc+")" );
-                RESULT="for("+dec+cond+";"+inc+"){\n"+c+"\n}\n"; 
+                        producciones.add( "sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE   \n\n");
+                        String inc = asi.toString().substring(0,asi.toString().length()-2);
+                        ci.add("for("+dec+cond+";"+inc+")" );
+                        RESULT="for("+dec+cond+";"+inc+"){\n\n"+c+"\n\n}\n\n"; 
+                      
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -5996,7 +6433,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)).value;
-		this.parser.errores+="Error: 47 en la linea: "+(eright+1)+" - Se esperaba '(' despues de del POR  \n";
+		this.parser.errores+="Error: 47 en la linea: "+(eright+1)+" - Se esperaba '(' despues de del POR  \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6008,7 +6445,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)).value;
-		this.parser.errores+="Error: 48 en la linea: "+(eright+1)+" - Se esperaba una declaracion de variables \n";
+		this.parser.errores+="Error: 48 en la linea: "+(eright+1)+" - Se esperaba una declaracion de variables \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6020,7 +6457,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-7)).value;
-		this.parser.errores+="Error: 49 en la linea: "+(eright+1)+" - Se esperaba una condicion  \n";
+		this.parser.errores+="Error: 49 en la linea: "+(eright+1)+" - Se esperaba una condicion  \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6032,7 +6469,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-5)).value;
-		this.parser.errores+="Error: 50 en la linea: "+(eright+1)+" - Se esperaba una asignacion \n";
+		this.parser.errores+="Error: 50 en la linea: "+(eright+1)+" - Se esperaba una asignacion \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6044,7 +6481,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 55 en la linea: "+(eright+1)+" - Se esperaba un ')'despues de la asignacion \n";
+		this.parser.errores+="Error: 55 en la linea: "+(eright+1)+" - Se esperaba un ')'despues de la asignacion \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6056,7 +6493,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		this.parser.errores+="Error: 52 en la linea: "+(eright+1)+" - Se esperaba un '{' despues de '(' \n";
+		this.parser.errores+="Error: 52 en la linea: "+(eright+1)+" - Se esperaba un '{' despues de '(' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-10)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6068,7 +6505,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)).value;
-		this.parser.errores+="Error: 47 en la linea: "+(eright+1)+" - Se esperaba '(' despues de del POR  \n";
+		this.parser.errores+="Error: 47 en la linea: "+(eright+1)+" - Se esperaba '(' despues de del POR  \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6080,7 +6517,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-8)).value;
-		this.parser.errores+="Error: 48 en la linea: "+(eright+1)+" - Se esperaba una declaracion de variables \n";
+		this.parser.errores+="Error: 48 en la linea: "+(eright+1)+" - Se esperaba una declaracion de variables \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6092,7 +6529,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-6)).value;
-		this.parser.errores+="Error: 49 en la linea: "+(eright+1)+" - Se esperaba una condicion  \n";
+		this.parser.errores+="Error: 49 en la linea: "+(eright+1)+" - Se esperaba una condicion  \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6104,7 +6541,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-4)).value;
-		this.parser.errores+="Error: 50 en la linea: "+(eright+1)+" - Se esperaba una asignacion \n";
+		this.parser.errores+="Error: 50 en la linea: "+(eright+1)+" - Se esperaba una asignacion \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6116,7 +6553,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)).value;
-		this.parser.errores+="Error: 55 en la linea: "+(eright+1)+" - Se esperaba un ')'despues de la asignacion \n";
+		this.parser.errores+="Error: 55 en la linea: "+(eright+1)+" - Se esperaba un ')'despues de la asignacion \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6128,7 +6565,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		this.parser.errores+="Error: 52 en la linea: "+(eright+1)+" - Se esperaba un '{' despues de '(' \n";
+		this.parser.errores+="Error: 52 en la linea: "+(eright+1)+" - Se esperaba un '{' despues de '(' \n\n";
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sentencia_por",36, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-9)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6140,7 +6577,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "condicion::=  log:id  \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("condicion",6, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6152,7 +6589,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id;
+		 RESULT=id; producciones.add( "condicion::=  cond:id   \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("condicion",6, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6170,7 +6607,7 @@ class CUP$ASintactico$actions {
 		int relleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int relright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object rel = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=re+" "+log+" "+rel; 
+		 RESULT=re+" "+log+" "+rel; producciones.add( "condicion::=  rel:re  \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("condicion",6, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6182,7 +6619,7 @@ class CUP$ASintactico$actions {
 		int opleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object op = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=op; 
+		 RESULT=op; producciones.add( "condicion::=  ope_logico:op   \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("condicion",6, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6194,7 +6631,7 @@ class CUP$ASintactico$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)).value;
-		this.parser.errores+="Error: 53 en la linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales \n";
+		this.parser.errores+="Error: 53 en la linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales \n\n"; producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales  \n\n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("condicion",6, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6222,8 +6659,9 @@ class CUP$ASintactico$actions {
 		int oppright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object opp = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		 
-           op_log.add(op+"="+ opp +"="+(opright+1));
-           RESULT=op+" "+sig+" "+opp;
+          producciones.add( "rel::= op_rel:op sig_rel:sig op_rel:opp \n\n");
+          op_log.add(op+"="+ opp +"="+(opright+1));
+          RESULT=op+" "+sig+" "+opp;
         
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("rel",34, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
@@ -6242,9 +6680,11 @@ class CUP$ASintactico$actions {
 		int resleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int resright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object res = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=op+" "+sig+" "+res; 
-           op_log.add(op+"="+(opright+1));
-        
+		
+            producciones.add( "op_rel:op sig_rel:sig rel:res  \n\n"); 
+            RESULT=op+" "+sig+" "+res; 
+            op_log.add(op+"="+(opright+1));
+          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("rel",34, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6256,7 +6696,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "op_rel::=   ID:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("op_rel",10, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6268,7 +6708,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "op_rel::=   VERDADERO:id \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("op_rel",10, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6280,7 +6720,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "op_rel::=   FALSO:id  \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("op_rel",10, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6292,7 +6732,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "op_rel::=   numEntero:id  \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("op_rel",10, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6304,7 +6744,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "op_rel::=   CADENA:id  \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("op_rel",10, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6316,7 +6756,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "op_rel::=   NOTA:id  \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("op_rel",10, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6328,7 +6768,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "op_rel::=   NULO:id  \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("op_rel",10, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6340,7 +6780,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "op_rel::=   VACIO:id  \n\n");  
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("op_rel",10, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6352,7 +6792,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "cond::=  rel:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("cond",7, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6367,10 +6807,10 @@ class CUP$ASintactico$actions {
 		int oppleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int oppright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object opp = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=op+" && "+opp; 
-            //op_log.add(op+"="+ opp +"="+(opright+1));
-            
-        
+		 
+            RESULT=op+" && "+opp; 
+            producciones.add( "log ::= ope_logico:op AND ope_logico:opp  \n\n");
+          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6385,10 +6825,10 @@ class CUP$ASintactico$actions {
 		int oppleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int oppright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object opp = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=op+" || "+opp; 
-            //op_log.add(op+"="+ opp +"="+(opright+1));
-            
-        
+		 
+            RESULT=op+" || "+opp; 
+            producciones.add( "log ::= ope_logico:op OR ope_logico:opp  \n\n");
+          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6400,7 +6840,10 @@ class CUP$ASintactico$actions {
 		int opleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int opright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object op = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT="NOT "+op; 
+		 
+            RESULT="NOT "+op; 
+            producciones.add( "log ::= NOT ope_logico:op   \n\n");
+          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6415,7 +6858,10 @@ class CUP$ASintactico$actions {
 		int logleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int logright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object log = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=op+" && "+log; 
+		 
+            RESULT=op+" && "+log; 
+            producciones.add( "log ::= ope_logico:op AND log:log   \n\n");
+          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6430,7 +6876,10 @@ class CUP$ASintactico$actions {
 		int logleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int logright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object log = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=op+" || "+log; 
+		 
+            RESULT=op+" || "+log; 
+            producciones.add( "log ::= ope_logico:op OR log:log  \n\n");
+          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-2)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6442,7 +6891,10 @@ class CUP$ASintactico$actions {
 		int logleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int logright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object log = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="NOT("+log+")"; 
+		 
+            RESULT="NOT("+log+")"; 
+            producciones.add( "log ::= NOT PAROPEN log:log PARCLOSE   \n\n");
+          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6454,7 +6906,10 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-1)).value;
-		 RESULT="NOT("+id+")"; 
+		 
+            RESULT="NOT("+id+")"; 
+            producciones.add( "log ::= NOT PAROPEN ID:id PARCLOSE \n\n");
+          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("log",8, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.elementAt(CUP$ASintactico$top-3)), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6484,7 +6939,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "log ::= ope_logico::= ID:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("ope_logico",37, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6496,7 +6951,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "log ::= ope_logico::= VERDADERO:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("ope_logico",37, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6508,7 +6963,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "log ::= ope_logico::= FALSO:id \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("ope_logico",37, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6520,7 +6975,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "sig_rel::=      MAYTHAN:id  \n\n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sig_rel",11, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6532,7 +6987,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "sig_rel::=      MINTHAN:id  \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sig_rel",11, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6544,7 +6999,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "sig_rel::=      MINEQUAL:id  \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sig_rel",11, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6556,7 +7011,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "sig_rel::=      MAYEQUAL:id  \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sig_rel",11, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6568,7 +7023,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "sig_rel::=      EQUAL:id  \n\n"); 
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sig_rel",11, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6580,7 +7035,7 @@ class CUP$ASintactico$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
-		 RESULT=id; 
+		 RESULT=id; producciones.add( "sig_rel::=      MAYTHAN:NOTEQUAL  \n\n");
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sig_rel",11, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;
@@ -6593,6 +7048,9 @@ class CUP$ASintactico$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$ASintactico$stack.peek()).value;
 		this.parser.errores+="Error: 54 en la linea: "+(eright+1)+" - No se puede hacer una asignaci�n en una condici�n";
+                        
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - No se puede hacer una asignaci�n en una condici�n  \n\n");
+                          
               CUP$ASintactico$result = parser.getSymbolFactory().newSymbol("sig_rel",11, ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$ASintactico$stack.peek()), RESULT);
             }
           return CUP$ASintactico$result;

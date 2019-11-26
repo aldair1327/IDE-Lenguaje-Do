@@ -8,7 +8,7 @@ entero  Re2   = 73;
      
 entero  Mi2b  = 77;   
             
-entero  Mi2   = 82;   
+entero  Mi2   = 82
            
 entero  Fa2   = 87;   
             

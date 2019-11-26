@@ -108,6 +108,15 @@ public class Inicio extends javax.swing.JFrame {
         tln2.setForeground(new Color(238,255,255));
         tln2.setFont(mostrarAutomata.textPane_Optimizado.getFont());
         mostrarAutomata.jScrollPane_optimizado.setRowHeaderView( tln2 );
+        
+        //Line number gramatica
+        TextLineNumber tln3 = new TextLineNumber(mostrarAutomata.jTextPane_Gramatica);
+        
+        tln3.setBackground(new Color(38,50,56));
+        tln3.setForeground(new Color(238,255,255));
+        tln3.setFont(mostrarAutomata.jTextPane_Gramatica.getFont());
+        mostrarAutomata.jScrollPane_Gramatica.setRowHeaderView( tln3 );
+        
     }
 
     /**
@@ -716,6 +725,16 @@ public class Inicio extends javax.swing.JFrame {
                 "   \n" +
                 "start with inicio;\n\n";
             
+            ArrayList<String> gramatica = new ArrayList<String>();
+            
+         
+            for(int i = as.producciones.size()-1; i >= 0; i--) {
+                gramatica.add(as.producciones.get(i));
+            }
+            
+            convertirListaATexto temp = new convertirListaATexto(gramatica);
+            String tempo = temp.getTexto();
+            gramatica_impresa += tempo;
             mostrarAutomata.jTextPane_Gramatica.setText(gramatica_impresa);
 
             vPila.tabPanel.removeAll();
