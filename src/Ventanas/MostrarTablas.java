@@ -5,6 +5,7 @@
  */
 package Ventanas;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -30,6 +31,7 @@ public class MostrarTablas extends javax.swing.JFrame {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
         setIconImage(i);
+        this.getContentPane().setBackground(new Color(255, 203, 87));
     }
 
     /**
@@ -53,9 +55,15 @@ public class MostrarTablas extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane_optimizado = new javax.swing.JScrollPane();
         textPane_Optimizado = new javax.swing.JTextPane();
+        panelMaquina = new javax.swing.JPanel();
+        jScrollPane_maquina = new javax.swing.JScrollPane();
+        textPane_Maquina = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Miscelaneos");
+        setBackground(new java.awt.Color(255, 203, 87));
+
+        panelAutomata.setBackground(new java.awt.Color(250, 250, 250));
 
         javax.swing.GroupLayout panelAutomataLayout = new javax.swing.GroupLayout(panelAutomata);
         panelAutomata.setLayout(panelAutomataLayout);
@@ -65,10 +73,12 @@ public class MostrarTablas extends javax.swing.JFrame {
         );
         panelAutomataLayout.setVerticalGroup(
             panelAutomataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 505, Short.MAX_VALUE)
         );
 
-        panelOptimizado.addTab("Autómata Finito", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/code-fork-symbol.png")), panelAutomata); // NOI18N
+        panelOptimizado.addTab("Autómata Finito", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/automata.png")), panelAutomata); // NOI18N
+
+        panelArbol.setBackground(new java.awt.Color(250, 250, 250));
 
         javax.swing.GroupLayout panelArbolLayout = new javax.swing.GroupLayout(panelArbol);
         panelArbol.setLayout(panelArbolLayout);
@@ -78,11 +88,13 @@ public class MostrarTablas extends javax.swing.JFrame {
         );
         panelArbolLayout.setVerticalGroup(
             panelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 505, Short.MAX_VALUE)
         );
 
-        panelOptimizado.addTab("Arbol de expresiones", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/sitemap.png")), panelArbol); // NOI18N
+        panelOptimizado.addTab("Arbol de expresiones", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/sitemap_1.png")), panelArbol); // NOI18N
         panelArbol.getAccessibleContext().setAccessibleName("");
+
+        panelGramatica.setBackground(new java.awt.Color(250, 250, 250));
 
         jScrollPane_Gramatica.setViewportView(jTextPane_Gramatica);
 
@@ -91,19 +103,21 @@ public class MostrarTablas extends javax.swing.JFrame {
         panelGramaticaLayout.setHorizontalGroup(
             panelGramaticaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGramaticaLayout.createSequentialGroup()
-                .addGap(0, 11, Short.MAX_VALUE)
-                .addComponent(jScrollPane_Gramatica, javax.swing.GroupLayout.PREFERRED_SIZE, 842, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane_Gramatica, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                .addGap(11, 11, 11))
         );
         panelGramaticaLayout.setVerticalGroup(
             panelGramaticaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGramaticaLayout.createSequentialGroup()
-                .addGap(0, 12, Short.MAX_VALUE)
-                .addComponent(jScrollPane_Gramatica, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane_Gramatica, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
 
-        panelOptimizado.addTab("Gramática", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/bold-text-option.png")), panelGramatica); // NOI18N
+        panelOptimizado.addTab("Gramática", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pencil.png")), panelGramatica); // NOI18N
+
+        panelIntermedio.setBackground(new java.awt.Color(250, 250, 250));
 
         jScrollPane_intermedio.setViewportView(textPane_Intermedio);
 
@@ -112,19 +126,21 @@ public class MostrarTablas extends javax.swing.JFrame {
         panelIntermedioLayout.setHorizontalGroup(
             panelIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelIntermedioLayout.createSequentialGroup()
-                .addGap(0, 11, Short.MAX_VALUE)
-                .addComponent(jScrollPane_intermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 842, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane_intermedio, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                .addGap(11, 11, 11))
         );
         panelIntermedioLayout.setVerticalGroup(
             panelIntermedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelIntermedioLayout.createSequentialGroup()
-                .addGap(0, 12, Short.MAX_VALUE)
-                .addComponent(jScrollPane_intermedio, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane_intermedio, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
 
-        panelOptimizado.addTab("Código Intermedio", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/align-to-left.png")), panelIntermedio); // NOI18N
+        panelOptimizado.addTab("Código Intermedio", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/intermedio.png")), panelIntermedio); // NOI18N
+
+        jPanel3.setBackground(new java.awt.Color(250, 250, 250));
 
         jScrollPane_optimizado.setViewportView(textPane_Optimizado);
 
@@ -133,19 +149,42 @@ public class MostrarTablas extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 11, Short.MAX_VALUE)
-                .addComponent(jScrollPane_optimizado, javax.swing.GroupLayout.PREFERRED_SIZE, 842, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane_optimizado, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                .addGap(11, 11, 11))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 12, Short.MAX_VALUE)
-                .addComponent(jScrollPane_optimizado, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane_optimizado, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        panelOptimizado.addTab("Código Optimizado", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/settings.png")), jPanel3); // NOI18N
+        panelOptimizado.addTab("Código Optimizado", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/search-engine-optimization.png")), jPanel3); // NOI18N
+
+        panelMaquina.setBackground(new java.awt.Color(250, 250, 250));
+
+        jScrollPane_maquina.setViewportView(textPane_Maquina);
+
+        javax.swing.GroupLayout panelMaquinaLayout = new javax.swing.GroupLayout(panelMaquina);
+        panelMaquina.setLayout(panelMaquinaLayout);
+        panelMaquinaLayout.setHorizontalGroup(
+            panelMaquinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMaquinaLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane_maquina, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                .addGap(11, 11, 11))
+        );
+        panelMaquinaLayout.setVerticalGroup(
+            panelMaquinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMaquinaLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane_maquina, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        panelOptimizado.addTab("Código Máquina", new javax.swing.ImageIcon(getClass().getResource("/Imagenes/binary-code.png")), panelMaquina); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -211,14 +250,17 @@ public class MostrarTablas extends javax.swing.JFrame {
     public javax.swing.JPanel jPanel3;
     public javax.swing.JScrollPane jScrollPane_Gramatica;
     public javax.swing.JScrollPane jScrollPane_intermedio;
+    public javax.swing.JScrollPane jScrollPane_maquina;
     public javax.swing.JScrollPane jScrollPane_optimizado;
     public javax.swing.JTextPane jTextPane_Gramatica;
     public javax.swing.JPanel panelArbol;
     public javax.swing.JPanel panelAutomata;
     public javax.swing.JPanel panelGramatica;
     public javax.swing.JPanel panelIntermedio;
+    private javax.swing.JPanel panelMaquina;
     public javax.swing.JTabbedPane panelOptimizado;
     public javax.swing.JTextPane textPane_Intermedio;
+    public javax.swing.JTextPane textPane_Maquina;
     public javax.swing.JTextPane textPane_Optimizado;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
-            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/Analisis_Lexico/sintactico.cup</file>
-            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/Analisis_Lexico/Lexer.jflex</file>
-            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/BajoNivel/imprimirCI.java</file>
-            <file>file:/C:/Users/Aldair/Desktop/PROYECTO%20FINAL/VERDADERO%20POYECTO%20FINAL/IDE-Lenguaje-Do/src/Analisis_Lexico/ASintactico.java</file>
+            <file>file:/D:/Williams/Documents/Nuevo%20lenguaje%20do/IDE-Lenguaje-Do/src/Ventanas/Inicio.java</file>
+            <file>file:/D:/Williams/Documents/Nuevo%20lenguaje%20do/IDE-Lenguaje-Do/src/Analisis_Lexico/EstiloGramatica.java</file>
+            <file>file:/D:/Williams/Documents/Nuevo%20lenguaje%20do/IDE-Lenguaje-Do/src/Ventanas/MostrarTablas.java</file>
         </group>
     </open-files>
 </project-private>

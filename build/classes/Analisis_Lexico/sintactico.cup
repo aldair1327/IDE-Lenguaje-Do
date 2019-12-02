@@ -119,7 +119,7 @@ start with inicio;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////------INICIO---------///////////////////////////////////////////////////////////////////
-////////////////////////////////////{:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ( despu�s de inicio";:}////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////{:this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ( después de inicio";:}////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE 
                 {: 
@@ -129,93 +129,93 @@ inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN cuerpo:c KEYCLOSE
           INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE {: producciones.add( "inicio ::= INICIO PAROPEN PARCLOSE KEYOPEN KEYCLOSE\n\n"); :}  | 
           INICIO PAROPEN PARCLOSE KEYOPEN cuerpo :e  
                 {:
-                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n\n";
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un } en el final del programa\n\n ");
                 :} | 
           INICIO PAROPEN PARCLOSE KEYOPEN :e 
                 {:
-                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n\n";
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un } en el final del programa  \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Se esperaba un } en el final del programa  \n\n ");
                 :} | 
           errores PAROPEN PARCLOSE:e KEYOPEN cuerpo KEYCLOSE 
                 {:
-                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n\n";
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio \n\n ");
                 :} | 
           errores PAROPEN PARCLOSE:e KEYOPEN KEYCLOSE 
                 {:
-                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n\n";
+                  this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba la palabra reservada inicio  \n\n ");
                 :} | 
           PARCLOSE :e 
                 {:
-                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n ");
                 :} |
           PAROPEN :e 
                 {:
-                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n ");
                 :} |
           KEYOPEN :e 
                 {:
-                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n");
                 :} |
           cuerpo :e KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n");
                 :} |
           KEYOPEN :e cuerpo 
                 {:
-                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n");
                 :} |
           KEYCLOSE :e 
                 {:
-                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n";
+                  this.parser.errores+="Error: 1 en la linea: "+(eright+1)+" - se esperaba la estructura de inicio \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la estructura de inicio \n\n");
                 :} |
           PAROPEN:e PARCLOSE KEYOPEN KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 2 en la linea: "+(eright+1)+" - se esperaba la palabra inicio \n\n";
+                  this.parser.errores+="Error: 2 en la linea: "+(eright+1)+" - se esperaba la palabra inicio \n";
                   producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba la palabra inicio \n\n");
                 :} | 
           PAROPEN:e PARCLOSE KEYOPEN cuerpo KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n";
-                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n");
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( después de inicio \n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( después de inicio \n\n");
                 :} | 
           INICIO:e PARCLOSE KEYOPEN KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n";
-                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n");
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( después de inicio \n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( después de inicio \n\n");
                 :} | 
           INICIO:e PARCLOSE KEYOPEN cuerpo KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n";
-                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( despu�s de inicio \n\n");
+                  this.parser.errores+="Error: 3 en la linea: "+(eright+1)+" - se esperaba un ( después de inicio \n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ( después de inicio \n\n");
                 :} | 
           INICIO PAROPEN:e KEYOPEN cuerpo KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n\n";
-                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n\n");
+                  this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) después de ( \n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ) después de ( \n\n");
                 :} | 
           INICIO PAROPEN:e KEYOPEN KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n\n";
-                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ) despu�s de ( \n\n");
+                  this.parser.errores+="Error: 4 en la linea: "+(eright+1)+" - se esperaba un ) después de ( \n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un ) después de ( \n\n");
                 :} | 
           INICIO PAROPEN PARCLOSE:e cuerpo KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n\n";
-                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un { despu�s de ) \n\n");
+                  this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - se esperaba un { después de ) \n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - se esperaba un { después de ) \n\n");
                 :} |
           INICIO PAROPEN PARCLOSE:e KEYCLOSE 
                 {:
-                  this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n\n";
-                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un { despu�s de ) \n\n");
+                  this.parser.errores+="Error: 5 en la linea: "+(eright+1)+" - Se esperaba un { después de ) \n";
+                  producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un { después de ) \n\n");
                 :} ;
   
 errores ::= ID | NOTA | numEntero | CADENA | VACIO | NULO | VERDADERO | FALSO ;
@@ -259,15 +259,15 @@ cuerpo ::= decvariables:id
 
 arreglo::= tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo |
             tipo COROPEN CORCLOSE ID PUNTO_Y_COMA cuerpo |
-            COROPEN :e CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un tipo de dato antes de '[' \n\n";:}|
-            tipo :e CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un '[' despues de el tipo de dato' \n\n";:}|
-            tipo COROPEN :e ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" - Se esperaba un ']' despues de '[' \n\n";:}|
-            tipo COROPEN CORCLOSE :e ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 10 en la linea:"+(eright+1)+" - Se esperaba un 'identificador' despues de ']' \n\n";:}|
-            tipo COROPEN CORCLOSE ID :e COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 11 en la linea: "+(eright+1)+" - Se esperaba un ' = ' despues de el 'identificador' \n\n";:}|
-            tipo COROPEN CORCLOSE ID ASIG:e datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 12 en la linea: "+(eright+1)+" - Se esperaba un ' [ ' despues de el ' = ' \n\n";:}|
-            tipo COROPEN CORCLOSE ID ASIG COROPEN :e CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 13 en la linea: "+(eright+1)+" - Se esperaban datos dentro de '[' ']' \n\n";:}|
-            tipo COROPEN CORCLOSE ID ASIG COROPEN datos :e PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 14 en la linea: "+(eright+1)+" - Se esperaba un ']' \n\n";:}|
-            tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE:e cuerpo {:this.parser.errores+="Error: 15 en la linea: "+(eright+1)+" - Se esperaba un ';' \n\n";:}; 
+            COROPEN :e CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un tipo de dato antes de '[' \n";:}|
+            tipo :e CORCLOSE ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 8 en la linea: "+(eright+1)+" - Se esperaba un '[' despues de el tipo de dato' \n";:}|
+            tipo COROPEN :e ID ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" - Se esperaba un ']' despues de '[' \n";:}|
+            tipo COROPEN CORCLOSE :e ASIG COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 10 en la linea:"+(eright+1)+" - Se esperaba un 'identificador' despues de ']' \n";:}|
+            tipo COROPEN CORCLOSE ID :e COROPEN datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 11 en la linea: "+(eright+1)+" - Se esperaba un ' = ' despues de el 'identificador' \n";:}|
+            tipo COROPEN CORCLOSE ID ASIG:e datos CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 12 en la linea: "+(eright+1)+" - Se esperaba un ' [ ' despues de el ' = ' \n";:}|
+            tipo COROPEN CORCLOSE ID ASIG COROPEN :e CORCLOSE PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 13 en la linea: "+(eright+1)+" - Se esperaban datos dentro de '[' ']' \n";:}|
+            tipo COROPEN CORCLOSE ID ASIG COROPEN datos :e PUNTO_Y_COMA cuerpo {:this.parser.errores+="Error: 14 en la linea: "+(eright+1)+" - Se esperaba un ']' \n";:}|
+            tipo COROPEN CORCLOSE ID ASIG COROPEN datos CORCLOSE:e cuerpo {:this.parser.errores+="Error: 15 en la linea: "+(eright+1)+" - Se esperaba un ';' \n";:}; 
 
 
 
@@ -276,7 +276,7 @@ datos ::= ID  |  numEntero  |  VERDADERO  |  FALSO  |  CADENA  |  NOTA  | notapu
           ID COMA datos|  numEntero COMA datos |  VERDADERO COMA datos |  FALSO COMA datos |  CADENA COMA datos |  NOTA COMA datos | notapuras COMA datos |
           notapuras :e datos 
               {:
-                this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n\n";
+                this.parser.errores+="Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n";
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ',' para la separacion de los datos \n\n");
               :} ;
 
@@ -330,63 +330,63 @@ asignar ::= ID:id ASIG dato:dato PUNTO_Y_COMA
 
             ID ASIG :e PUNTO_Y_COMA cuerpo
               {: 
-                RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n\n");
+                RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n\n");
               :} |
             ID ASIG :e PUNTO_Y_COMA 
               {: 
-                RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n\n");
+                RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n\n");
               :} |
 
             errores1 ASIG dato PUNTO_Y_COMA:e cuerpo
               {: 
-                RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
               :} |
             errores1 ASIG dato PUNTO_Y_COMA:e 
               {: 
-                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
               :} |
 
             errores1 opasig dato PUNTO_Y_COMA:e cuerpo
               {: 
-                RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
               :} |
             errores1 opasig dato PUNTO_Y_COMA:e 
               {: 
-                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
               :} |
 
             ID dato:e PUNTO_Y_COMA cuerpo
               {: 
-                RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n\n");
+                RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n\n");
               :} |
             ID dato:e PUNTO_Y_COMA 
               {: 
-                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n\n");
+                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");
                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n\n");
               :} |
 
             ID ASIG dato:e cuerpo
               {: 
-                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
-                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n\n");
               :} |
             ID ASIG dato:e 
               {: 
-                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
-                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n\n");
               :} |
 
             ID opasig dato:e 
               {: 
-                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
-                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");
+                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n\n");
               :} |
             error:e cuerpo ;
 
@@ -435,63 +435,63 @@ asignarDeclaracion ::=  ID:id ASIG dato:dato PUNTO_Y_COMA
 
             ID ASIG :e PUNTO_Y_COMA cuerpo
                               {: 
-                                RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n\n");
+                                RESULT="error"; this.parser.append("Error: 7 en la linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n");
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un  valor de asignacion' \n\n");
                               :} |
             ID ASIG :e PUNTO_Y_COMA 
                               {: 
-                                RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n\n");
+                                RESULT="error";this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n");
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'valor de asignacion'  \n\n");
                               :} |
 
             errores1 ASIG dato PUNTO_Y_COMA:e cuerpo
                               {: 
-                                RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                                RESULT="error"; this.parser.append("Error: 16 en la linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
                               :} |
             errores1 ASIG dato PUNTO_Y_COMA:e 
                               {: 
-                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
-                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
                               :} |
 
             errores1 opasig dato PUNTO_Y_COMA:e cuerpo
                               {: 
-                                RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
+                                RESULT="error"; this.parser.append("Error: 16 en la linea:"+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n");
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico se requiere un 'identificador' antes del operador de asignacion \n\n");
                               :} |
             errores1 opasig dato PUNTO_Y_COMA:e 
                               {: 
-                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
+                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n");
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'identificador' antes del operador de asignacion'  \n\n");
                               :} |
 
             ID dato:e PUNTO_Y_COMA cuerpo
                               {: 
-                                RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n\n");
+                                RESULT="error"; this.parser.append(" Error: 17 en la linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n");
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion' \n\n");
                               :} |
             ID dato:e PUNTO_Y_COMA 
                               {: 
-                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n\n");
+                                RESULT="error"; this.parser.append("Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n");
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Error Sintactico falto un 'operador de asignacion'  \n\n");
                               :} |
 
             ID ASIG dato:e cuerpo
                               {: 
-                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
-                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n\n");
                               :} |
             ID ASIG dato:e 
                               {: 
-                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
-                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n\n");
                               :} |
 
             ID opasig dato:e 
                               {: 
-                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
-                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sint�ctico falto un ';' al finalizar la asignacion \n\n");
+                                RESULT="error"; this.parser.append("Error: 6 en la linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n");
+                                producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - error sintáctico falto un ';' al finalizar la asignacion \n\n");
                               :} |
             error:e cuerpo ;
 
@@ -606,29 +606,29 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA
 
                 | tipo ID:e 
                     {:
-                      this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n\n";
+                      this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";
                       producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  falta el ';' \n\n");
                     :}  
                 | tipo ID:e cuerpo 
                     {:
-                      this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n\n";
+                      this.parser.errores+="Error: 18 en la linea: "+(eright+1)+" -  falta el ';' \n";
                       producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  falta el ';' \n\n");
                     :} 
 
                 | numEntero ID PUNTO_Y_COMA:e 
                     {:
-                      this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n\n";
+                      this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";
                       producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n\n");
                     :}  
                 | numEntero ID PUNTO_Y_COMA:e cuerpo 
                     {:
-                      this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n\n";
+                      this.parser.errores+="Error: 9 en la linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n";
                       producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" -  Error Sintactico se requiere un 'TIPO DE DATO' antes del identificador \n\n");
                     :} 
 
                 | ID:e 
                     {:
-                      this.parser.errores+="Error: 19 en la linea: "+(eright+1)+" - Se esperaba una tipo de dato \n\n";
+                      this.parser.errores+="Error: 19 en la linea: "+(eright+1)+" - Se esperaba una tipo de dato \n";
                       producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una tipo de dato \n\n");
                     :} ;
 
@@ -654,62 +654,62 @@ declaraReproduce ::= REPRODUCE PAROPEN paramRero:p PARCLOSE PUNTO_Y_COMA
                           :}|
                      PAROPEN:e paramRero PARCLOSE PUNTO_Y_COMA 
                           {:
-                            this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n\n";
+                            this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n\n");
                           :} | 
                      NOTA:e PARCLOSE PUNTO_Y_COMA 
                           {:
-                            this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n\n";
+                            this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que abre  \n\n");
                           :} |  
                      PAROPEN paramRero:e PUNTO_Y_COMA 
                           {:
-                            this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra   \n\n";
+                            this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra   \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentecis que cierra  \n\n");
                           :} |   
                      REPRODUCE:e paramRero PARCLOSE PUNTO_Y_COMA 
                           {:
-                            this.parser.errores+="Error: 23 en la linea:"+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n\n";
+                            this.parser.errores+="Error: 23 en la linea:"+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n\n");
                           :} | 
                      REPRODUCE PARCLOSE:e 
                           {:
-                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el (   \n\n");
                           :} | 
                      REPRODUCE PAROPEN paramRero :e PUNTO_Y_COMA 
                           {:
-                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  ";
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el )   \n\n");
                           :} |
                      PAROPEN:e paramRero PARCLOSE PUNTO_Y_COMA cuerpo
                           {:
-                            this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n\n";
+                            this.parser.errores+="Error: 20 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' \n\n");
                           :} | 
                      NOTA:e PARCLOSE PUNTO_Y_COMA cuerpo
                           {:
-                            this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre  \n\n";
+                            this.parser.errores+="Error: 21 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' y parentesis que abre \n\n");
                           :} |  
                      PAROPEN paramRero:e PUNTO_Y_COMA cuerpo
                           {:
-                            this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'   \n\n";
+                            this.parser.errores+="Error: 22 en la linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce'   \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta la palabra reservada 'reproduce' \n\n");
                           :} |   
                      REPRODUCE:e paramRero PARCLOSE PUNTO_Y_COMA cuerpo
                           {:
-                            this.parser.errores+="Error: 23 en la linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n\n";
+                            this.parser.errores+="Error: 23 en la linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce'  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el '(' despues de 'reproduce' \n\n");
                           :} | 
                      REPRODUCE PARCLOSE:e cuerpo
                           {:
-                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  ";
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el (  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Hace falta el (  \n\n");
                           :} | 
                      REPRODUCE PAROPEN paramRero :e PUNTO_Y_COMA cuerpo
                           {:
-                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  ";
+                            this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el )  \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Hace falta el )  \n\n");
                           :}; 
 
@@ -738,7 +738,7 @@ paramRero::=  notas:n COMA numEntero:x
             notas COMA notas :e 
                     {: 
                       producciones.add( "paramRero::= notas COMA notas :e   \n\n");
-                      this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el segundo parámetro debe ser un número entero \n\n  "; 
+                      this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Hace falta el segundo parámetro debe ser un número entero \n  "; 
                     :} ;
   
 declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA 
@@ -756,49 +756,49 @@ declaraImprimir ::= IMPRIMIR PAROPEN dato:dato PARCLOSE PUNTO_Y_COMA
                     IMPRIMIR PAROPEN dato PARCLOSE:e 
                               {:
                                 
-                                this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n\n";
+                                this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"  - Falta ';'     \n\n");
                               :} | 
                     IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA 
                               {:
                                 
-                                this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n\n";
+                                this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta un parametro para imprimir  \n\n");
                               :} |          
                     IMPRIMIR PAROPEN dato PUNTO_Y_COMA:e 
                               {:
                                 
-                                this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n\n";
+                                this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el )     \n\n");
                               :} | 
                     IMPRIMIR dato PARCLOSE PUNTO_Y_COMA:e 
                               {:
                                 
-                                this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n\n";
+                                this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el (      \n\n");
                               :} |
                     IMPRIMIR PAROPEN :e PARCLOSE PUNTO_Y_COMA cuerpo
                               {:
                                 
-                                this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n\n";
+                                this.parser.errores+="Error: 25 en la linea: "+(eright+1)+" - Falta un parametro para imprimir \n";
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta un parametro para imprimir        \n\n");
                               :} |
                     IMPRIMIR PAROPEN dato PARCLOSE:e cuerpo
                               {:
                                 
-                                this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n\n";
+                                this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' \n";
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ';'        \n\n");
                               :} | 
                     IMPRIMIR PAROPEN:e dato PUNTO_Y_COMA cuerpo 
                               {:
                                 
-                                this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n\n";
+                                this.parser.errores+="Error: 26 en la linea: "+(eright+1)+" - Falta el ) \n";
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el )       \n\n");
                               :} | 
                     IMPRIMIR dato:e PARCLOSE PUNTO_Y_COMA cuerpo
                               {:
                                 
-                                this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n\n";
+                                this.parser.errores+="Error: 27 en la linea: "+(eright+1)+" - Falta el ( \n";
                                 producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el (       \n\n");
                               :} ;
 
@@ -811,12 +811,12 @@ declaraImportar ::= IMPORTAR ID:id PUNTO_Y_COMA
                             :} |
                     IMPORTAR ID:e 
                             {:
-                              this.parser.errores+="Linea: "+(eright+1)+" - Falta el ; \n\n";
+                              this.parser.errores+="Linea: "+(eright+1)+" - Falta el ; \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ;  \n\n");
                             :}  | 
                     IMPORTAR PUNTO_Y_COMA:e 
                             {:
-                              this.parser.errores+="Linea: "+(eright+1)+" - Falta el argumento en importar \n\n"; 
+                              this.parser.errores+="Linea: "+(eright+1)+" - Falta el argumento en importar \n"; 
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el argumento en importar  \n\n");
                             :} ;
 
@@ -834,42 +834,42 @@ declaraContinuar ::=  CONTINUAR PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA
                             :} | 
                       PAROPEN:e PARCLOSE PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n\n"; 
+                              this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n"; 
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta la lapabra reservada 'continuar'; \n\n");
                             :} |
                       CONTINUAR PAROPEN PARCLOSE:e 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n\n"; 
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n"; 
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; \n\n");
                             :} | 
                       CONTINUAR PAROPEN:e PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar( \n\n"; 
+                              this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar( \n"; 
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de continuar( \n\n");
                             :} | 
                       CONTINUAR PARCLOSE:e PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n"; 
+                              this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n"; 
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n");
                             :} | 
                       PAROPEN:e PARCLOSE PUNTO_Y_COMA cuerpo 
                             {:
-                              this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la palabra reservada 'continuar' \n\n";
+                              this.parser.errores+="Error: 28 en la linea: "+(eright+1)+" - Falta la palabra reservada 'continuar' \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta la palabra reservada 'continuar' \n\n");
                             :} |
                       CONTINUAR PAROPEN PARCLOSE:e cuerpo 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ;  \n\n");
                             :} | 
                       CONTINUAR PAROPEN:e PUNTO_Y_COMA cuerpo 
                             {:
-                              this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar ( \n\n";
+                              this.parser.errores+="Error: 29 en la linea: "+(eright+1)+" - Falta el ) despues de continuar ( \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de continuar (  \n\n");
                             :} | 
                       CONTINUAR PARCLOSE:e PUNTO_Y_COMA cuerpo 
                             {:
-                              this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n"; 
+                              this.parser.errores+="Error: 30 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n"; 
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar(   \n\n");
                             :}  ;
 
@@ -914,62 +914,62 @@ declaraSilencio::=  SILENCIO PAROPEN  PARCLOSE PUNTO_Y_COMA
 
                      SILENCIO PAROPEN PARCLOSE:e 
                             {:
-                              this.parser.errores+="Error: 24 en la linea:"+(eright+1)+" - Falta el ; \n\n";
+                              this.parser.errores+="Error: 24 en la linea:"+(eright+1)+" - Falta el ; \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; \n\n");
                             :} |
                      SILENCIO PAROPEN numEntero PARCLOSE:e 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ';' despues de ')' \n\n");
                             :} | 
                      SILENCIO PAROPEN PUNTO_Y_COMA:e
                             {:
-                              this.parser.errores+="Error: 31 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n\n";
+                              this.parser.errores+="Error: 31 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de ( \n\n");
                             :} |
                      SILENCIO PAROPEN numEntero:e PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n\n";
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues de numero  \n\n");
                             :} | 
                      SILENCIO PARCLOSE:e PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 33 en la linea: "+(eright+1)+" - Falta el ( despues de silencio \n\n";
+                              this.parser.errores+="Error: 33 en la linea: "+(eright+1)+" - Falta el ( despues de silencio \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de silencio \n\n");
                             :} | 
                      SILENCIO numEntero:e PARCLOSE PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n";
+                              this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n");
                             :} | 
                      SILENCIO PAROPEN PARCLOSE:e cuerpo
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Falta el ; \n\n");
                             :} |
                      SILENCIO PAROPEN numEntero PARCLOSE:e cuerpo
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ';' despues de ')' \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Falta ';' despues de ')' \n\n");
                             :} | 
                      SILENCIO PAROPEN PUNTO_Y_COMA:e cuerpo
                             {:
-                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n\n";
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de ( \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Falta el ) despues de ( \n\n");
                             :} |
                      SILENCIO PAROPEN numEntero:e PUNTO_Y_COMA cuerpo
                             {:
-                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n\n";
+                              this.parser.errores+="Error: 32 en la linea: "+(eright+1)+" - Falta el ) despues de numero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+"- Falta el ) despues de numero \n\n");
                             :} | 
                      SILENCIO PARCLOSE:e PUNTO_Y_COMA cuerpo
                             {:
-                              this.parser.errores+="Error: 33 en la linea:"+(eright+1)+" - Falta el ( despues de silencio \n\n";
+                              this.parser.errores+="Error: 33 en la linea:"+(eright+1)+" - Falta el ( despues de silencio \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de silencio  \n\n");
                             :} | 
                      SILENCIO numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo
                             {:
-                              this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n\n";
+                              this.parser.errores+="Error: 34 en la linea: "+(eright+1)+" - Falta el ( despues de continuar( \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de continuar(  \n\n");
                             :} ;                        
 
@@ -987,95 +987,95 @@ declaraVolumen ::=  VOLUMEN PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA
                             :}| 
                     VOLUMEN PAROPEN numEntero PARCLOSE:e 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de )  \n\n");
                             :}  | 
                     VOLUMEN PAROPEN PARCLOSE:e PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n\n";
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n\n");
                             :}  | 
                     VOLUMEN PAROPEN numEntero PUNTO_Y_COMA:e 
                             {:
-                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n";
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n");
                             :}  | 
                     VOLUMEN numEntero PARCLOSE PUNTO_Y_COMA:e 
                             {:
-                              this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n\n";
+                              this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n\n");
                             :} | 
                     VOLUMEN PAROPEN numEntero PARCLOSE:e cuerpo 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de ) \n\n");
                             :}  | 
                     VOLUMEN PAROPEN PARCLOSE:e PUNTO_Y_COMA cuerpo
                             {:
-                              this.parser.errores+="Error: 35 en la linea:: "+(eright+1)+" - Falta el parametro entero \n\n";
+                              this.parser.errores+="Error: 35 en la linea:: "+(eright+1)+" - Falta el parametro entero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n\n");
                             :}  | 
                     VOLUMEN PAROPEN numEntero PUNTO_Y_COMA:e cuerpo
                             {:
-                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n";
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n");
                             :}  | 
                     VOLUMEN numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo
                             {:
-                              this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n\n";
+                              this.parser.errores+="Error: 37 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada volumen \n\n");
                             :} ;
 
 declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA 
                             {:
-                              producciones.add( "declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  \n\n");
+                              producciones.add( "declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA  \n");
                               ci.add("ent f \n\n"+"f = "+ n +"\n\n frec( f )" );
                               RESULT="int frequency = "+n+";\n\n";
                             :} | 
                     FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo 
                             {:
-                              producciones.add( "declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo  \n\n");
+                              producciones.add( "declaraFrecuencia ::=  FRECUENCIA PAROPEN numEntero:n PARCLOSE PUNTO_Y_COMA cuerpo  \n");
                               ci.add("ent f \n\n"+"f = "+ n +"\n\n frec( f )" );
                               RESULT="int frequency = "+n+";\n\n";
                             :}| 
                     FRECUENCIA PAROPEN numEntero PARCLOSE:e 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de ) \n\n");
                             :}  | 
                     FRECUENCIA PAROPEN PARCLOSE:e PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n\n";
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero \n\n");
                             :}  | 
                     FRECUENCIA PAROPEN numEntero PUNTO_Y_COMA:e 
                             {:
-                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n";
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n");
                             :}  | 
                     FRECUENCIA numEntero PARCLOSE PUNTO_Y_COMA:e 
                             {:
-                              this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n\n";
+                              this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia  \n\n");
                             :} | 
                     FRECUENCIA PAROPEN numEntero PARCLOSE:e cuerpo 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta el ; despues de ) \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ; despues de )  \n\n");
                             :}  | 
                     FRECUENCIA PAROPEN PARCLOSE:e PUNTO_Y_COMA cuerpo
                             {:
-                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n\n";
+                              this.parser.errores+="Error: 35 en la linea: "+(eright+1)+" - Falta el parametro entero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el parametro entero  \n\n");
                             :}  | 
                     FRECUENCIA PAROPEN numEntero PUNTO_Y_COMA:e cuerpo
                             {:
-                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n\n";
+                              this.parser.errores+="Error: 36 en la linea: "+(eright+1)+" - Falta el ) despues del parametro entero \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ) despues del parametro entero  \n\n");
                             :}  | 
                     FRECUENCIA numEntero:e PARCLOSE PUNTO_Y_COMA cuerpo
                             {:
-                              this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n\n";
+                              this.parser.errores+="Error: 38 en la linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta el ( despues de la palabra reservada frecuencia  \n\n");
                             :} ;
 
@@ -1120,42 +1120,42 @@ incrementar_var::=  ID:id PLUSPLUS PUNTO_Y_COMA
                             :}| 
                     ID ADD:e PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 39 en la linea:"+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n\n";
+                              this.parser.errores+="Error: 39 en la linea:"+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable  \n\n");
                             :}  | 
                     ID MIN:e PUNTO_Y_COMA 
                             {:
-                              this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n\n";
+                              this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable  \n\n");
                             :}  | 
                     ID ADD:e PUNTO_Y_COMA cuerpo 
                             {:
-                              this.parser.errores+="Error: 39 en la linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n\n";
+                              this.parser.errores+="Error: 39 en la linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << + >> para incrementar la variable  \n\n");
                             :}  | 
                     ID MIN:e PUNTO_Y_COMA cuerpo 
                             {:
-                              this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n\n";
+                              this.parser.errores+="Error: 40 en la linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba << - >> para decrementar la variable  \n\n");
                             :}  | 
                     ID PLUSPLUS:e 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n\n");
                             :}  | 
                     ID MINMIN:e 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n\n");
                             :}| 
                     ID PLUSPLUS:e cuerpo 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ; \n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n\n");
                             :}  | 
                     ID MINMIN:e cuerpo 
                             {:
-                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n\n";
+                              this.parser.errores+="Error: 24 en la linea: "+(eright+1)+" - Falta ;.\n";
                               producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Falta ; \n\n");
                             :};
 
@@ -1182,55 +1182,55 @@ sentencia_mientras::= MIENTRAS PAROPEN condicion:cond PARCLOSE KEYOPEN KEYCLOSE
 
                       MIENTRAS PAROPEN :e PARCLOSE KEYOPEN KEYCLOSE 
                         {:
-                          this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n\n";
-                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condici�n \n\n");
+                          this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condicion \n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condición \n\n");
                         :} |
                       MIENTRAS condicion PARCLOSE:e KEYOPEN KEYCLOSE  
                         {:
-                          this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n\n";
+                          this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";
                           producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n\n");
                         :} |
                       MIENTRAS PAROPEN condicion :e KEYOPEN KEYCLOSE 
                         {:
-                          this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n\n";
+                          this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";
                           producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n\n");
                         :} |
                       MIENTRAS PAROPEN condicion PARCLOSE:e KEYCLOSE 
                         {:
-                          this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n\n";
+                          this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";
                           producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n\n");
                         :} |
 
                       errores PAROPEN condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE 
                         {:
-                          this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n\n";
+                          this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";
                           producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n\n");
                         :} |  
                       errores PAROPEN condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo 
                         {:
-                          this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n\n";
+                          this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n";
                           producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Declaracion de ciclo incorrecta se necesita especificar un ciclo \n\n");
                         :} |
 
                       MIENTRAS PAROPEN :e PARCLOSE KEYOPEN cuerpo KEYCLOSE cuerpo 
                         {:
-                          this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condici�n \n\n";
-                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condici�n  \n\n");
+                          this.parser.errores+="Error: 41 en la linea: "+(eright+1)+" - Se esperaba una condición \n";
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condición  \n\n");
                         :} |
                       MIENTRAS condicion PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo 
                         {:
-                          this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n\n";
+                          this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras \n";
                           producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '(' despues de la palabra reservada mientras  \n\n");
                         :} |
                       MIENTRAS PAROPEN condicion :e KEYOPEN cuerpo KEYCLOSE cuerpo 
                         {:
-                          this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n\n";
+                          this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion \n";
                           producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un ')' despues de la palabra condicion  \n\n");
                           
                         :} |
                       MIENTRAS PAROPEN condicion PARCLOSE:e cuerpo  KEYCLOSE cuerpo 
                         {:
-                          this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n\n";
+                          this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba un '{' despues del ')' \n";
                           producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba un '{' despues del ')'  \n\n");
                         :};
 
@@ -1258,27 +1258,27 @@ sentencia_si::=   SI PAROPEN condicion:cond PARCLOSE KEYOPEN cuerpo:c KEYCLOSE
                  
                  SI PAROPEN PARCLOSE KEYOPEN:e cuerpo KEYCLOSE 
                           {:
-                            this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n\n"; 
+                            this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n"; 
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una condicion despues de '('  \n\n");
                           :}|
                  SI PAROPEN condicion  KEYOPEN :e cuerpo KEYCLOSE 
                           {:
-                            this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon' \n\n";
+                            this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon' \n";
                             producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - Se esperaba una ')' despues de 'la condicon'  \n\n");
                           :} |
-                 SI condicion PARCLOSE :e KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n\n";:} |
+                 SI condicion PARCLOSE :e KEYOPEN cuerpo KEYCLOSE {:this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n";:} |
                  SI PAROPEN condicion PARCLOSE :e cuerpo KEYCLOSE {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba '{' despues de ')' \n\n";:} |
 
-                 SI PAROPEN PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n\n";:}|
-                 SI PAROPEN condicion KEYOPEN:e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de la 'condicion' \n\n";:} |
-                 SI condicion PARCLOSE KEYOPEN:e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n\n";:} | 
-                 SI PAROPEN condicion PARCLOSE:e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n\n";:} | 
+                 SI PAROPEN PARCLOSE:e KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n";:}|
+                 SI PAROPEN condicion KEYOPEN:e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de la 'condicion' \n";:} |
+                 SI condicion PARCLOSE KEYOPEN:e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n";:} | 
+                 SI PAROPEN condicion PARCLOSE:e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n";:} | 
 
-                 SI PAROPEN PARCLOSE KEYOPEN :e cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n\n";:} |
-                 SI PAROPEN condicion   KEYOPEN :e cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de una  'condicion' \n\n";:} |
-                 SI :e condicion PARCLOSE KEYOPEN cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n\n";:} | 
-                 SI PAROPEN condicion PARCLOSE :e cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n\n";:} | 
-                 SI PAROPEN condicion PARCLOSE KEYOPEN cuerpo KEYCLOSE SINO :e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de 'SINO' \n\n";:}; 
+                 SI PAROPEN PARCLOSE KEYOPEN :e cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 42 en la linea: "+(eright+1)+" - Se esperaba una condicion despues de '(' \n";:} |
+                 SI PAROPEN condicion   KEYOPEN :e cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 43 en la linea: "+(eright+1)+" - Se esperaba una ')' despues de una  'condicion' \n";:} |
+                 SI :e condicion PARCLOSE KEYOPEN cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 45 en la linea: "+(eright+1)+" - Se esperaba una '(' despues de 'SI' \n";:} | 
+                 SI PAROPEN condicion PARCLOSE :e cuerpo KEYCLOSE SINO KEYOPEN cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 44 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de ')' \n";:} | 
+                 SI PAROPEN condicion PARCLOSE KEYOPEN cuerpo KEYCLOSE SINO :e cuerpo KEYCLOSE cuerpo {:this.parser.errores+="Error: 46 en la linea: "+(eright+1)+" - Se esperaba una '{' despues de 'SINO' \n";:}; 
 
 sentencia_por::= POR PAROPEN decvariables:dec COMA condicion:cond COMA incrementar_var:asi PARCLOSE KEYOPEN cuerpo:c KEYCLOSE cuerpo:d 
                       {: 
@@ -1315,7 +1315,7 @@ condicion::=  log:id {: RESULT=id; producciones.add( "condicion::=  log:id  \n\n
               | cond:id {: RESULT=id; producciones.add( "condicion::=  cond:id   \n\n"); :} 
               | rel:re  log2:log rel:rel {: RESULT=re+" "+log+" "+rel; producciones.add( "condicion::=  rel:re  \n\n"); :}   
               | ope_logico:op {: RESULT=op; producciones.add( "condicion::=  ope_logico:op   \n\n"); :} 
-              | ID:e log ENTERO cuerpo {:this.parser.errores+="Error: 53 en la linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales \n\n"; producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales  \n\n");:} 
+              | ID:e log ENTERO cuerpo {:this.parser.errores+="Error: 53 en la linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales \n"; producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - No es una operacion logica valida, hace falta de uso de op. relacionales  \n\n");:} 
               | NOT PAROPEN rel PARCLOSE ;
 
 
@@ -1393,8 +1393,8 @@ sig_rel::=      MAYTHAN:id {: RESULT=id; producciones.add( "sig_rel::=      MAYT
 		MAYEQUAL:id {: RESULT=id; producciones.add( "sig_rel::=      MAYEQUAL:id  \n\n"); :}  | 
                 EQUAL:id {: RESULT=id; producciones.add( "sig_rel::=      EQUAL:id  \n\n"); :}  | 
                 NOTEQUAL:id {: RESULT=id; producciones.add( "sig_rel::=      MAYTHAN:NOTEQUAL  \n\n");:}  | 
-                ASIG:e {:this.parser.errores+="Error: 54 en la linea: "+(eright+1)+" - No se puede hacer una asignaci�n en una condici�n";
+                ASIG:e {:this.parser.errores+="Error: 54 en la linea: "+(eright+1)+" - No se puede hacer una asignacion en una condición \n";
                         
-                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - No se puede hacer una asignaci�n en una condici�n  \n\n");
+                          producciones.add( "****************<<ERROR>> : Linea: "+(eright+1)+" - No se puede hacer una asignación en una condición  \n\n");
                           :}; 
 

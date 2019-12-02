@@ -12,8 +12,9 @@ import Analisis_Lexico.AnalizadorLexico;
 import Analisis_Lexico.Arbol.AnalisisArbol;
 import Analisis_Lexico.Arbol.ArbolAsignacion;
 import Analisis_Lexico.Automata_finito.AutomataFinitoN;
+import Analisis_Lexico.EstiloGramatica;
 import Analisis_Lexico.PilaAutomata.ValidacionPila;
-import Analisis_Lexico.EstiloDocumento;
+//import Analisis_Lexico.EstiloDocumento;
 import Analisis_Lexico.Interfaz;
 import Analisis_Lexico.InterfazTablaSimbolos;
 import Analisis_Lexico.Nodo;
@@ -82,6 +83,8 @@ public class Inicio extends javax.swing.JFrame {
     String tipo_aComp="";
     String valor_aComp="";
 
+    StyledDocument doc;
+            Style style;
     
     public Inicio() {
         initComponents();
@@ -117,6 +120,22 @@ public class Inicio extends javax.swing.JFrame {
         tln3.setFont(mostrarAutomata.jTextPane_Gramatica.getFont());
         mostrarAutomata.jScrollPane_Gramatica.setRowHeaderView( tln3 );
         
+        //Line number codigo maquina
+        TextLineNumber tln4 = new TextLineNumber(mostrarAutomata.textPane_Maquina);
+        
+        tln4.setBackground(new Color(38,50,56));
+        tln4.setForeground(new Color(238,255,255));
+        tln4.setFont(mostrarAutomata.textPane_Maquina.getFont());
+        mostrarAutomata.jScrollPane_maquina.setRowHeaderView( tln4 );
+        
+         
+            doc = new EstiloGramatica(mostrarAutomata.jTextPane_Gramatica);
+            mostrarAutomata.jTextPane_Gramatica.setDocument(doc);
+
+            style = mostrarAutomata.jTextPane_Gramatica.addStyle("I'm a Style", null);
+            this.getContentPane().setBackground(new Color(255, 203, 87));
+            //255, 234, 163
+        
     }
 
     /**
@@ -133,12 +152,11 @@ public class Inicio extends javax.swing.JFrame {
         tabs = new javax.swing.JTabbedPane();
         panel_consola = new javax.swing.JScrollPane();
         cons = new javax.swing.JEditorPane();
-        analizar_lexico = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         archivos = new javax.swing.JTree();
         btnGrabar = new javax.swing.JButton();
         btnCargar = new javax.swing.JButton();
-        jSeparator6 = new javax.swing.JSeparator();
+        analizar_lexico = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         btn_nuevo = new javax.swing.JMenu();
         btn_nuevo_archivo = new javax.swing.JMenuItem();
@@ -193,7 +211,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panel_consola, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+                    .addComponent(panel_consola, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
                     .addComponent(tabs))
                 .addContainerGap())
         );
@@ -206,14 +224,6 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(panel_consola, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        analizar_lexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_send_black_18dp.png"))); // NOI18N
-        analizar_lexico.setText("Compilar");
-        analizar_lexico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                analizar_lexicoActionPerformed(evt);
-            }
-        });
 
         jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 403));
@@ -236,6 +246,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(archivos);
 
+        btnGrabar.setBackground(new java.awt.Color(255, 0, 0));
         btnGrabar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/rec_16.png"))); // NOI18N
         btnGrabar.setText("Grabar Canción");
         btnGrabar.addActionListener(new java.awt.event.ActionListener() {
@@ -244,6 +255,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        btnCargar.setBackground(new java.awt.Color(0, 153, 255));
         btnCargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baseline_unarchive_black_18dp.png"))); // NOI18N
         btnCargar.setText("Cargar");
         btnCargar.setEnabled(false);
@@ -253,7 +265,14 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        analizar_lexico.setBackground(new java.awt.Color(0, 204, 153));
+        analizar_lexico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play.png"))); // NOI18N
+        analizar_lexico.setText("Compilar");
+        analizar_lexico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analizar_lexicoActionPerformed(evt);
+            }
+        });
 
         btn_nuevo.setText("Archivo");
 
@@ -403,34 +422,32 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                    .addComponent(btnGrabar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(16, 16, 16))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(170, 170, 170)
                         .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 197, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnGrabar)
-                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(analizar_lexico, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+                    .addComponent(btnCargar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(analizar_lexico, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(btnGrabar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -707,6 +724,7 @@ public class Inicio extends javax.swing.JFrame {
             /*Fin lo de willy*/
             convertirListaATexto imprimir_Optimizado = new convertirListaATexto(as.codop);
             mostrarAutomata.textPane_Optimizado.setText(imprimir_Optimizado.getTexto());
+            mostrarAutomata.textPane_Maquina.setText(imprimir_Optimizado.getTexto());
             //Codigo optimizado
             intermedio.imprimir(as.codop);// de ls se optienen los lexemas y componentes lexicos
             
@@ -735,7 +753,11 @@ public class Inicio extends javax.swing.JFrame {
             convertirListaATexto temp = new convertirListaATexto(gramatica);
             String tempo = temp.getTexto();
             gramatica_impresa += tempo;
+            
+           
             mostrarAutomata.jTextPane_Gramatica.setText(gramatica_impresa);
+            //EstiloGramatica tgmp = new EstiloGramatica(mostrarAutomata.jTextPane_Gramatica);
+            //mostrarAutomata.jTextPane_Gramatica.
 
             vPila.tabPanel.removeAll();
             
@@ -999,7 +1021,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
-    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JScrollPane panel_consola;
     public javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables
