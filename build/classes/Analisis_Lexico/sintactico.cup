@@ -593,7 +593,7 @@ decvariables ::= tipo:tipo ID:id PUNTO_Y_COMA
 
                       } catch ( Exception d) {
                           System.err.println("Exception :" + d.getMessage());
-                          this.parser.append("Error: 50 de Excepcion en la linea: "+(tiporight+1)+" El dato "+temp[0]+" Se esperaba un "+tipo.toString()+"\n\n");
+                          this.parser.append("Error Semántico en la linea: "+(tiporight+1)+" El dato "+temp[0]+" no correpsonde al tipo de dato esperado. Se esperaba un tipo "+tipo.toString()+"\n");
                       }
                       //Aqui si tiene los tipo de datos
                       ls = optab.buscarID(temp[1],tipo.toString(),temp[0],ls);
